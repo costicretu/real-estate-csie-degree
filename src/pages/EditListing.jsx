@@ -27,7 +27,13 @@ export default function CreateListing() {
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
+  const [propertyType, setPropertyType] = useState('apartment');
   const [formData, setFormData] = useState({
+    property: 'apartment',
+    landtype: 'construction',
+    landclassification: 'town',
+    surface: 0,
+    streetfront: 0,
     type: "rent",
     name: "",
     bedrooms: 1,
@@ -41,25 +47,9 @@ export default function CreateListing() {
     discountedPrice: 0,
     latitude: 0,
     longitude: 0,
-    images: {},
-  });
-  const {
-    type,
-    name,
-    bedrooms,
-    bathrooms,
-    parking,
-    address,
-    furnished,
-    description,
-    offer,
-    regularPrice,
-    discountedPrice,
-    latitude,
-    longitude,
-    images,
-  } = formData;
-
+    images: {}
+  })
+  const { property, landtype, landclassification, surface, streetfront, type, name, bedrooms, bathrooms, parking, furnished, address, description, offer, regularPrice, discountedPrice, latitude, longitude, images } = formData
   const params = useParams();
 
   useEffect(() => {
@@ -108,6 +98,9 @@ export default function CreateListing() {
         [e.target.id]: boolean ?? e.target.value,
       }));
     }
+    if (e.target.id === "property") {
+      setPropertyType(e.target.value);
+    }
   }
   async function onSubmit(e) {
     e.preventDefault();
@@ -144,7 +137,7 @@ export default function CreateListing() {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
     }
-
+    
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
@@ -217,6 +210,11 @@ export default function CreateListing() {
     <main className="max-w-md px-2 mx-auto">
       <h1 className="text-3xl text-center mt-6 font-bold">Edit Listing</h1>
       <form onSubmit={onSubmit}>
+        <select value={property} onChange={onChange} className='hidden w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="property" name="property">
+          <option value="apartment">Apartment</option>
+          <option value="house">House</option>
+          <option value="land">Land</option>
+        </select>
         <p className="text-lg mt-6 font-semibold">Sell / Rent</p>
         <div className="flex">
           <button
@@ -224,11 +222,10 @@ export default function CreateListing() {
             id="type"
             value="sale"
             onClick={onChange}
-            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              type === "rent"
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
-            }`}
+            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${type === "rent"
+              ? "bg-white text-black"
+              : "bg-slate-600 text-white"
+              }`}
           >
             sell
           </button>
@@ -237,11 +234,10 @@ export default function CreateListing() {
             id="type"
             value="rent"
             onClick={onChange}
-            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              type === "sale"
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
-            }`}
+            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${type === "sale"
+              ? "bg-white text-black"
+              : "bg-slate-600 text-white"
+              }`}
           >
             rent
           </button>
@@ -258,84 +254,106 @@ export default function CreateListing() {
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-        <div className="flex space-x-6 mb-6">
+        {property !== 'land' && (
           <div>
-            <p className="text-lg font-semibold">Beds</p>
-            <input
-              type="number"
-              id="bedrooms"
-              value={bedrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-            />
+            <div className="flex space-x-6 mb-6">
+              <div>
+                <p className="text-lg font-semibold">Beds</p>
+                <input
+                  type="number"
+                  id="bedrooms"
+                  value={bedrooms}
+                  onChange={onChange}
+                  min="1"
+                  max="50"
+                  required
+                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                />
+              </div>
+              <div>
+                <p className="text-lg font-semibold">Baths</p>
+                <input
+                  type="number"
+                  id="bathrooms"
+                  value={bathrooms}
+                  onChange={onChange}
+                  min="1"
+                  max="50"
+                  required
+                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                />
+              </div>
+            </div>
+            <p className="text-lg mt-6 font-semibold">Parking spot</p>
+            <div className="flex">
+              <button
+                type="button"
+                id="parking"
+                value={true}
+                onClick={onChange}
+                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${!parking ? "bg-white text-black" : "bg-slate-600 text-white"
+                  }`}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                id="parking"
+                value={false}
+                onClick={onChange}
+                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${parking ? "bg-white text-black" : "bg-slate-600 text-white"
+                  }`}
+              >
+                no
+              </button>
+            </div>
+            <p className="text-lg mt-6 font-semibold">Furnished</p>
+            <div className="flex">
+              <button
+                type="button"
+                id="furnished"
+                value={true}
+                onClick={onChange}
+                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${!furnished ? "bg-white text-black" : "bg-slate-600 text-white"
+                  }`}
+              >
+                yes
+              </button>
+              <button
+                type="button"
+                id="furnished"
+                value={false}
+                onClick={onChange}
+                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${furnished ? "bg-white text-black" : "bg-slate-600 text-white"
+                  }`}
+              >
+                no
+              </button>
+            </div>
           </div>
+        )}
+        {property === 'land' && (
           <div>
-            <p className="text-lg font-semibold">Baths</p>
-            <input
-              type="number"
-              id="bathrooms"
-              value={bathrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-            />
+            <p className='text-lg  font-semibold'>Type of land</p>
+            <select value={landtype} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landtype" name="landtype">
+              <option value="construction">Construction</option>
+              <option value="agricultural">Agricultural</option>
+              <option value="forest">Forest</option>
+              <option value="orchard">Orchard</option>
+            </select>
+            <p className='text-lg  font-semibold mt-6'>Land classification</p>
+            <select value={landclassification} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landclassification" name="landclassification">
+              <option value="town">Town</option>
+              <option value="outside_town">Outside town</option>
+            </select>
+            <p className='text-lg font-semibold mt-6' >Surface(mp)</p>
+            <input type="number" id="surface" value={surface} onChange={onChange} required min='0'
+              className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
+            <p className='text-lg font-semibold mt-6' >Streetfront(m)</p>
+            <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='0'
+              className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
           </div>
-        </div>
-        <p className="text-lg mt-6 font-semibold">Parking spot</p>
-        <div className="flex">
-          <button
-            type="button"
-            id="parking"
-            value={true}
-            onClick={onChange}
-            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              !parking ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            Yes
-          </button>
-          <button
-            type="button"
-            id="parking"
-            value={false}
-            onClick={onChange}
-            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              parking ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            no
-          </button>
-        </div>
-        <p className="text-lg mt-6 font-semibold">Furnished</p>
-        <div className="flex">
-          <button
-            type="button"
-            id="furnished"
-            value={true}
-            onClick={onChange}
-            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              !furnished ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            yes
-          </button>
-          <button
-            type="button"
-            id="furnished"
-            value={false}
-            onClick={onChange}
-            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              furnished ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            no
-          </button>
-        </div>
+        )}
         <p className="text-lg mt-6 font-semibold">Address</p>
         <textarea
           type="text"
@@ -393,9 +411,8 @@ export default function CreateListing() {
             id="offer"
             value={true}
             onClick={onChange}
-            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              !offer ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
+            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${!offer ? "bg-white text-black" : "bg-slate-600 text-white"
+              }`}
           >
             yes
           </button>
@@ -404,9 +421,8 @@ export default function CreateListing() {
             id="offer"
             value={false}
             onClick={onChange}
-            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              offer ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
+            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${offer ? "bg-white text-black" : "bg-slate-600 text-white"
+              }`}
           >
             no
           </button>

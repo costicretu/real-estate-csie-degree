@@ -37,6 +37,13 @@ export default function Profile() {
           displayName: name,
         })
         //update the name in the firestore
+        if(email.endsWith('@real-estate-csie-degree.com')){
+          const docRef = doc(db, 'agents', auth.currentUser.uid)
+          await updateDoc(docRef, {
+            name: name,
+          })
+          toast.success('Profile agent details updated')
+        }
         const docRef = doc(db, 'users', auth.currentUser.uid)
         await updateDoc(docRef, {
           name: name,
@@ -77,6 +84,8 @@ export default function Profile() {
   function onEdit(listingID) {
     navigate(`/edit-listing/${listingID}`)
   }
+  //Check if the user's email contains the domain
+  const isAllowedUser = email.endsWith('@real-estate-csie-degree.com')
   return (
     <>
       <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
@@ -99,12 +108,16 @@ export default function Profile() {
               <p onClick={onLogout} className='text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out cursor-pointer'>Sign out</p>
             </div>
           </form>
-          <button type="submit" className='w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
-            <Link to='/create-listing' className='flex justify-center items-center'>
-              <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
-              Sell or rent your home
-            </Link>
-          </button>
+          {isAllowedUser && (
+            <div>
+              <button type="submit" className='w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
+                <Link to='/create-listing' className='flex justify-center items-center'>
+                  <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
+                  Create property
+                </Link>
+              </button>
+            </div>
+          )}
         </div>
       </section>
       <div className='max-w-6xl px-3 mt-6 mx-auto'>

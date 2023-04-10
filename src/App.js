@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRouteAgent from "./components/PrivateRouteAgent";
 import ForgotPassword from "./pages/ForgotPassword";
 import Offers from "./pages/Offers";
 import Header from "./components/Header";
@@ -13,6 +13,8 @@ import CreateListing from "./pages/CreateListing";
 import EditListing from "./pages/EditListing";
 import Listing from "./pages/Listing";
 import Category from "./pages/Category";
+import PrivateRoute from "./components/PrivateRoute";
+import SignUpAgent from "./pages/SignUpAgent";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/sign-up-agent" element={<SignUpAgent/>}/>
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
@@ -30,10 +33,10 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/category/:categoryName/:listingId" element={<Listing />} />
-          <Route path="/create-listing" element={<PrivateRoute />}>
+          <Route path="/create-listing" element={<PrivateRouteAgent />}>
             <Route path="/create-listing" element={<CreateListing />} />
           </Route>
-          <Route path="/edit-listing" element={<PrivateRoute />}>
+          <Route path="/edit-listing" element={<PrivateRouteAgent />}>
             <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
         </Routes>

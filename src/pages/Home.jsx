@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import Slider from '../components/Slider'
 import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
-import { data } from 'autoprefixer'
 import { Link } from 'react-router-dom'
 import ListingItem from '../components/ListingItem'
+import Spinner from '../components/Spinner'
 
 export default function Home() {
   // offers
   const [offerListings, setOfferListing] = useState(null)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchListings() {
       try {
@@ -31,6 +32,7 @@ export default function Home() {
       }
     }
     fetchListings()
+    setLoading(false)
   }, [])
   // rent
   const [rentListings, setRentListing] = useState(null)
@@ -56,6 +58,7 @@ export default function Home() {
       }
     }
     fetchListings()
+    setLoading(false)
   }, [])
   // sale
   const [saleListings, setSaleListing] = useState(null)
@@ -81,12 +84,13 @@ export default function Home() {
       }
     }
     fetchListings()
+    setLoading(false)
   }, [])
   return (
     <div>
       <Slider />
       <div className='max-w-6xl mx-auto pt-4 space-y-6'>
-        {offerListings && offerListings.length > 0 && (
+        {loading ? (<Spinner />) : offerListings && offerListings.length > 0 ? (
           <div className='m-2 mb-6'>
             <h2 className='px-3 text-2xl mt-6 font-semibold'>Recent offers</h2>
             <Link to='/offers'>
@@ -100,8 +104,8 @@ export default function Home() {
               ))}
             </ul>
           </div>
-        )}
-        {rentListings && rentListings.length > 0 && (
+        ) : (<p>There are no recent offers</p>)}
+        {loading ? (<Spinner />) : rentListings && rentListings.length > 0 ? (
           <div className='m-2 mb-6'>
             <h2 className='px-3 text-2xl mt-6 font-semibold'>Places for rent</h2>
             <Link to='/category/rent'>
@@ -115,8 +119,8 @@ export default function Home() {
               ))}
             </ul>
           </div>
-        )}
-        {saleListings && saleListings.length > 0 && (
+        ): (<p>There are no current rent listings</p>)}
+        {loading ? (<Spinner />) : saleListings && saleListings.length > 0 ? (
           <div className='m-2 mb-6'>
             <h2 className='px-3 text-2xl mt-6 font-semibold'>Places for sale</h2>
             <Link to='/category/sale'>
@@ -130,7 +134,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-        )}
+        ): (<p>There are no current sale listings</p>)}
       </div>
     </div>
   )

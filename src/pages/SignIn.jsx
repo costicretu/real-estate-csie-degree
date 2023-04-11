@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router'
 import OAuth from "../components/OAuth";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
+import { db } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [isForAgent, setIsForAgent] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [showCode, setShowCode] = useState(false)
-  const myCode = 'costi'
   const [codeInputValue, setCodeInputValue] = useState('');
   const [formData, setFormData] = useState({
     email: "",
@@ -21,12 +22,28 @@ export default function SignIn() {
   const [formDataAgent, setFormDataAgent] = useState({
     emailAgent: "",
     passwordAgent: "",
+    answer1: "",
+    answer2: "",
+    answer3: "",
   });
-  const { emailAgent, passwordAgent } = formData;
+  const { emailAgent, passwordAgent, answer1, answer2, answer3 } = formDataAgent;
+  const [showQuestions, setShowQuestions] = useState(false)
+  const [answer1InputValue, setAnswer1InputValue] = useState('');
+  const [answer2InputValue, setAnswer2InputValue] = useState('');
+  const [answer3InputValue, setAnswer3InputValue] = useState('');
   const navigate = useNavigate()
   function onChange(e) {
     if (e.target.id === 'code') {
       setCodeInputValue(e.target.value);
+    }
+    if (e.target.id === 'answer1') {
+      setAnswer1InputValue(e.target.value);
+    }
+    if (e.target.id === 'answer2') {
+      setAnswer2InputValue(e.target.value);
+    }
+    if (e.target.id === 'answer3') {
+      setAnswer3InputValue(e.target.value);
     }
     setFormData((prevState) => ({
       ...prevState,
@@ -60,29 +77,50 @@ export default function SignIn() {
 
   async function onSubmitAgent(e) {
     e.preventDefault();
-    if (emailAgent.endsWith('@real-estate-csie-degree.com')) {
-      setShowCode(true)
-      if (codeInputValue !== myCode && codeInputValue !== '') {
-        toast.error('The code is not correct');
-        setIsFormSubmitted(false);
-        return;
-      } else if (codeInputValue === myCode) {
-        try {
-          const auth = getAuth();
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            emailAgent,
-            passwordAgent,
-          );
-          if (userCredential.user) {
-            navigate("/")
+    const agentsCollection = collection(db, 'agents');
+    const agentsQuery = query(agentsCollection, where('emailAgent', '==', emailAgent));
+    const agentDocs = await getDocs(agentsQuery);
+    const agentDoc = agentDocs.docs[0];
+    const agentData = agentDoc.data();
+    if (emailAgent.endsWith('@real-estate-csie-degree.com') && agentData.emailAgent) {
+      setShowCode(true);
+      const agentsCollection = collection(db, 'agents');
+      const agentsQuery = query(agentsCollection, where('emailAgent', '==', emailAgent));
+      const agentDocs = await getDocs(agentsQuery);
+      if (agentDocs.size === 1) {
+        const agentDoc = agentDocs.docs[0];
+        const agentData = agentDoc.data();
+        const agentCode = agentData.code;
+        const agentAnswer1 = agentData.answer1;
+        const agentAnswer2 = agentData.answer2;
+        const agentAnswer3 = agentData.answer3;
+        if (codeInputValue !== agentCode && codeInputValue !== '') {
+          toast.error('The code is not correct');
+          setIsFormSubmitted(false);
+          return;
+        } else if (codeInputValue === agentCode) {
+          setShowQuestions(true)
+          if (answer1InputValue === agentAnswer1 && answer2InputValue === agentAnswer2 && answer3InputValue === agentAnswer3) {
+            try {
+              const auth = getAuth();
+              const userCredential = await signInWithEmailAndPassword(
+                auth,
+                emailAgent,
+                passwordAgent,
+              );
+              if (userCredential.user) {
+                navigate('/');
+              }
+            } catch (error) {
+              toast.error('Bad agent credentials');
+            }
           }
-        } catch (error) {
-          toast.error("Bad agent credentials");
         }
+      } else {
+        toast.error('Agent not found');
       }
     } else {
-      toast.error('YOU DONT BELONG HERE')
+      toast.error('YOU DONT BELONG HERE');
     }
   }
   return (
@@ -127,11 +165,17 @@ export default function SignIn() {
                   : (<AiFillEye className="absolute right-3 top-3 text-xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)}
               </div>
               {showCode && (
-                            <div>
-                                <p className='text-lg font-semibold'>Code</p>
-                                <input type="text" id="code" onChange={onChange} placeholder="Code" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
-                            </div>
-                        )}
+                <div>
+                  <input type="text" id="code" onChange={onChange} placeholder="Your code" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                </div>
+              )}
+              {showQuestions && (
+                <div>
+                  <input type="text" id="answer1" onChange={onChange} placeholder="Answer for question 1" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <input type="text" id="answer2" onChange={onChange} placeholder="Answer for question 2" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <input type="text" id="answer3" onChange={onChange} placeholder="Answer for question 3" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                </div>
+              )}
               <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
                 <p className="mb-6">Don't have an agent account?<Link to="/sign-up-agent" className="text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1">Register</Link></p>
               </div>

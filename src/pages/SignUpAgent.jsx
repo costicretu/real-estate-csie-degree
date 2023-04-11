@@ -11,15 +11,25 @@ export default function SignUpAgent() {
     const [showPassword, setShowPassword] = useState(false);
     const [showCode, setShowCode] = useState(false)
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [showQuestions, setShowQuestions] = useState(false)
+    const [question1Type, setQuestion1] = useState('')
+    const [question2Type, setQuestion2] = useState('')
+    const [question3Type, setQuestion3] = useState('')
     const [formDataAgent, setFormDataAgent] = useState({
         nameAgent: "",
         emailAgent: "",
         passwordAgent: "",
+        answer1: "",
+        answer2: "",
+        answer3: "",
+        question1: "What is your dog's name?",
+        question2: "Where do you live?",
+        question3: "What is your favourite destination for vacation?",
 
     });
-    const { nameAgent, emailAgent, passwordAgent } = formDataAgent;
+    const { nameAgent, emailAgent, passwordAgent, answer1, answer2, answer3, question1, question2, question3 } = formDataAgent;
     const navigate = useNavigate()
-    const myCode = 'costi'
+    const myCode = 'costi123'
     const [codeInputValue, setCodeInputValue] = useState('');
     function onChange(e) {
         if (e.target.id === 'code') {
@@ -29,41 +39,52 @@ export default function SignUpAgent() {
             ...prevState,
             [e.target.id]: e.target.value,
         }))
-    }
-
+        if (e.target.id === "question1") {
+            setQuestion1(e.target.value);
+        }
+        if (e.target.id === "question2") {
+            setQuestion2(e.target.value);
+        }
+        if (e.target.id === "question3") {
+            setQuestion3(e.target.value);
+        }
+    }      
     async function onSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         setIsFormSubmitted(true);
-        if (emailAgent.endsWith('@real-estate-csie-degree.com')) {
-            setShowCode(true)
-            if (codeInputValue !== myCode && codeInputValue !== '') {
-                toast.error('The code is not correct');
+        if (emailAgent.endsWith('@real-estate-csie-degree.com') && passwordAgent.length > 8 && nameAgent.length > 6) {
+            setShowCode(true);
+            if (codeInputValue !== myCode && codeInputValue === '') {
+                //toast.error('Please fill the code');
                 setIsFormSubmitted(false);
                 return;
-            } else if (codeInputValue === myCode) {
-                try {
-                    setIsFormSubmitted(true)
-                    try {
-                        const auth = getAuth()
-                        const userCredential = await createUserWithEmailAndPassword(auth, emailAgent, passwordAgent)
-                        updateProfile(auth.currentUser, {
-                            displayName: nameAgent
-                        })
-                        const agent = userCredential.user
-                        const formDataCopyAgent = { ...formDataAgent }
-                        delete formDataCopyAgent.password
-                        formDataCopyAgent.timestamp = serverTimestamp()
-                        await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent)
-                        navigate('/')
-                        // toast.success('Sign up was succesful')
-                    } catch (error) {
-                        toast.error('Something went wrong with the registration agency')
-                    }
-                    return
-                } catch (error) {
-                    toast.error('Please fill the code')
+            } else if (codeInputValue == myCode) {
+                setShowQuestions(true);
+                if (answer1 === "" || answer2 === "" || answer3 === "") {
+                    //toast.error('Please fill in all the answers');
+                    setIsFormSubmitted(false);
+                    return;
                 }
+                try {
+                    setIsFormSubmitted(true);
+                    const auth = getAuth();
+                    const userCredential = await createUserWithEmailAndPassword(auth, emailAgent, passwordAgent);
+                    updateProfile(auth.currentUser, {
+                        displayName: nameAgent
+                    });
+                    const agent = userCredential.user;
+                    const formDataCopyAgent = { ...formDataAgent };
+                    delete formDataCopyAgent.passwordAgent;
+                    formDataCopyAgent.timestamp = serverTimestamp();
+                    await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent);
+                    navigate('/');
+                } catch (error) {
+                    toast.error('Something went wrong with the registration agency');
+                }
+                return;
             }
+        } else {
+            toast.error('Please fill the inputs');
         }
     }
     return (
@@ -89,15 +110,36 @@ export default function SignUpAgent() {
                         </div>
                         {showCode && (
                             <div>
-                                <p className='text-lg font-semibold'>Code</p>
-                                <input type="text" id="code" onChange={onChange} placeholder="Code" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <input type="text" id="code" onChange={onChange} placeholder="Code in order to sign up you" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                            </div>
+                        )}
+                        {showQuestions && (
+                            <div>
+                                <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                                    <option value="What is your dog's name?">What is your dog's name?</option>
+                                    <option value="What is your cat's name?">What is your cat's name?</option>
+                                    <option value="What is your parrot's name?">What is your parrot's name?</option>
+                                </select>
+                                <input type="text" id="answer1" onChange={onChange} placeholder="Answer1" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <select value={question2} onChange={onChange} name="question2" id="question2" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                                    <option value="Where do you live?">Where do you live?</option>
+                                    <option value="Where were you born?">Where were you born?</option>
+                                    <option value="What colour are your eyes?">What colour are your eyes?</option>
+                                </select>
+                                <input type="text" id="answer2" onChange={onChange} placeholder="Answer2" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <select value={question3} onChange={onChange} name="question3" id="question3" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                                    <option value="What is your favourite destination for vacation?">What is your favourite destination for vacation?</option>
+                                    <option value="What is your favourite color?">What is your favourite color?</option>
+                                    <option value="How much money do you have?">How much money do you have?</option>
+                                </select>
+                                <input type="text" id="answer3" onChange={onChange} placeholder="Answer3" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                             </div>
                         )}
                         <div className='flex justify-between whitespace-nowrap text-sm:text-lg'>
                             <p className='mb-6'>Have an account?
                                 <Link to='/sign-in' className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Sign in</Link>
                             </p>
-                            
+
                         </div>
                         <button className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800' type='submit'>Sign up as agent</button>
 

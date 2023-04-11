@@ -15,6 +15,8 @@ import Listing from "./pages/Listing";
 import Category from "./pages/Category";
 import PrivateRoute from "./components/PrivateRoute";
 import SignUpAgent from "./pages/SignUpAgent";
+import ProfileAgent from "./pages/ProfileAgent";
+
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
           <Route path="/sign-up-agent" element={<SignUpAgent/>}/>
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="/profile-agent" element={<PrivateRouteAgent />}>
+            <Route path="/profile-agent" element={<ProfileAgent />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

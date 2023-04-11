@@ -25,23 +25,27 @@ export default function SignUp() {
   }
   async function onSubmit(e) {
     e.preventDefault()
-
-    try {
-      const auth = getAuth()
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      updateProfile(auth.currentUser, {
-        displayName: name
-      })
-      const user = userCredential.user
-      const formDataCopy = {...formData}
-      delete formDataCopy.password
-      formDataCopy.timestamp = serverTimestamp()
-      await setDoc(doc(db, 'users', user.uid), formDataCopy)
-      navigate('/')
-      // toast.success('Sign up was succesful')
-    } catch (error) {
-      toast.error('Something went wrong with the registration')
+    if (email.endsWith('@real-estate-csie-degree.com')) {
+      toast.error('You cannot sign up as an agent')
+    } else {
+      try {
+        const auth = getAuth()
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        updateProfile(auth.currentUser, {
+          displayName: name
+        })
+        const user = userCredential.user
+        const formDataCopy = { ...formData }
+        delete formDataCopy.password
+        formDataCopy.timestamp = serverTimestamp()
+        await setDoc(doc(db, 'users', user.uid), formDataCopy)
+        navigate('/')
+        // toast.success('Sign up was succesful')
+      } catch (error) {
+        toast.error('Something went wrong with the registration')
+      }
     }
+
   }
   return (
     <section>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 import { Link } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { db } from '../firebase'
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -29,8 +29,48 @@ export default function SignUpAgent() {
     });
     const { nameAgent, emailAgent, passwordAgent, answer1, answer2, answer3, question1, question2, question3 } = formDataAgent;
     const navigate = useNavigate()
-    const myCode = 'costi123'
-    const [codeInputValue, setCodeInputValue] = useState('');
+    //const myCode = 'costi123'
+    const [codeInputValue, setCodeInputValue] = useState('costi');
+    const [myCodeValue, setMyCodeValue] = useState('');
+    const [isCodeMatched, setIsCodeMatched] = useState(false);
+    const saveCodeToFirestore = async (code) => {
+        try {
+            // Add the code to the 'codes' collection
+            const docRef = await addDoc(collection(db, "codes"), { code });
+            console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    };
+    const deleteDocsFromCollection = async (collectionRef) => {
+        const querySnapshot = await getDocs(collectionRef);
+        querySnapshot.forEach((doc) => {
+            deleteDoc(doc.ref);
+        });
+    };
+
+    useEffect(() => {
+        if (codeInputValue === myCodeValue) {
+            setIsCodeMatched(true);
+        }
+        // if (isCodeMatched) {
+        //     const codesCollectionRef = collection(db, "codes");
+        //     deleteDocsFromCollection(codesCollectionRef);
+        // }
+    }, [codeInputValue, myCodeValue]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const newCode = Math.random().toString(36).substring(2, 8);
+            if (!isCodeMatched) {
+                setMyCodeValue(newCode);
+                saveCodeToFirestore(newCode);
+            }
+            console.log(myCodeValue);
+            // Automatically save new code to a file here using whatever method you prefer (e.g. fetch, axios, etc.)
+        }, 15000);
+        return () => clearInterval(interval);
+    }, [isCodeMatched]);
     function onChange(e) {
         if (e.target.id === 'code') {
             setCodeInputValue(e.target.value);
@@ -48,17 +88,17 @@ export default function SignUpAgent() {
         if (e.target.id === "question3") {
             setQuestion3(e.target.value);
         }
-    }      
+    }
     async function onSubmit(e) {
         e.preventDefault();
         setIsFormSubmitted(true);
         if (emailAgent.endsWith('@real-estate-csie-degree.com') && passwordAgent.length > 8 && nameAgent.length > 6) {
             setShowCode(true);
-            if (codeInputValue !== myCode && codeInputValue === '') {
+            if (codeInputValue !== myCodeValue && codeInputValue === '') {
                 //toast.error('Please fill the code');
                 setIsFormSubmitted(false);
                 return;
-            } else if (codeInputValue == myCode) {
+            } else if (codeInputValue === myCodeValue) {
                 setShowQuestions(true);
                 if (answer1 === "" || answer2 === "" || answer3 === "") {
                     //toast.error('Please fill in all the answers');
@@ -79,7 +119,7 @@ export default function SignUpAgent() {
                     await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent);
                     navigate('/');
                 } catch (error) {
-                    toast.error('Something went wrong with the registration agency');
+                    toast.error('Exista deja contu ba');
                 }
                 return;
             }

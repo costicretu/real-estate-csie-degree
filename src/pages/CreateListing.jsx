@@ -150,7 +150,6 @@ export default function CreateListing() {
         toast.success('Listing created')
         navigate(`/category/${formDataCopy.type}/${docRef.id}`)
     }
-
     if (loading) {
         return <Spinner />
     }

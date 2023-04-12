@@ -82,7 +82,8 @@ export default function SignIn() {
     const agentDocs = await getDocs(agentsQuery);
     const agentDoc = agentDocs.docs[0];
     const agentData = agentDoc.data();
-    if (emailAgent.endsWith('@real-estate-csie-degree.com') && agentData.emailAgent) {
+    //emailAgent.endsWith('@real-estate-csie-degree.com') &&
+    if ( agentData.emailAgent === emailAgent && agentData.passwordAgent === passwordAgent) {
       setShowCode(true);
       const agentsCollection = collection(db, 'agents');
       const agentsQuery = query(agentsCollection, where('emailAgent', '==', emailAgent));

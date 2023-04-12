@@ -3,7 +3,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 import { Link } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { db } from '../firebase'
-import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -29,48 +29,20 @@ export default function SignUpAgent() {
     });
     const { nameAgent, emailAgent, passwordAgent, answer1, answer2, answer3, question1, question2, question3 } = formDataAgent;
     const navigate = useNavigate()
-    //const myCode = 'costi123'
     const [codeInputValue, setCodeInputValue] = useState('costi');
     const [myCodeValue, setMyCodeValue] = useState('');
     const [isCodeMatched, setIsCodeMatched] = useState(false);
     const saveCodeToFirestore = async (code) => {
         try {
-            // Add the code to the 'codes' collection
             const docRef = await addDoc(collection(db, "codes"), { code });
-            console.log("Document written with ID: ", docRef.id);
         } catch (e) {
-            console.error("Error adding document: ", e);
         }
     };
-    const deleteDocsFromCollection = async (collectionRef) => {
-        const querySnapshot = await getDocs(collectionRef);
-        querySnapshot.forEach((doc) => {
-            deleteDoc(doc.ref);
-        });
-    };
-
     useEffect(() => {
         if (codeInputValue === myCodeValue) {
             setIsCodeMatched(true);
         }
-        // if (isCodeMatched) {
-        //     const codesCollectionRef = collection(db, "codes");
-        //     deleteDocsFromCollection(codesCollectionRef);
-        // }
     }, [codeInputValue, myCodeValue]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const newCode = Math.random().toString(36).substring(2, 8);
-            if (!isCodeMatched) {
-                setMyCodeValue(newCode);
-                saveCodeToFirestore(newCode);
-            }
-            console.log(myCodeValue);
-            // Automatically save new code to a file here using whatever method you prefer (e.g. fetch, axios, etc.)
-        }, 15000);
-        return () => clearInterval(interval);
-    }, [isCodeMatched]);
     function onChange(e) {
         if (e.target.id === 'code') {
             setCodeInputValue(e.target.value);
@@ -89,13 +61,21 @@ export default function SignUpAgent() {
             setQuestion3(e.target.value);
         }
     }
+    const [hasGeneratedCode, setHasGeneratedCode] = useState(false);
+    useEffect(() => {
+        if (showCode && !hasGeneratedCode) {
+            const newCode = Math.random().toString(36).substring(2, 8);
+            setMyCodeValue(newCode);
+            saveCodeToFirestore(newCode);
+            setHasGeneratedCode(true);
+        }
+    }, [showCode, hasGeneratedCode]);
     async function onSubmit(e) {
         e.preventDefault();
         setIsFormSubmitted(true);
         if (emailAgent.endsWith('@real-estate-csie-degree.com') && passwordAgent.length > 8 && nameAgent.length > 6) {
             setShowCode(true);
             if (codeInputValue !== myCodeValue && codeInputValue === '') {
-                //toast.error('Please fill the code');
                 setIsFormSubmitted(false);
                 return;
             } else if (codeInputValue === myCodeValue) {
@@ -104,24 +84,27 @@ export default function SignUpAgent() {
                     //toast.error('Please fill in all the answers');
                     setIsFormSubmitted(false);
                     return;
+                } else {
+                    try {
+
+                        setIsFormSubmitted(true);
+                        const auth = getAuth();
+                        const userCredential = await createUserWithEmailAndPassword(auth, emailAgent, passwordAgent);
+                        updateProfile(auth.currentUser, {
+                            displayName: nameAgent
+                        });
+                        const agent = userCredential.user;
+                        const formDataCopyAgent = { ...formDataAgent };
+                        //delete formDataCopyAgent.passwordAgent;
+                        formDataCopyAgent.timestamp = serverTimestamp();
+                        await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent);
+                        navigate('/');
+
+                    } catch (error) {
+                        toast.error('Exista deja contu ba');
+                    }
+                    return;
                 }
-                try {
-                    setIsFormSubmitted(true);
-                    const auth = getAuth();
-                    const userCredential = await createUserWithEmailAndPassword(auth, emailAgent, passwordAgent);
-                    updateProfile(auth.currentUser, {
-                        displayName: nameAgent
-                    });
-                    const agent = userCredential.user;
-                    const formDataCopyAgent = { ...formDataAgent };
-                    delete formDataCopyAgent.passwordAgent;
-                    formDataCopyAgent.timestamp = serverTimestamp();
-                    await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent);
-                    navigate('/');
-                } catch (error) {
-                    toast.error('Exista deja contu ba');
-                }
-                return;
             }
         } else {
             toast.error('Please fill the inputs');

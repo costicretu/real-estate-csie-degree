@@ -162,7 +162,6 @@ export default function SignUpAgent() {
                             <p className='mb-6'>Have an account?
                                 <Link to='/sign-in' className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Sign in</Link>
                             </p>
-
                         </div>
                         <button className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800' type='submit'>Sign up as agent</button>
 

@@ -94,6 +94,7 @@ export default function ProfileAgent() {
         }
     }
     fetchAgentCode()
+
     const [agents, setAgents] = useState([])
     useEffect(() => {
         const fetchAgents = async () => {
@@ -124,6 +125,9 @@ export default function ProfileAgent() {
                 answer1: agent.answer1,
                 answer2: agent.answer2,
                 answer3: agent.answer3,
+                question1: agent.question1,
+                question2: agent.question2,
+                question3: agent.question3,
             })
             toast.success('Answers updated succesfuly!')
         } catch (err) {
@@ -154,37 +158,64 @@ export default function ProfileAgent() {
                     </form>
                     {agents.map(agent => (
                         <div key={agent.id}>
-                            <p className='text-lg font-semibold'>Question 1</p>
-                            <input type="text" disabled value={agent.question1} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded' />
-                            <input type="text" value={agent.answer1} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out' 
-                            onChange={e => {
-                                const newAgents = [...agents]
-                                const index = newAgents.findIndex(a => a.id === agent.id)
-                                newAgents[index].answer1 = e.target.value
-                                setAgents(newAgents)
-                            }}
+                            <select id='question1' value={agent.question1} 
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].question1 = e.target.value
+                                    setAgents(newAgents)
+                                }}>
+                                <option value="What is your dog's name?">What is your dog's name?</option>
+                                <option value="What is your cat's name?">What is your cat's name?</option>
+                                <option value="What is your parrot's name?">What is your parrot's name?</option>
+                            </select>
+                            <input type="text" value={agent.answer1} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].answer1 = e.target.value
+                                    setAgents(newAgents)
+                                }}
                             />
-                            <p className='text-lg font-semibold'>Question 2</p>
-                            <input type="text" disabled value={agent.question2} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded' />
+                            <select id='question2' value={agent.question2} 
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].question2 = e.target.value
+                                    setAgents(newAgents)
+                                }}>
+                                <option value="Where do you live?">Where do you live?</option>
+                                <option value="Where were you born?">Where were you born?</option>
+                                <option value="What colour are your eyes?">What colour are your eyes?</option>
+                            </select>
                             <input type="text" value={agent.answer2} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
-                            onChange={e => {
-                                const newAgents = [...agents]
-                                const index = newAgents.findIndex(a => a.id === agent.id)
-                                newAgents[index].answer2 = e.target.value
-                                setAgents(newAgents)
-                            }}
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].answer2 = e.target.value
+                                    setAgents(newAgents)
+                                }}
                             />
-                            <p className='text-lg font-semibold'>Question 3</p>
-                            <input type="text" disabled value={agent.question3} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded' />
+                            <select id='question3' value={agent.question3}
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].question3 = e.target.value
+                                    setAgents(newAgents)
+                                }}>
+                                <option value="What is your favourite destination for vacation?">What is your favourite destination for vacation?</option>
+                                <option value="What is your favourite color?">What is your favourite color?</option>
+                                <option value="How much money do you have?">How much money do you have?</option>
+                            </select>
                             <input type="text" value={agent.answer3} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
-                            onChange={e => {
-                                const newAgents = [...agents]
-                                const index = newAgents.findIndex(a => a.id === agent.id)
-                                newAgents[index].answer3 = e.target.value
-                                setAgents(newAgents)
-                            }}
+                                onChange={e => {
+                                    const newAgents = [...agents]
+                                    const index = newAgents.findIndex(a => a.id === agent.id)
+                                    newAgents[index].answer3 = e.target.value
+                                    setAgents(newAgents)
+                                }}
                             />
-                            <button onClick={() => updateAgent(agent)}>Update</button>
+                            <button onClick={() => updateAgent(agent)}>Do you want to update your questions?</button>
                         </div>
                     ))}
                     <p id={`agentCode-${agentCode}`} className='text-sm text-gray-700'>

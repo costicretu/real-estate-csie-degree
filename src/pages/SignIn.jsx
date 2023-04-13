@@ -25,12 +25,18 @@ export default function SignIn() {
     answer1: "",
     answer2: "",
     answer3: "",
+    question1: "",
+    question2: "",
+    question3: "",
   });
-  const { emailAgent, passwordAgent, answer1, answer2, answer3 } = formDataAgent;
+  const { emailAgent, passwordAgent, answer1, answer2, answer3, question1, question2, question3 } = formDataAgent;
   const [showQuestions, setShowQuestions] = useState(false)
   const [answer1InputValue, setAnswer1InputValue] = useState('');
   const [answer2InputValue, setAnswer2InputValue] = useState('');
   const [answer3InputValue, setAnswer3InputValue] = useState('');
+  const [question1Type, setQuestion1] = useState('')
+  const [question2Type, setQuestion2] = useState('')
+  const [question3Type, setQuestion3] = useState('')
   const navigate = useNavigate()
   function onChange(e) {
     if (e.target.id === 'code') {
@@ -44,6 +50,15 @@ export default function SignIn() {
     }
     if (e.target.id === 'answer3') {
       setAnswer3InputValue(e.target.value);
+    }
+    if (e.target.id === "question1") {
+      setQuestion1(e.target.value);
+    }
+    if (e.target.id === "question2") {
+      setQuestion2(e.target.value);
+    }
+    if (e.target.id === "question3") {
+      setQuestion3(e.target.value);
     }
     setFormData((prevState) => ({
       ...prevState,
@@ -82,8 +97,7 @@ export default function SignIn() {
     const agentDocs = await getDocs(agentsQuery);
     const agentDoc = agentDocs.docs[0];
     const agentData = agentDoc.data();
-    //emailAgent.endsWith('@real-estate-csie-degree.com') &&
-    if ( agentData.emailAgent === emailAgent && agentData.passwordAgent === passwordAgent) {
+    if (agentData.emailAgent === emailAgent && agentData.passwordAgent === passwordAgent) {
       setShowCode(true);
       const agentsCollection = collection(db, 'agents');
       const agentsQuery = query(agentsCollection, where('emailAgent', '==', emailAgent));
@@ -95,13 +109,26 @@ export default function SignIn() {
         const agentAnswer1 = agentData.answer1;
         const agentAnswer2 = agentData.answer2;
         const agentAnswer3 = agentData.answer3;
+        const agentQuestion1 = agentData.question1;
+        const agentQuestion2 = agentData.question2;
+        const agentQuestion3 = agentData.question3;
+        // console.log(agentQuestion1);
+        // console.log(agentQuestion2);
+        // console.log(agentQuestion3);
         if (codeInputValue !== agentCode && codeInputValue !== '') {
           toast.error('The code is not correct');
           setIsFormSubmitted(false);
           return;
         } else if (codeInputValue === agentCode) {
           setShowQuestions(true)
-          if (answer1InputValue === agentAnswer1 && answer2InputValue === agentAnswer2 && answer3InputValue === agentAnswer3) {
+          setQuestion1("What is your dog's name?")
+          setQuestion2("Where do you live?")
+          setQuestion3("What is your favourite destination for vacation?")
+          console.log(question1Type);
+          console.log(question2Type);
+          console.log(question3Type);
+          if (answer1InputValue === agentAnswer1 && answer2InputValue === agentAnswer2 && answer3InputValue === agentAnswer3
+            && question1Type === agentQuestion1 && question2Type === agentQuestion2 && question3Type === agentQuestion3) {
             try {
               const auth = getAuth();
               const userCredential = await signInWithEmailAndPassword(
@@ -115,6 +142,8 @@ export default function SignIn() {
             } catch (error) {
               toast.error('Bad agent credentials');
             }
+          } else {
+            toast.error('CEVA SE INTAMPLA')
           }
         }
       } else {
@@ -172,8 +201,23 @@ export default function SignIn() {
               )}
               {showQuestions && (
                 <div>
+                  <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                    <option value="What is your dog's name?">What is your dog's name?</option>
+                    <option value="What is your cat's name?">What is your cat's name?</option>
+                    <option value="What is your parrot's name?">What is your parrot's name?</option>
+                  </select>
                   <input type="text" id="answer1" onChange={onChange} placeholder="Answer for question 1" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <select value={question2} onChange={onChange} name="question2" id="question2" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                    <option value="Where do you live?">Where do you live?</option>
+                    <option value="Where were you born?">Where were you born?</option>
+                    <option value="What colour are your eyes?">What colour are your eyes?</option>
+                  </select>
                   <input type="text" id="answer2" onChange={onChange} placeholder="Answer for question 2" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <select value={question3} onChange={onChange} name="question3" id="question3" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
+                    <option value="What is your favourite destination for vacation?">What is your favourite destination for vacation?</option>
+                    <option value="What is your favourite color?">What is your favourite color?</option>
+                    <option value="How much money do you have?">How much money do you have?</option>
+                  </select>
                   <input type="text" id="answer3" onChange={onChange} placeholder="Answer for question 3" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                 </div>
               )}

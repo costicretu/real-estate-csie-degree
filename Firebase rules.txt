@@ -8,7 +8,27 @@ service cloud.firestore {
     	allow delete: if resource.data.userRef == request.auth.uid;
       allow update: if resource.data.userRef == request.auth.uid;
     }
-   
+    // Apartments
+    match /apartments/{apartment} {
+    	allow read;
+      allow create: if request.auth != null && request.resource.data.imgUrls.size() < 7;
+    	allow delete: if resource.data.userRef == request.auth.uid;
+      allow update: if resource.data.userRef == request.auth.uid;
+    }
+    // Houses
+    match /houses/{house} {
+    	allow read;
+      allow create: if request.auth != null && request.resource.data.imgUrls.size() < 7;
+    	allow delete: if resource.data.userRef == request.auth.uid;
+      allow update: if resource.data.userRef == request.auth.uid;
+    }
+    // Lands
+    match /lands/{land} {
+    	allow read;
+      allow create: if request.auth != null && request.resource.data.imgUrls.size() < 7;
+    	allow delete: if resource.data.userRef == request.auth.uid;
+      allow update: if resource.data.userRef == request.auth.uid;
+    }
     // Users
     match /users/{user} {
     	allow read;
@@ -20,6 +40,13 @@ service cloud.firestore {
     	allow read;
     	allow create;
     	allow update: if request.auth.uid == agent
+    }
+    // Codes
+    match /codes/{code} {
+    	allow read;
+    	allow create;
+    	allow update: if request.auth.uid == code
+      allow delete: if request.auth != null;
     }
   }
 }

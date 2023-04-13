@@ -14,7 +14,6 @@ export default function CreateListing() {
     const [geolocationEnabled, setGeoLocationEnabled] = useState(true)
     const [loading, setLoading] = useState(false)
     const [propertyType, setPropertyType] = useState('apartment');
-
     const [formData, setFormData] = useState({
         property: 'apartment',
         landtype: 'construction',

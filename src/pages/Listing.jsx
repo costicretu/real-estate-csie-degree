@@ -61,7 +61,7 @@ export default function Listing() {
             <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5">
                 <div className="w-full">
                     <p className='text-2xl font-bold mb-3 text-blue-900'>
-                        {listing.name} - ${" "}
+                        {listing.title} - €{" "}
                         {listing.offer
                             ? listing.discountedPrice
                                 .toString()
@@ -96,26 +96,26 @@ export default function Listing() {
                         <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6'>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FiMap className='text-lg mr-1' />
-                                {listing.surface}
+                                {listing.utilSurface}
                             </li>
                         </ul>
                     ) : (
                         <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6'>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FaBed className='text-lg mr-1' />
-                                {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : '1 Bed'}
+                                {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
                             </li>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FaBath className='text-lg mr-1' />
-                                {+listing.bathrooms > 1 ? `${listing.bathrooms} Baths` : '1 Bath'}
+                                {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
                             </li>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FaParking className='text-lg mr-1' />
-                                {+listing.parking ? 'Parking spot' : 'No parking'}
+                                {+listing.parking ? 'Loc de parcare' : 'X parcare'}
                             </li>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FaChair className='text-lg mr-1' />
-                                {+listing.furnished ? 'Furnished' : 'Not furnished'}
+                                {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                             </li>
                         </ul>
                     )}
@@ -140,7 +140,7 @@ export default function Listing() {
                         />
                         <Marker position={[listing.geolocation.lat, listing.geolocation.lng]}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                               Locatia este aici<br />
                             </Popup>
                         </Marker>
                     </MapContainer>

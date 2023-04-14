@@ -142,8 +142,6 @@ export default function SignIn() {
             } catch (error) {
               toast.error('Bad agent credentials');
             }
-          } else {
-            toast.error('CEVA SE INTAMPLA')
           }
         }
       } else {

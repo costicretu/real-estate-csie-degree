@@ -191,12 +191,22 @@ export default function CreateListing() {
       timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
     };
+    if (propertyType === 'land') {
+      delete formDataCopy.bathrooms
+      delete formDataCopy.bedrooms
+      delete formDataCopy.furnished
+      delete formDataCopy.parking
+  } else if(propertyType === 'apartment' || propertyType === 'house') {
+      delete formDataCopy.landclassification
+      delete formDataCopy.landtype
+      delete formDataCopy.surface
+      delete formDataCopy.streetfront
+  }
     delete formDataCopy.images;
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
     delete formDataCopy.latitude;
     delete formDataCopy.longitude;
     const docRef = doc(db, "listings", params.listingId);
-
     await updateDoc(docRef, formDataCopy);
     setLoading(false);
     toast.success("Listing Edited");

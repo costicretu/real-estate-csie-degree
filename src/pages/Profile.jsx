@@ -46,12 +46,14 @@ export default function Profile() {
   }
   useEffect(() => {
     async function fetchFavouriteListings() {
-      const q = query(collection(db, 'favouriteListings'), where('userRef', '==', auth.currentUser.uid));
+      const auth = getAuth();
+      const q = query(collection(db, 'favouriteListings'), where('userRefs', 'array-contains', auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
       const favouriteListings = querySnapshot.docs.map(doc => ({ id: doc.id, listing: doc.data().listing }));
       const listingItems = favouriteListings.map(({ id, listing }) => <ListingItem key={id} id={id} listing={listing} />);
       setListingItems(listingItems);
     }
+    
     fetchFavouriteListings();
   }, []);
   

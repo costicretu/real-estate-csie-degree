@@ -12,8 +12,8 @@ service cloud.firestore {
     match /favouriteListings/{favouriteListing} {
     	allow read;
       allow create: if request.auth != null
-    	allow delete: if resource.data.userRef == request.auth.uid;
-      allow update: if resource.data.userRef == request.auth.uid;
+    	allow delete 
+      allow update
     }
     // Users
     match /users/{user} {

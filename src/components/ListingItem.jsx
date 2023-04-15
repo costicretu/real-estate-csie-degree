@@ -10,7 +10,7 @@ import { getAuth } from 'firebase/auth';
 import { db } from '../firebase';
 import { setDoc, doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
 
-export default function ListingItem({ listing, id, onEdit, onDelete }) {
+export default function ListingItem({ listing, id, onEdit, onDelete, setListingItems }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const { loggedIn, isAgent } = useAuthStatusAgent();    
     useEffect(() => {
@@ -53,6 +53,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
                 if (index !== -1) {
                     userRefs.splice(index, 1);
                     await updateDoc(favouriteListingsRef, { userRefs });
+                    setListingItems(prevListingItems => prevListingItems.filter(item => item.props.id !== id))
                 }
             }
         } catch (error) {

@@ -3,12 +3,14 @@ import { useLocation, useNavigate } from "react-router";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from "../firebase";
+import {useAuthStatusAgent} from '../hooks/useAuthStatusAgent'
 
 export default function Header() {
-  const [pageState, setPageState] = useState('Sign in')
+  const [pageState, setPageState] = useState('Conectează-te')
   const location = useLocation()
   const navigate = useNavigate()
   const auth = getAuth()
+  const { isAgent } = useAuthStatusAgent()
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -17,12 +19,12 @@ export default function Header() {
         const agentDoc = doc(db, 'agents', user.uid)
         const agentDocSnap = await getDoc(agentDoc)
         if (agentDocSnap.exists()) {
-          setPageState('Profile agent')
+          setPageState('Profil agent')
         } else {
-          setPageState('Profile')
+          setPageState('Profil')
         }
       } else {
-        setPageState('Sign in')
+        setPageState('Conectează-te')
       }
     })
   }, [auth, db])
@@ -34,11 +36,11 @@ export default function Header() {
   }
 
   function handleProfileClick() {
-    if (pageState === 'Sign in') {
+    if (pageState === 'Conectează-te') {
       navigate("/sign-in")
-    } else if (pageState === 'Profile') {
+    } else if (pageState === 'Profil') {
       navigate("/profile")
-    } else if (pageState === 'Profile agent') {
+    } else if (pageState === 'Profil agent') {
       navigate("/profile-agent")
     }
   }
@@ -53,18 +55,29 @@ export default function Header() {
         </div>
         <div>
           <ul className="flex space-x-10">
+            {auth.currentUser?.email === 'admineu@real-estate-csie-degree.com' && (
+              <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
+                ${pathMatchRoute("/sign-up-agent") && "text-black border-b-red-500"}`}
+                id="pentruInregistrare"
+                onClick={() => navigate("/sign-up-agent")}
+              >
+                Înregistrează agent
+              </li>
+            )}
             <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
-            ${pathMatchRoute("/") && "text-black border-b-red-500"}`} onClick={() => navigate("/")}>
-              Home</li>
+              ${pathMatchRoute("/") && "text-black border-b-red-500"}`} onClick={() => navigate("/")}>
+              Acasă</li>
             <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
-            ${pathMatchRoute("/offers") && "text-black border-b-red-500"}`} onClick={() => navigate("/offers")}>
-              Offers</li>
+              ${pathMatchRoute("/offers") && "text-black border-b-red-500"}`} onClick={() => navigate("/offers")}>
+              Oferte</li>
             <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
-            ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile") || pathMatchRoute("/profile-agent")) && "text-black border-b-red-500"}`} onClick={handleProfileClick}>
+              ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile") || pathMatchRoute("/profile-agent")) && "text-black border-b-red-500"}`}
+              onClick={handleProfileClick}>
               {pageState}</li>
           </ul>
         </div>
       </header>
     </div>
   );
+
 }

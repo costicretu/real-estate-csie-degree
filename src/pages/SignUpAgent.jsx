@@ -22,9 +22,9 @@ export default function SignUpAgent() {
         answer1: "",
         answer2: "",
         answer3: "",
-        question1: "What is your dog's name?",
-        question2: "Where do you live?",
-        question3: "What is your favourite destination for vacation?",
+        question1: "Ce nume are câinele tău ?",
+        question2: "Unde locuiești ?",
+        question3: "Care este destinația ta de vacanță preferată ?",
 
     });
     const { nameAgent, emailAgent, passwordAgent, answer1, answer2, answer3, question1, question2, question3 } = formDataAgent;
@@ -34,8 +34,9 @@ export default function SignUpAgent() {
     const [isCodeMatched, setIsCodeMatched] = useState(false);
     const saveCodeToFirestore = async (code) => {
         try {
-            const docRef = await addDoc(collection(db, "codes"), { code });
+            const docRef = await addDoc(collection(db, "codes"), { code, timestamp: serverTimestamp()});
         } catch (e) {
+            toast.error(e)
         }
     };
     useEffect(() => {
@@ -73,7 +74,7 @@ export default function SignUpAgent() {
     async function onSubmit(e) {
         e.preventDefault();
         setIsFormSubmitted(true);
-        if (emailAgent.endsWith('@real-estate-csie-degree.com') && passwordAgent.length > 8 && nameAgent.length > 6) {
+        if (emailAgent.endsWith('@real-estate-csie-degree.com') && passwordAgent.length > 4 && nameAgent.length > 4) {
             setShowCode(true);
             if (codeInputValue !== myCodeValue && codeInputValue === '') {
                 setIsFormSubmitted(false);
@@ -112,17 +113,17 @@ export default function SignUpAgent() {
     }
     return (
         <section>
-            <h1 className='text-3xl text-center mt-6 font-bold'>Sign up as agent</h1>
+            <h1 className='text-3xl text-center mt-6 font-bold'>Înregistrează agent</h1>
             <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto'>
                 <div className='md:w-[67%] lg:w-[50%] mb-12 md:mb-6'>
                     <img src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=773&q=80" alt="key" className='w-full rounded-2xl' />
                 </div>
                 <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
                     <form onSubmit={onSubmit}>
-                        <input type="text" id="nameAgent" value={nameAgent} onChange={onChange} placeholder="Full name agent" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
-                        <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email address agent" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                        <input type="text" id="nameAgent" value={nameAgent} onChange={onChange} placeholder="Nume prenume agent" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                        <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Adresă email agent" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                         <div className='relative mb-6'>
-                            <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Password agent" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                            <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă agent" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                             {showPassword ? (
                                 <AiFillEyeInvisible className='absolute right-3 top-3 text-xl cursor-pointer'
                                     onClick={() => setShowPassword((prevState) => !prevState)} />
@@ -133,38 +134,32 @@ export default function SignUpAgent() {
                         </div>
                         {showCode && (
                             <div>
-                                <input type="text" id="code" onChange={onChange} placeholder="Code in order to sign up you" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <input type="text" id="code" onChange={onChange} placeholder="Cod înregistrare agent" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                             </div>
                         )}
                         {showQuestions && (
                             <div>
                                 <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                                    <option value="What is your dog's name?">What is your dog's name?</option>
-                                    <option value="What is your cat's name?">What is your cat's name?</option>
-                                    <option value="What is your parrot's name?">What is your parrot's name?</option>
+                                    <option value="Ce nume are câinele tău ?">Ce nume are câinele tău?</option>
+                                    <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
+                                    <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
                                 </select>
-                                <input type="text" id="answer1" onChange={onChange} placeholder="Answer1" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns la prima întrebare" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                                 <select value={question2} onChange={onChange} name="question2" id="question2" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                                    <option value="Where do you live?">Where do you live?</option>
-                                    <option value="Where were you born?">Where were you born?</option>
-                                    <option value="What colour are your eyes?">What colour are your eyes?</option>
+                                    <option value="Unde locuiești ?">Unde locuiești ?</option>
+                                    <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
+                                    <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
                                 </select>
-                                <input type="text" id="answer2" onChange={onChange} placeholder="Answer2" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns la a doua întrebare" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                                 <select value={question3} onChange={onChange} name="question3" id="question3" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                                    <option value="What is your favourite destination for vacation?">What is your favourite destination for vacation?</option>
-                                    <option value="What is your favourite color?">What is your favourite color?</option>
-                                    <option value="How much money do you have?">How much money do you have?</option>
+                                    <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
+                                    <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
+                                    <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
                                 </select>
-                                <input type="text" id="answer3" onChange={onChange} placeholder="Answer3" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                                <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns la a treia întrebare" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                             </div>
                         )}
-                        <div className='flex justify-between whitespace-nowrap text-sm:text-lg'>
-                            <p className='mb-6'>Have an account?
-                                <Link to='/sign-in' className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Sign in</Link>
-                            </p>
-                        </div>
-                        <button className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800' type='submit'>Sign up as agent</button>
-
+                        <button className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800' type='submit'>Înregistrează agent</button>
                     </form>
                 </div>
             </div>

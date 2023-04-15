@@ -25,7 +25,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-up-agent" element={<SignUpAgent/>}/>
+          <Route path="/sign-up-agent" element={<PrivateRoute />}>
+            <Route path="/sign-up-agent" element={<SignUpAgent />} />
+          </Route>
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>

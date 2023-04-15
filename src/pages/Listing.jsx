@@ -56,7 +56,7 @@ export default function Listing() {
                 <FaShare className='text-lg text-slate-500' />
             </div>
             {shareLinkCopied && (
-                <p className='fixed top-[23%] right-[5%] font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copied</p>
+                <p className='fixed top-[23%] right-[5%] font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copiat</p>
             )}
             <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5">
                 <div className="w-full">
@@ -77,19 +77,27 @@ export default function Listing() {
                     </p>
                     <div className='flex justify-start items-center space-x-4 w-[75%]'>
                         <p className='bg-red-800 w-full max-w[200px] rounded-md p-1 text-white text-center font-semibold shadow-md'>
-                            {listing.type === 'rent' ? 'Rent' : 'Sale'}
+                            {listing.type === 'rent' ? 'De închiriat' : 'De vânzare'}
                         </p>
                         <p className='w-full max-w-[200px] bg-green-800 rounded p-1 text-white text-center font-semibold shadow-md uppercase'>
                             {listing.offer && (
                                 <p>
-                                    ${+listing.regularPrice - +listing.discountedPrice} discount
+                                    €{+listing.regularPrice - +listing.discountedPrice} discount
                                 </p>
                             )}
-                            {listing.property}
+                            {listing.property === 'apartment' && (
+                                <p>Apartament</p>
+                            )}
+                            {listing.property === 'house' && (
+                                <p>Casă</p>
+                            )}
+                            {listing.property === 'land' && (
+                                <p>Teren</p>
+                            )}
                         </p>
                     </div>
                     <p className='mt-3 mb-3 '>
-                        <span className='font-semibold'>Description - </span>
+                        <span className='font-semibold'>Detalii adiționale - </span>
                         {listing.description}
                     </p>
                     {listing.property === 'land' ? (
@@ -123,7 +131,7 @@ export default function Listing() {
                     {listing.userRef !== auth.currentUser?.uid && !contactLandLord && (
                         <div className='mt-6'>
                             <button onClick={() => setContactLandLord(true)} className='px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition duration-150 ease-in-out'>
-                                Contact landlord
+                                Contactează agent
                             </button>
                         </div>
                     )}

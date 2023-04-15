@@ -54,7 +54,7 @@ export default function Offers() {
   }
   return (
     <div className='max-w-6xl mx-auto px-3'>
-      <h1 className='text-3xl text-center mt-6 font-bold'>Offers</h1>
+      <h1 className='text-3xl text-center mt-6 font-bold'>Oferte</h1>
       {loading ? (<Spinner />) : listings && listings.length > 0 ? (
         <>
           <main>
@@ -66,11 +66,11 @@ export default function Offers() {
           </main>
           {lastFetchListing && (
             <div className='flex justify-center items-center'>
-              <button onClick={onFetchMoreListings} className='bg-white px-3 py-1.5 text-gray-700 border mb-6 mt-6 hover: border-slate-600 rounded transition duration-150 ease-in-out'>Load more</button>
+              <button onClick={onFetchMoreListings} className='bg-white px-3 py-1.5 text-gray-700 border mb-6 mt-6 hover: border-slate-600 rounded transition duration-150 ease-in-out'>Afișează mai multe</button>
             </div>
           )}
         </>
-      ) : (<p>There are no current offers</p>)}
+      ) : (<p>Nu există oferte recente momentan</p>)}
     </div>
   )
 }

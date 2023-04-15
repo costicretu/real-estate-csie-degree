@@ -1,11 +1,57 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import { MdLocationOn } from 'react-icons/md'
 import { FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { useAuthStatusAgent } from '../hooks/useAuthStatusAgent'
+import { getAuth } from 'firebase/auth';
+import { db } from '../firebase';
+import { setDoc, doc, deleteDoc, getDoc } from 'firebase/firestore'
 
 export default function ListingItem({ listing, id, onEdit, onDelete }) {
+    const [isFavorite, setIsFavorite] = useState(false);
+    const { loggedIn, isAgent } = useAuthStatusAgent();
+    useEffect(() => {
+        const fetchIsFavorite = async () => {
+            const auth = getAuth();
+            const userId = auth.currentUser.uid;
+            const favouriteListingsRef = doc(db, 'favouriteListings', id);
+            try {
+                const favouriteListingSnapshot = await getDoc(favouriteListingsRef);
+                const favouriteListingData = favouriteListingSnapshot.data();
+                if (favouriteListingData && favouriteListingData.userRef === userId) {
+                    setIsFavorite(true);
+                }
+            } catch (error) {
+                console.error('Error fetching user document: ', error);
+            }
+        };
+        fetchIsFavorite();
+    }, [id]);
+    const toggleFavorite = async () => {
+        setIsFavorite(!isFavorite);
+        const auth = getAuth();
+        const userId = auth.currentUser.uid;
+        const favouriteListingsRef = doc(db, 'favouriteListings', id);
+        const listingRef = doc(db, 'listings', id);
+        try {
+            if (!isFavorite && auth.currentUser) {
+                const listingSnapshot = await getDoc(listingRef);
+                const listingData = listingSnapshot.data();
+                await setDoc(favouriteListingsRef, { userRef: userId, listing: listingData });
+            } else {
+                const favouriteListingSnapshot = await getDoc(favouriteListingsRef);
+                const favouriteListingData = favouriteListingSnapshot.data();
+                if (favouriteListingData && favouriteListingData.userRef === userId) {
+                    await deleteDoc(favouriteListingsRef);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating user document: ', error);
+        }
+    };
     return <li className='relative bg-white flex-col justify-between items-center shadow-md hover:shadow-xl rounded overflow-hidden transition-shadow duration-150 m-[10px]'>
         <Link className='contents' to={`/category/${listing.type}/${id}`}>
             <img className='h-[170px] w-full object-cover hover:scale-105 transition-scale duration-200 ease-in' loading='lazy' src={listing.imgUrls[0]} />
@@ -58,6 +104,13 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
         {onEdit && (
             <MdEdit className='absolute bottom-2 right-7 h-4 cursor-pointer'
                 onClick={() => onEdit(listing.id)} />
+        )}
+        {loggedIn && !isAgent && (
+            <div className='absolute bottom-2 right-2 h-[14px] cursor-pointer'>
+                <AiOutlineHeart className={`h-5 w-5 cursor-pointer transition-colors ${isFavorite ? 'text-red-500' : 'text-gray-400'}`}
+                    onClick={toggleFavorite}
+                />
+            </div>
         )}
     </li>
 }

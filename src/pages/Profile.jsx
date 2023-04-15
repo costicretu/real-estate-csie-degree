@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getAuth, updateProfile } from 'firebase/auth'
 import { useNavigate } from 'react-router'
 import { toast } from 'react-toastify'
-import { updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc, collection, getDocs, where, query} from 'firebase/firestore'
 import { db } from '../firebase'
+import ListingItem from '../components/ListingItem'
 
 export default function Profile() {
   const auth = getAuth()
   const navigate = useNavigate()
+  const [listingItems, setListingItems] = useState([])
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email
@@ -42,6 +44,17 @@ export default function Profile() {
       toast.error('Could not update the profile details')
     }
   }
+  useEffect(() => {
+    async function fetchFavouriteListings() {
+      const q = query(collection(db, 'favouriteListings'), where('userRef', '==', auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+      const favouriteListings = querySnapshot.docs.map(doc => ({ id: doc.id, listing: doc.data().listing }));
+      const listingItems = favouriteListings.map(({ id, listing }) => <ListingItem key={id} id={id} listing={listing} />);
+      setListingItems(listingItems);
+    }
+    fetchFavouriteListings();
+  }, []);
+  
   return (
     <>
       <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
@@ -66,6 +79,12 @@ export default function Profile() {
           </form>
         </div>
       </section>
+      <div className='max-w-6xl px-3 mt-6 mx-auto' id='aicilistings'>
+        <h2 className='text-2xl text-center font-semibold mb-6'>Anunțurile mele favorite</h2>
+        <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 mt-6 mb-6'>
+          {listingItems}
+        </ul>
+      </div>
     </>
   )
 }

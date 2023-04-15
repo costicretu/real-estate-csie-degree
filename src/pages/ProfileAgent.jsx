@@ -99,7 +99,7 @@ export default function ProfileAgent() {
     useEffect(() => {
         const fetchAgents = async () => {
             const agentsRef = collection(db, 'agents');
-            const q = query(agentsRef, where("emailAgent", "==", auth.currentUser.email)); // Add the "where" method to filter by agent ID
+            const q = query(agentsRef, where("emailAgent", "==", auth.currentUser.email));
             const snapshot = await getDocs(q);
             const agentsData = snapshot.docs.map((doc) => {
                 const data = doc.data();
@@ -215,7 +215,7 @@ export default function ProfileAgent() {
                                     setAgents(newAgents)
                                 }}
                             />
-                            <button onClick={() => updateAgent(agent)}>Do you want to update your questions?</button>
+                            <button onClick={() => updateAgent(agent)}>Vrei să schimbi întrebările și răspunsurile?</button>
                         </div>
                     ))}
                     <p id={`agentCode-${agentCode}`} className='text-sm text-gray-700'>
@@ -232,7 +232,7 @@ export default function ProfileAgent() {
             <div className='max-w-6xl px-3 mt-6 mx-auto'>
                 {!loading && listings.length > 0 && (
                     <>
-                        <h2 className='text-2xl text-center font-semibold mb-6'>My listings</h2>
+                        <h2 className='text-2xl text-center font-semibold mb-6'>Anunțurile mele</h2>
                         <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 mt-6 mb-6'>
                             {listings.map((listing) => (
                                 <ListingItem
@@ -240,7 +240,8 @@ export default function ProfileAgent() {
                                     id={listing.id}
                                     listing={listing.data}
                                     onDelete={() => onDelete(listing.id)}
-                                    onEdit={() => onEdit(listing.id)} />
+                                    onEdit={() => onEdit(listing.id)}
+                                    />
                             ))}
                         </ul>
                     </>

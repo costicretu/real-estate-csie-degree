@@ -105,39 +105,50 @@ export default function Announces() {
     fetchListings();
   }
   return (
-    <div className='max-w-6xl mx-auto px-3'>
-      <div className="flex flex-col items-start" id="pentruMine">
-        <select name="type" className="mr-2" value={type} onChange={handleTypeChange}>
-          <option value="rent">De închiriat</option>
-          <option value="sale">De vânzare</option>
-        </select>
-        <select name="property" value={property} onChange={handlePropertyChange}>
-          <option value="apartment">Apartament</option>
-          <option value="house">Casă</option>
-          <option value="land">Teren</option>
-        </select>
-        <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} />
-        <button className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded" onClick={handleSearchClick}>
-          Search
-        </button>
-      </div>
-      <h1 className='text-3xl text-center mt-6 font-bold'>Anunțuri</h1>
-      {loading ? (<Spinner />) : listings && listings.length > 0 ? (
-        <>
-          <main>
-            <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-6'>
-              {listings.map((listing) => (
-                <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
-              ))}
-            </ul>
-          </main>
-          {lastFetchListing && (
-            <div className='flex justify-center items-center'>
-              <button onClick={onFetchMoreListings} className='bg-white px-3 py-1.5 text-gray-700 border mb-6 mt-6 hover: border-slate-600 rounded transition duration-150 ease-in-out'>Afișează mai multe</button>
-            </div>
+    <div className='justify-center items-center'>
+      <h1 className="text-3xl text-center mt-6 font-bold mb-5">Anunțuri</h1>
+      <div className="flex flex-wrap mx-auto my-auto">
+        <div className=" flex flex-col mt-2 ml-7 md:w-[67%] lg:w-[15%] lg:ml-30" id="pentruMine">
+          <select name="type" value={type} onChange={handleTypeChange} className="block w-full px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+            <option value="rent">De închiriat</option>
+            <option value="sale">De vânzare</option>
+          </select>
+          <select name="property" value={property} onChange={handlePropertyChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+            <option value="apartment">Apartament</option>
+            <option value="house">Casă</option>
+            <option value="land">Teren</option>
+          </select>
+          <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500" />
+          <button className="mt-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={handleSearchClick}>
+            Caută
+          </button>
+        </div>
+        <div className="max-w-6xl  px-3" id="pentruAnunturi">
+          
+          {loading ? (
+            <Spinner />
+          ) : listings && listings.length > 0 ? (
+            <>
+              <main>
+                <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5s mb-6">
+                  {listings.map((listing) => (
+                    <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
+                  ))}
+                </ul>
+              </main>
+              {lastFetchListing && (
+                <div className="flex justify-center items-center">
+                  <button onClick={onFetchMoreListings} className="bg-white px-3 py-1.5 text-gray-700 border mb-6 hover:border-slate-600 rounded transition duration-150 ease-in-out">
+                    Afișează mai multe
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <p>Nu există anunțuri recente momentan</p>
           )}
-        </>
-      ) : (<p>Nu există anunțuri recente momentan</p>)}
+        </div>
+      </div>
     </div>
   )
 }

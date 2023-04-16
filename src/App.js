@@ -39,6 +39,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/announces" element={<Announces />} />
+          <Route path="/:categoryName/:propertyName/:addressName" element={<Search />} />
           <Route path="/:categoryName/:propertyName" element={<Search />} />
           <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/property/:propertyName" element={<Property />} />

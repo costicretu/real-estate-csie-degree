@@ -12,6 +12,7 @@ export default function Header() {
   const auth = getAuth()
   const [type, setType] = useState('rent')
   const [property, setProperty] = useState('apartment')
+  const [address, setAddress] = useState('')
   const { isAgent } = useAuthStatusAgent()
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -53,8 +54,15 @@ export default function Header() {
   function handlePropertyChange(event) {
     setProperty(event.target.value)
   }
+  function handleAddressChange(event) {
+    setAddress(event.target.value)
+  }
   function handleSearchClick() {
-    navigate(`/${type}/${property}`)
+    if(address === '') {
+      navigate(`/${type}/${property}`)
+    } else {
+      navigate(`/${type}/${property}/${address}`)
+    }
   }
   return (
     <div className="bg-white border-b shadow-sm sticky top-0 z-50">
@@ -66,14 +74,15 @@ export default function Header() {
         </div>
         <div className="flex items-center">
           <select name="type" className="mr-2" value={type} onChange={handleTypeChange}>
-            <option value="rent">Rent</option>
-            <option value="sale">Sale</option>
+            <option value="rent">De închiriat</option>
+            <option value="sale">De vânzare</option>
           </select>
           <select name="property" value={property} onChange={handlePropertyChange}>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="land">Land</option>
+            <option value="apartment">Apartament</option>
+            <option value="house">Casă</option>
+            <option value="land">Teren</option>
           </select>
+          <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} />
           <button className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded" onClick={handleSearchClick}>
             Search
           </button>

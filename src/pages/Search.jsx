@@ -15,7 +15,13 @@ export default function Search() {
         async function fetchListings() {
             try {
                 const listingRef = collection(db, 'listings')
-                const q = query(listingRef, where('type', '==', params.categoryName), where('property', '==', params.propertyName), orderBy('timestamp', 'desc'), limit(8))
+                const addressWords = params.addressName.split(' ')
+                const q = query(listingRef,
+                    where('type', '==', params.categoryName),
+                    where('property', '==', params.propertyName),
+                    where('address', 'array-contains-any', addressWords),
+                    orderBy('timestamp', 'desc'),
+                    limit(8))
                 const querySnap = await getDocs(q)
                 const lastVisible = querySnap.docs[querySnap.docs.length - 1]
                 setLastFetchListing(lastVisible)
@@ -29,7 +35,34 @@ export default function Search() {
                 setListings(listings)
                 setLoading(false)
             } catch (error) {
-                toast.error('Nu s-a putut prelua listarea')
+                //toast.error('Nu s-a putut prelua listarea')
+            }
+        }
+        fetchListings()
+    }, [params.categoryName, params.propertyName, params.addressName])
+    useEffect(() => {
+        async function fetchListings() {
+            try {
+                const listingRef = collection(db, 'listings')
+                const q = query(listingRef,
+                    where('type', '==', params.categoryName),
+                    where('property', '==', params.propertyName),
+                    orderBy('timestamp', 'desc'),
+                    limit(8))
+                const querySnap = await getDocs(q)
+                const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+                setLastFetchListing(lastVisible)
+                const listings = []
+                querySnap.forEach((doc) => {
+                    return listings.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    })
+                })
+                setListings(listings)
+                setLoading(false)
+            } catch (error) {
+                //toast.error('Nu s-a putut prelua listarea')
             }
         }
         fetchListings()
@@ -37,7 +70,13 @@ export default function Search() {
     async function onFetchMoreListings() {
         try {
             const listingRef = collection(db, 'listings')
-            const q = query(listingRef, where('type', '==', params.categoryName), where('property', '==', params.propertyName), orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
+            const addressWords = params.addressName.split(' ')
+            const q = query(listingRef,
+                where('type', '==', params.categoryName),
+                where('property', '==', params.propertyName),
+                where('address', 'array-contains-any', addressWords),
+                orderBy('timestamp', 'desc'),
+                limit(4))
             const querySnap = await getDocs(q)
             const lastVisible = querySnap.docs[querySnap.docs.length - 1]
             setLastFetchListing(lastVisible)
@@ -51,7 +90,30 @@ export default function Search() {
             setListings((prevState) => [...prevState, ...listings])
             setLoading(false)
         } catch (error) {
-            toast.error('Nu s-a putut prelua listarea')
+            //toast.error('Nu s-a putut prelua listarea')
+        }
+    }
+    async function onFetchMoreListings() {
+        try {
+            const listingRef = collection(db, 'listings')
+            const q = query(listingRef,
+                where('type', '==', params.categoryName),
+                where('property', '==', params.propertyName),
+                orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
+            const querySnap = await getDocs(q)
+            const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+            setLastFetchListing(lastVisible)
+            const listings = []
+            querySnap.forEach((doc) => {
+                return listings.push({
+                    id: doc.id,
+                    data: doc.data(),
+                })
+            })
+            setListings((prevState) => [...prevState, ...listings])
+            setLoading(false)
+        } catch (error) {
+            //toast.error('Nu s-a putut prelua listarea')
         }
     }
     return (

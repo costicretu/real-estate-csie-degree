@@ -1,12 +1,7 @@
 import { useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
-import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
@@ -55,14 +50,12 @@ export default function CreateListing() {
         if (e.target.value === "false") {
             boolean = false;
         }
-        // Files
         if (e.target.files) {
             setFormData((prevState) => ({
                 ...prevState,
                 images: e.target.files,
             }));
         }
-        // Text/Boolean/Number
         if (!e.target.files) {
             setFormData((prevState) => ({
                 ...prevState,
@@ -99,9 +92,7 @@ export default function CreateListing() {
             console.log(data);
             geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
             geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-
             location = data.status === "ZERO_RESULTS" && undefined;
-
             if (location === undefined) {
                 setLoading(false);
                 toast.error("Te rog introdu o adresă existentă");
@@ -121,27 +112,22 @@ export default function CreateListing() {
                 uploadTask.on(
                     "state_changed",
                     (snapshot) => {
-                        // Observe state change events such as progress, pause, and resume
-                        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                         const progress =
                             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log("Upload is " + progress + "% done");
+                        console.log("Încărcarea este " + progress + "% gata");
                         switch (snapshot.state) {
                             case "paused":
-                                console.log("Upload is paused");
+                                console.log("Încărcarea s-a oprit");
                                 break;
                             case "running":
-                                console.log("Upload is running");
+                                console.log("Încărcarea rulează");
                                 break;
                         }
                     },
                     (error) => {
-                        // Handle unsuccessful uploads
                         reject(error);
                     },
                     () => {
-                        // Handle successful uploads on complete
-                        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             resolve(downloadURL);
                         });
@@ -154,7 +140,7 @@ export default function CreateListing() {
             [...images].map((image) => storeImage(image))
         ).catch((error) => {
             setLoading(false);
-            toast.error("Images not uploaded");
+            toast.error("Imaginele nu au putut fi încărcate");
             return;
         });
 
@@ -182,7 +168,7 @@ export default function CreateListing() {
             delete formDataCopy.streetfront
             delete formDataCopy.houseType
             delete formDataCopy.floor
-        } else if(propertyType === 'house') {
+        } else if (propertyType === 'house') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
             delete formDataCopy.landSurface
@@ -194,7 +180,7 @@ export default function CreateListing() {
         delete formDataCopy.longitude;
         const docRef = await addDoc(collection(db, "listings"), formDataCopy);
         setLoading(false);
-        toast.success("Listing created");
+        toast.success("Anunț creat");
         navigate(`/category/${formDataCopy.type}/${docRef.id}`);
     }
     if (loading) {

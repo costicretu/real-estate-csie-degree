@@ -1,20 +1,10 @@
 import { useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -58,7 +48,7 @@ export default function EditListing() {
 
   useEffect(() => {
     if (listing && listing.userRef !== auth.currentUser.uid) {
-      toast.error("You can't edit this listing");
+      toast.error("Nu poți edita acest anunț");
       navigate("/");
     }
   }, [auth.currentUser.uid, listing, navigate]);
@@ -75,7 +65,7 @@ export default function EditListing() {
         setLoading(false);
       } else {
         navigate("/");
-        toast.error("Listing does not exist");
+        toast.error("Acest anunț nu există");
       }
     }
     fetchListing();
@@ -115,12 +105,12 @@ export default function EditListing() {
     setLoading(true);
     if (+discountedPrice >= +regularPrice) {
       setLoading(false);
-      toast.error("Discounted price needs to be less than regular price");
+      toast.error("Prețul redus trebuie să fie mai mic decât prețul obișnuit");
       return;
     }
     if (images.length > 6) {
       setLoading(false);
-      toast.error("maximum 6 images are allowed");
+      toast.error("Sunt permise maxim 6 imagini");
       return;
     }
     let geolocation = {};
@@ -138,7 +128,7 @@ export default function EditListing() {
 
       if (location === undefined) {
         setLoading(false);
-        toast.error("please enter a correct address");
+        toast.error("Te rog introdu o adresă corectă");
         return;
       }
     } else {
@@ -155,27 +145,22 @@ export default function EditListing() {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
+            console.log("Încărcarea este " + progress + "% gata");
             switch (snapshot.state) {
               case "paused":
-                console.log("Upload is paused");
+                console.log("Încărcarea s-a oprit");
                 break;
               case "running":
-                console.log("Upload is running");
+                console.log("Încărcarea rulează");
                 break;
             }
           },
           (error) => {
-            // Handle unsuccessful uploads
             reject(error);
           },
           () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               resolve(downloadURL);
             });
@@ -183,15 +168,13 @@ export default function EditListing() {
         );
       });
     }
-
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch((error) => {
       setLoading(false);
-      toast.error("Images not uploaded");
+      toast.error("Imaginile nu au putut fi încărcate");
       return;
     });
-
     const formDataCopy = {
       ...formData,
       imgUrls,
@@ -230,7 +213,7 @@ export default function EditListing() {
     const docRef = doc(db, "listings", params.listingId);
     await updateDoc(docRef, formDataCopy);
     setLoading(false);
-    toast.success("Listing Edited");
+    toast.success("Anunț editat");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
@@ -519,7 +502,7 @@ export default function EditListing() {
             </div>
           </div>
         )}
-        <button type="submit" className='mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+        <button type="submit" className='mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Editează anunț</button>
       </form>
     </main>
   );

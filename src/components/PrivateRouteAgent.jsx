@@ -13,7 +13,6 @@ export default function PrivateRoute() {
       }
     
       if (!isAgent) {
-        // Redirect to a non-agent page if the user is not an agent
         return <Navigate to="/profile" />
       }
     return <Outlet />

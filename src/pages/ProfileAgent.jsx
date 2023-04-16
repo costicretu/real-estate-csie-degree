@@ -32,11 +32,9 @@ export default function ProfileAgent() {
     async function onSubmit() {
         try {
             if (auth.currentUser.displayName !== name) {
-                //update the displayName in firebase auth
                 await updateProfile(auth.currentUser, {
                     displayName: name,
                 })
-                //update the name in the firestore
                 if (email.endsWith('@real-estate-csie-degree.com')) {
                     const docRef = doc(db, 'agents', auth.currentUser.uid)
                     await updateDoc(docRef, {

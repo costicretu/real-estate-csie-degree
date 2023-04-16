@@ -29,7 +29,7 @@ export default function Category() {
         setListings(listings)
         setLoading(false)
       } catch (error) {
-        toast.error('Could not fetch listing')
+        toast.error('Nu s-a putut prelua listarea')
       }
     }
     fetchListings()
@@ -51,7 +51,7 @@ export default function Category() {
       setListings((prevState)=>[...prevState, ...listings])
       setLoading(false)
     } catch (error) {
-      toast.error('Could not fetch listing')
+      toast.error('Nu s-a putut prelua listarea')
     }
   }
   return (

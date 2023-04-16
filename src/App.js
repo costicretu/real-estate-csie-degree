@@ -5,7 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PrivateRouteAgent from "./components/PrivateRouteAgent";
 import ForgotPassword from "./pages/ForgotPassword";
-import Offers from "./pages/Offers";
+import Announces from "./pages/Announces";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +16,8 @@ import Category from "./pages/Category";
 import PrivateRoute from "./components/PrivateRoute";
 import SignUpAgent from "./pages/SignUpAgent";
 import ProfileAgent from "./pages/ProfileAgent";
-
+import Property from "./pages/Property";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -37,8 +38,10 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/offers" element={<Offers />} />
+          <Route path="/announces" element={<Announces />} />
+          <Route path="/:categoryName/:propertyName" element={<Search />} />
           <Route path="/category/:categoryName" element={<Category />} />
+          <Route path="/property/:propertyName" element={<Property />} />
           <Route path="/category/:categoryName/:listingId" element={<Listing />} />
           <Route path="/create-listing" element={<PrivateRouteAgent />}>
             <Route path="/create-listing" element={<CreateListing />} />

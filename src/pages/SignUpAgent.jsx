@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
-import { Link } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { db } from '../firebase'
 import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
@@ -82,7 +81,6 @@ export default function SignUpAgent() {
             } else if (codeInputValue === myCodeValue) {
                 setShowQuestions(true);
                 if (answer1 === "" || answer2 === "" || answer3 === "") {
-                    //toast.error('Please fill in all the answers');
                     setIsFormSubmitted(false);
                     return;
                 } else {
@@ -102,13 +100,13 @@ export default function SignUpAgent() {
                         navigate('/');
 
                     } catch (error) {
-                        toast.error('Exista deja contu ba');
+                        toast.error(error);
                     }
                     return;
                 }
             }
         } else {
-            toast.error('Please fill the inputs');
+            toast.error('Te rog completează câmpurile');
         }
     }
     return (

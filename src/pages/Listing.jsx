@@ -148,7 +148,7 @@ export default function Listing() {
                         />
                         <Marker position={[listing.geolocation.lat, listing.geolocation.lng]}>
                             <Popup>
-                               Locatia este aici<br />
+                               Locația se află aici<br />
                             </Popup>
                         </Marker>
                     </MapContainer>

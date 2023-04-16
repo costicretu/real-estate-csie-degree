@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore'
+import { collection, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore'
 import { db } from '../firebase'
 import Spinner from '../components/Spinner'
 import ListingItem from '../components/ListingItem'
 
-export default function Offers() {
+export default function Announces() {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [lastFetchListing, setLastFetchListing] = useState(null)
@@ -13,7 +13,7 @@ export default function Offers() {
     async function fetchListings() {
       try {
         const listingRef = collection(db, 'listings')
-        const q = query(listingRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(8))
+        const q = query(listingRef, orderBy('timestamp', 'desc'), limit(8))
         const querySnap = await getDocs(q)
         const lastVisible = querySnap.docs[querySnap.docs.length - 1]
         setLastFetchListing(lastVisible)
@@ -27,7 +27,7 @@ export default function Offers() {
         setListings(listings)
         setLoading(false)
       } catch (error) {
-        toast.error('Could not fetch listing')
+        toast.error('Nu s-a putut prelua anunțul')
       }
     }
     fetchListings()
@@ -35,7 +35,7 @@ export default function Offers() {
   async function onFetchMoreListings() {
     try {
       const listingRef = collection(db, 'listings')
-      const q = query(listingRef, where('offer', '==', true), orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
+      const q = query(listingRef, orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
       const querySnap = await getDocs(q)
       const lastVisible = querySnap.docs[querySnap.docs.length - 1]
       setLastFetchListing(lastVisible)
@@ -49,12 +49,12 @@ export default function Offers() {
       setListings((prevState)=>[...prevState, ...listings])
       setLoading(false)
     } catch (error) {
-      toast.error('Could not fetch listing')
+      toast.error('Nu s-a putut prelua anunțul')
     }
   }
   return (
     <div className='max-w-6xl mx-auto px-3'>
-      <h1 className='text-3xl text-center mt-6 font-bold'>Oferte</h1>
+      <h1 className='text-3xl text-center mt-6 font-bold'>Anunțuri</h1>
       {loading ? (<Spinner />) : listings && listings.length > 0 ? (
         <>
           <main>
@@ -70,7 +70,7 @@ export default function Offers() {
             </div>
           )}
         </>
-      ) : (<p>Nu există oferte recente momentan</p>)}
+      ) : (<p>Nu există anunțuri recente momentan</p>)}
     </div>
   )
 }

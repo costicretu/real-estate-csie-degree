@@ -211,7 +211,7 @@ export default function SignIn() {
                   <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns la a treia întrebare" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
                 </div>
               )}
-              <button className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800" type="submit">Loghează-te ca agent</button>
+              <button className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800" type="submit">Conectează-te</button>
             </form>
           )}
         </div>

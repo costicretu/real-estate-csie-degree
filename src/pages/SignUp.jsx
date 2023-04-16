@@ -26,7 +26,7 @@ export default function SignUp() {
   async function onSubmit(e) {
     e.preventDefault()
     if (email.endsWith('@real-estate-csie-degree.com')) {
-      toast.error('You cannot sign up as an agent')
+      toast.error('Nu te poți înregistra ca agent')
     } else {
       try {
         const auth = getAuth()

@@ -13,7 +13,7 @@ export default function Contact({ userRef, listing }) {
             if (docSnap.exists()) {
                 setLandLord(docSnap.data())
             } else {
-                toast.error('Could not get landlord data')
+                toast.error('Nu am putut prelua datele agentului')
             }
         }
         getLandLord()

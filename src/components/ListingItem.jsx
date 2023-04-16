@@ -8,7 +8,7 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { useAuthStatusAgent } from '../hooks/useAuthStatusAgent'
 import { getAuth } from 'firebase/auth';
 import { db } from '../firebase';
-import { setDoc, doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { setDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export default function ListingItem({ listing, id, onEdit, onDelete, setListingItems }) {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -25,7 +25,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
                     setIsFavorite(true);
                 }
             } catch (error) {
-                console.error('Error fetching user document: ', error);
+                console.error('Eroare la preluarea documentului utilizatorului');
             }
         };
         fetchIsFavorite();
@@ -57,7 +57,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
                 }
             }
         } catch (error) {
-            console.error('Error updating user document: ', error);
+            console.error('Eroare la actualizarea documentului utilizatorului');
         }
     };   
     return <li className='relative bg-white flex-col justify-between items-center shadow-md hover:shadow-xl rounded overflow-hidden transition-shadow duration-150 m-[10px]'>
@@ -70,14 +70,14 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
                     <p className='font-semibold text-sm mb-[2px] text-gray-600 truncate'>{listing.address}</p>
                 </div>
                 <p className='font-semibold m-0 text-xl'>{listing.title}</p>
-                <p className='text-[#457b9d] truncate mt-2 font-semibold'>${listing.offer
+                <p className='text-[#457b9d] truncate mt-2 font-semibold'>€{listing.offer
                     ? listing.discountedPrice
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : listing.regularPrice
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    {listing.type === 'rent' && " / month"}
+                    {listing.type === 'rent' && " / lună"}
                 </p>
                 <div className="flex items-center mt-[10px] space-x-3">
                     {listing.property === 'land' ? (

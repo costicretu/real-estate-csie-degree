@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { collection, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore'
+import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import Spinner from '../components/Spinner'
 import ListingItem from '../components/ListingItem'
@@ -13,7 +13,7 @@ export default function Announces() {
     async function fetchListings() {
       try {
         const listingRef = collection(db, 'listings')
-        const q = query(listingRef, orderBy('timestamp', 'desc'), limit(8))
+        const q = query(listingRef,where('offer', '==', false), orderBy('timestamp', 'desc'), limit(8))
         const querySnap = await getDocs(q)
         const lastVisible = querySnap.docs[querySnap.docs.length - 1]
         setLastFetchListing(lastVisible)

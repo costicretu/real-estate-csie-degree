@@ -10,9 +10,6 @@ export default function Header() {
   const location = useLocation()
   const navigate = useNavigate()
   const auth = getAuth()
-  const [type, setType] = useState('rent')
-  const [property, setProperty] = useState('apartment')
-  const [address, setAddress] = useState('')
   const { isAgent } = useAuthStatusAgent()
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -43,27 +40,6 @@ export default function Header() {
       navigate("/profile-agent")
     }
   }
-  function pathMatchRoute(route) {
-    if (route === location.pathname) {
-      return true
-    }
-  }
-  function handleTypeChange(event) {
-    setType(event.target.value)
-  }
-  function handlePropertyChange(event) {
-    setProperty(event.target.value)
-  }
-  function handleAddressChange(event) {
-    setAddress(event.target.value)
-  }
-  function handleSearchClick() {
-    if(address === '') {
-      navigate(`/${type}/${property}`)
-    } else {
-      navigate(`/${type}/${property}/${address}`)
-    }
-  }
   return (
     <div className="bg-white border-b shadow-sm sticky top-0 z-50">
       <header className="flex justify-between items-center px-3 max-w-6xl mx-auto">
@@ -71,21 +47,6 @@ export default function Header() {
           <img src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg" alt="logo"
             className="h-5 cursor-pointer" onClick={() => navigate("/")}
           />
-        </div>
-        <div className="flex items-center">
-          <select name="type" className="mr-2" value={type} onChange={handleTypeChange}>
-            <option value="rent">De închiriat</option>
-            <option value="sale">De vânzare</option>
-          </select>
-          <select name="property" value={property} onChange={handlePropertyChange}>
-            <option value="apartment">Apartament</option>
-            <option value="house">Casă</option>
-            <option value="land">Teren</option>
-          </select>
-          <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} />
-          <button className="ml-2 bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded" onClick={handleSearchClick}>
-            Search
-          </button>
         </div>
         <div>
           <ul className="flex space-x-10">

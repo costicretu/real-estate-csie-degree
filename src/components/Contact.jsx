@@ -24,7 +24,7 @@ export default function Contact({ userRef, listing }) {
     return (
         <>{landlord !== null && (
             <div className='flex flex-col w-full'>
-                <p className=''>
+                <p className='text-md'>
                     Contactează-l pe {landlord.nameAgent} pentru {listing.title.toLowerCase()}
                 </p>
                 <div className='mt-3 mb-6'>

@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 body {
-    background-color: rgb(240, 253, 244);
+    background-color: rgba(231, 231, 231, 0.549)
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-    color: #a8dadc;
+    color: #2744a3;
 }
 
 .swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
-    background: #a8dadc !important;
+    background: #2744a3 !important;
 }
 
 /*remove scrollbar for chrome*/

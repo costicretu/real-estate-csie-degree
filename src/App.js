@@ -17,7 +17,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignUpAgent from "./pages/SignUpAgent";
 import ProfileAgent from "./pages/ProfileAgent";
 import Property from "./pages/Property";
-import Search from "./pages/Search";
 import Offers from "./pages/Offers";
 
 function App() {
@@ -41,8 +40,6 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/announces" element={<Announces />} />
           <Route path="/offers" element={<Offers />} />
-          <Route path="/:categoryName/:propertyName/:addressName" element={<Search />} />
-          <Route path="/:categoryName/:propertyName" element={<Search />} />
           <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/property/:propertyName" element={<Property />} />
           <Route path="/category/:categoryName/:listingId" element={<Listing />} />

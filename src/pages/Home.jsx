@@ -31,26 +31,27 @@ export default function Home() {
     setLoading(false)
   }, [])
   return (
-    <div>
+    <div className='relative'>
+    <div className='absolute top-0 left-0 w-full h-full z-10'>
       <Slider />
-      <div className='max-w-6xl mx-auto pt-4 space-y-6'>
-
-        {loading ? (<Spinner />) : offerListing && offerListing.length > 0 ? (
-          <div className='m-2 mb-6'>
-            <h2 className='px-3 text-2xl mt-6 font-semibold'>Cele mai recente oferte</h2>
-            <Link to='/offers'>
-              <p className='px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out'>
-                Arată mai multe oferte
-              </p>
-            </Link>
-            <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-              {offerListing.map((listing) => (
-                <ListingItem key={listing.id} listing={listing.data} id={listing.id} />
-              ))}
-            </ul>
-          </div>
-        ) : (<p>Nu există oferte recente momentan</p>)}
-      </div>
     </div>
+    <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
+      {loading ? (<Spinner />) : offerListing && offerListing.length > 0 ? (
+        <div className='m-2 mb-6'>
+          <h2 className='px-3 text-2xl mt-6 font-semibold'>Cele mai recente oferte</h2>
+          <Link to='/offers'>
+            <p className='px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out'>
+              Arată mai multe oferte
+            </p>
+          </Link>
+          <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            {offerListing.map((listing) => (
+              <ListingItem key={listing.id} listing={listing.data} id={listing.id} />
+            ))}
+          </ul>
+        </div>
+      ) : (<p>Nu există oferte recente momentan</p>)}
+    </div>
+  </div>
   )
 }

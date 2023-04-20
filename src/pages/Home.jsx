@@ -32,15 +32,15 @@ export default function Home() {
   }, [])
   return (
     <div className='relative'>
-    <div className='absolute top-0 left-0 w-full h-full z-10'>
+    <div className='absolute top-0 left-0 z-10'>
       <Slider />
     </div>
     <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
       {loading ? (<Spinner />) : offerListing && offerListing.length > 0 ? (
-        <div className='m-2 mb-6'>
-          <h2 className='px-3 text-2xl mt-6 font-semibold'>Cele mai recente oferte</h2>
+        <div className=''>
+          <h2 className='px-3 text-2xl mt-6 font-bold '>Cele mai recente oferte</h2>
           <Link to='/offers'>
-            <p className='px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out'>
+            <p className='px-3 text-1xl text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out'>
               Arată mai multe oferte
             </p>
           </Link>

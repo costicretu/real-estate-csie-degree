@@ -22,6 +22,7 @@ export default function ProfileAgent() {
     }
     const [changeDetail, setChangeDetail] = useState(false)
     const [listings, setListings] = useState(null)
+    const [favouriteListings, setFavouriteListings] = useState(null)
     const [loading, setLoading] = useState(true)
     function onChange(e) {
         setFormData((prevState) => ({
@@ -66,14 +67,26 @@ export default function ProfileAgent() {
     }, [auth.currentUser.uid])
     async function onDelete(listingID) {
         if (window.confirm('Chiar vrei să ștergi acest anunț?')) {
+          try {
+            // Delete listing from Firestore
             await deleteDoc(doc(db, 'listings', listingID))
-            const updatedListings = listings.filter(
-                (listing) => listing.id !== listingID
-            )
+            await deleteDoc(doc(db, 'favouriteListings', listingID))
+      
+            // Remove listing from listings state
+            const updatedListings = listings.filter(listing => listing.id !== listingID)
             setListings(updatedListings)
+      
+            // Remove listing from favouriteListings state
+            const updatedFavouriteListings = favouriteListings.filter(listing => listing.id !== listingID)
+            setFavouriteListings(updatedFavouriteListings)
+      
             toast.success('Ștergerea anunțului s-a efectuat cu succes')
+          } catch (error) {
+            
+          }
         }
-    }
+      }
+      
     function onEdit(listingID) {
         navigate(`/edit-listing/${listingID}`)
     }

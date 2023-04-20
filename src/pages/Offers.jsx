@@ -6,71 +6,169 @@ import Spinner from '../components/Spinner'
 import ListingItem from '../components/ListingItem'
 
 export default function Offers() {
-    const [listings, setListings] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [lastFetchListing, setLastFetchListing] = useState(null)
-    useEffect(() => {
-        async function fetchListings() {
-            try {
-                const listingRef = collection(db, 'listings')
-                const q = query(listingRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(8))
-                const querySnap = await getDocs(q)
-                const lastVisible = querySnap.docs[querySnap.docs.length - 1]
-                setLastFetchListing(lastVisible)
-                const listings = []
-                querySnap.forEach((doc) => {
-                    return listings.push({
-                        id: doc.id,
-                        data: doc.data(),
-                    })
-                })
-                setListings(listings)
-                setLoading(false)
-            } catch (error) {
-                toast.error('Nu s-a putut prelua anunțul')
-            }
-        }
-        fetchListings()
-    }, [])
-    async function onFetchMoreListings() {
-        try {
-            const listingRef = collection(db, 'listings')
-            const q = query(listingRef, where('offer', '==', true), orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
-            const querySnap = await getDocs(q)
-            const lastVisible = querySnap.docs[querySnap.docs.length - 1]
-            setLastFetchListing(lastVisible)
-            const listings = []
-            querySnap.forEach((doc) => {
-                return listings.push({
-                    id: doc.id,
-                    data: doc.data(),
-                })
-            })
-            setListings((prevState) => [...prevState, ...listings])
-            setLoading(false)
-        } catch (error) {
-            toast.error('Nu s-a putut prelua anunțul')
-        }
+  const [listings, setListings] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [lastFetchListing, setLastFetchListing] = useState(null)
+
+  useEffect(() => {
+    async function fetchListings() {
+      try {
+        const listingRef = collection(db, 'listings')
+        const q = query(listingRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(8))
+        const querySnap = await getDocs(q)
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+        setLastFetchListing(lastVisible)
+        const listings = []
+        querySnap.forEach((doc) => {
+          return listings.push({
+            id: doc.id,
+            data: doc.data(),
+          })
+        })
+        setListings(listings)
+        setLoading(false)
+      } catch (error) {
+        toast.error('Nu s-a putut prelua anunțul')
+      }
     }
-    return (
-        <div className='max-w-6xl mx-auto px-3'>
-            <h1 className='text-3xl text-center mt-6 font-bold'>Oferte</h1>
-            {loading ? (<Spinner />) : listings && listings.length > 0 ? (
-                <>
-                    <main>
-                        <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-6'>
-                            {listings.map((listing) => (
-                                <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
-                            ))}
-                        </ul>
-                    </main>
-                    {lastFetchListing && (
-                        <div className='flex justify-center items-center'>
-                            <button onClick={onFetchMoreListings} className='bg-white px-3 py-1.5 text-gray-700 border mb-6 mt-6 hover: border-slate-600 rounded transition duration-150 ease-in-out'>Afișează mai multe</button>
-                        </div>
-                    )}
-                </>
-            ) : (<p>Nu există oferte momentan</p>)}
+    fetchListings()
+  }, [])
+  const [type, setType] = useState('rent')
+  const [property, setProperty] = useState('apartment')
+  const [address, setAddress] = useState('')
+  async function onFetchMoreListings(type, property, address) {
+    try {
+      const listingRef = collection(db, 'listings');
+      let q = query(
+        listingRef,
+        where('type', '==', type),
+        where('property', '==', property),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchListing),
+        limit(4)
+      );
+      if (address) {
+        q = query(
+          listingRef,
+          where('type', '==', type),
+          where('property', '==', property),
+          where('address', '==', address),
+          orderBy('timestamp', 'desc'),
+          startAfter(lastFetchListing),
+          limit(4)
+        );
+      }
+      const querySnap = await getDocs(q);
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchListing(lastVisible);
+      const listings = [];
+      querySnap.forEach((doc) => {
+        return listings.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      setListings((prevState) => [...prevState, ...listings]);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Nu s-a putut prelua anunțul');
+    }
+  }
+
+  function handleTypeChange(event) {
+    setType(event.target.value)
+  }
+  function handlePropertyChange(event) {
+    setProperty(event.target.value)
+  }
+  function handleAddressChange(event) {
+    setAddress(event.target.value)
+  }
+  function handleSearchClick() {
+    setLoading(true);
+    async function fetchListings() {
+      try {
+        const listingRef = collection(db, 'listings');
+        let q = query(
+          listingRef,
+          where('type', '==', type),
+          where('property', '==', property),
+          orderBy('timestamp', 'desc'),
+          limit(8)
+        );
+        if (address) {
+          q = query(
+            listingRef,
+            where('type', '==', type),
+            where('property', '==', property),
+            where('address', '==', address),
+            orderBy('timestamp', 'desc'),
+            limit(8)
+          );
+        }
+        const querySnap = await getDocs(q);
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+        setLastFetchListing(lastVisible);
+        const listings = [];
+        querySnap.forEach((doc) => {
+          return listings.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        setListings(listings);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Nu s-a putut prelua anunțul');
+      }
+    }
+    fetchListings();
+  }
+  return (
+    <div className='justify-center items-center'>
+      <h1 className="text-3xl text-center mt-6 font-bold mb-5">Oferte</h1>
+      <div className="flex flex-wrap mx-auto my-auto">
+        <div className=" flex flex-col mt-2 ml-7 md:w-[67%] lg:w-[15%] lg:ml-30" id="pentruMine">
+          <select name="type" value={type} onChange={handleTypeChange} className="block w-full px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+            <option value="rent">De închiriat</option>
+            <option value="sale">De vânzare</option>
+          </select>
+          <select name="property" value={property} onChange={handlePropertyChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+            <option value="apartment">Apartament</option>
+            <option value="house">Casă</option>
+            <option value="land">Teren</option>
+          </select>
+          <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500" />
+          <button className="mt-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={handleSearchClick}>
+            Caută
+          </button>
         </div>
-    )
+        <div className="max-w-6xl  px-3" id="pentruAnunturi">
+          {loading ? (
+            <Spinner />
+          ) : listings && listings.length > 0 ? (
+            <>
+              <main>
+                <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5s mb-6">
+                  {listings.map((listing) => (
+                    <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
+                  ))}
+                </ul>
+              </main>
+              {lastFetchListing && (
+                <div className="flex justify-center items-center">
+                  <button className=" bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={() => onFetchMoreListings(type, property, address)}>
+                    Afișează mai multe
+                  </button>
+
+                </div>
+              )}
+            </>
+          ) : (
+            <p>Nu există anunțuri recente momentan</p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 }

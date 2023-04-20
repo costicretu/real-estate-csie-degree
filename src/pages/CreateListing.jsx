@@ -392,10 +392,10 @@ export default function CreateListing() {
                             <option value="extravilan">Extravilan</option>
                         </select>
                         <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
-                        <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='0'
+                        <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
                             className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
                         <p className='text-lg font-semibold mt-6' >Front stradal(m)</p>
-                        <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='0'
+                        <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='5'
                             className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
                     </div>
                 )}

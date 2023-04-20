@@ -18,6 +18,7 @@ import SignUpAgent from "./pages/SignUpAgent";
 import ProfileAgent from "./pages/ProfileAgent";
 import Property from "./pages/Property";
 import Offers from "./pages/Offers";
+import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-up-agent" element={<PrivateRoute />}>
+          <Route path="/sign-up-agent" element={<PrivateRouteAdmin />}>
             <Route path="/sign-up-agent" element={<SignUpAgent />} />
           </Route>
           <Route path="/profile" element={<PrivateRoute />}>

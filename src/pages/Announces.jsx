@@ -9,6 +9,7 @@ export default function Announces() {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [lastFetchListing, setLastFetchListing] = useState(null)
+
   useEffect(() => {
     async function fetchListings() {
       try {
@@ -35,26 +36,45 @@ export default function Announces() {
   const [type, setType] = useState('rent')
   const [property, setProperty] = useState('apartment')
   const [address, setAddress] = useState('')
-  async function onFetchMoreListings() {
+  async function onFetchMoreListings(type, property, address) {
     try {
-      const listingRef = collection(db, 'listings')
-      const q = query(listingRef, orderBy('timestamp', 'desc'), startAfter(lastFetchListing), limit(4))
-      const querySnap = await getDocs(q)
-      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
-      setLastFetchListing(lastVisible)
-      const listings = []
+      const listingRef = collection(db, 'listings');
+      let q = query(
+        listingRef,
+        where('type', '==', type),
+        where('property', '==', property),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchListing),
+        limit(4)
+      );
+      if (address) {
+        q = query(
+          listingRef,
+          where('type', '==', type),
+          where('property', '==', property),
+          where('address', '==', address),
+          orderBy('timestamp', 'desc'),
+          startAfter(lastFetchListing),
+          limit(4)
+        );
+      }
+      const querySnap = await getDocs(q);
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchListing(lastVisible);
+      const listings = [];
       querySnap.forEach((doc) => {
         return listings.push({
           id: doc.id,
           data: doc.data(),
-        })
-      })
-      setListings((prevState) => [...prevState, ...listings])
-      setLoading(false)
+        });
+      });
+      setListings((prevState) => [...prevState, ...listings]);
+      setLoading(false);
     } catch (error) {
-      toast.error('Nu s-a putut prelua anunțul')
+      toast.error('Nu s-a putut prelua anunțul');
     }
   }
+
   function handleTypeChange(event) {
     setType(event.target.value)
   }
@@ -124,7 +144,6 @@ export default function Announces() {
           </button>
         </div>
         <div className="max-w-6xl  px-3" id="pentruAnunturi">
-          
           {loading ? (
             <Spinner />
           ) : listings && listings.length > 0 ? (
@@ -138,9 +157,10 @@ export default function Announces() {
               </main>
               {lastFetchListing && (
                 <div className="flex justify-center items-center">
-                  <button onClick={onFetchMoreListings} className="bg-white px-3 py-1.5 text-gray-700 border mb-6 hover:border-slate-600 rounded transition duration-150 ease-in-out">
+                  <button className=" bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={() => onFetchMoreListings(type, property, address)}>
                     Afișează mai multe
                   </button>
+
                 </div>
               )}
             </>

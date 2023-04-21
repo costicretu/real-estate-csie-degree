@@ -4,6 +4,7 @@ import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'f
 import { db } from '../firebase'
 import Spinner from '../components/Spinner'
 import ListingItem from '../components/ListingItem'
+import { AiOutlineSearch } from 'react-icons/ai'
 
 export default function Announces() {
   const [listings, setListings] = useState(null)
@@ -41,6 +42,7 @@ export default function Announces() {
       const listingRef = collection(db, 'listings');
       let q = query(
         listingRef,
+        where('offer', '==', false),
         where('type', '==', type),
         where('property', '==', property),
         orderBy('timestamp', 'desc'),
@@ -50,6 +52,7 @@ export default function Announces() {
       if (address) {
         q = query(
           listingRef,
+          where('offer', '==', false),
           where('type', '==', type),
           where('property', '==', property),
           where('address', '==', address),
@@ -91,6 +94,7 @@ export default function Announces() {
         const listingRef = collection(db, 'listings');
         let q = query(
           listingRef,
+          where('offer', '==', false),
           where('type', '==', type),
           where('property', '==', property),
           orderBy('timestamp', 'desc'),
@@ -99,6 +103,7 @@ export default function Announces() {
         if (address) {
           q = query(
             listingRef,
+            where('offer', '==', false),
             where('type', '==', type),
             where('property', '==', property),
             where('address', '==', address),
@@ -127,20 +132,41 @@ export default function Announces() {
   return (
     <div className='justify-center items-center'>
       <h1 className="text-3xl text-center mt-6 font-bold mb-5">Anunțuri</h1>
-      <div className="flex flex-wrap mx-auto my-auto">
+      <div className="flex flex-wrap mx-auto my-auto ">
         <div className=" flex flex-col mt-2 ml-7 md:w-[67%] lg:w-[15%] lg:ml-30" id="pentruMine">
-          <select name="type" value={type} onChange={handleTypeChange} className="block w-full px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
-            <option value="rent">De închiriat</option>
-            <option value="sale">De vânzare</option>
-          </select>
+          <div className="flex items-center justify-center">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="type"
+                value="rent"
+                checked={type === "rent"}
+                onChange={handleTypeChange}
+                className="mr-2"
+              />
+              De închiriat
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="sale"
+                checked={type === "sale"}
+                onChange={handleTypeChange}
+                className="mr-2"
+              />
+              De vânzare
+            </label>
+          </div>
           <select name="property" value={property} onChange={handlePropertyChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
             <option value="apartment">Apartament</option>
             <option value="house">Casă</option>
             <option value="land">Teren</option>
           </select>
           <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500" />
-          <button className="mt-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={handleSearchClick}>
+          <button className="relative mt-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded" onClick={handleSearchClick}>
             Caută
+            <AiOutlineSearch className='absolute right-3 top-1/2 transform -translate-y-1/2 text-xl cursor-pointer' />
           </button>
         </div>
         <div className="max-w-6xl  px-3" id="pentruAnunturi">

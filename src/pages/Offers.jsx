@@ -41,6 +41,7 @@ export default function Offers() {
       const listingRef = collection(db, 'listings');
       let q = query(
         listingRef,
+        where('offer', '==', true),
         where('type', '==', type),
         where('property', '==', property),
         orderBy('timestamp', 'desc'),
@@ -50,6 +51,7 @@ export default function Offers() {
       if (address) {
         q = query(
           listingRef,
+          where('offer', '==', true),
           where('type', '==', type),
           where('property', '==', property),
           where('address', '==', address),
@@ -91,6 +93,7 @@ export default function Offers() {
         const listingRef = collection(db, 'listings');
         let q = query(
           listingRef,
+          where('offer', '==', true),
           where('type', '==', type),
           where('property', '==', property),
           orderBy('timestamp', 'desc'),
@@ -99,6 +102,7 @@ export default function Offers() {
         if (address) {
           q = query(
             listingRef,
+            where('offer', '==', true),
             where('type', '==', type),
             where('property', '==', property),
             where('address', '==', address),
@@ -129,10 +133,30 @@ export default function Offers() {
       <h1 className="text-3xl text-center mt-6 font-bold mb-5">Oferte</h1>
       <div className="flex flex-wrap mx-auto my-auto">
         <div className=" flex flex-col mt-2 ml-7 md:w-[67%] lg:w-[15%] lg:ml-30" id="pentruMine">
-          <select name="type" value={type} onChange={handleTypeChange} className="block w-full px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
-            <option value="rent">De închiriat</option>
-            <option value="sale">De vânzare</option>
-          </select>
+        <div className="flex items-center justify-center">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="type"
+                value="rent"
+                checked={type === "rent"}
+                onChange={handleTypeChange}
+                className="mr-2"
+              />
+              De închiriat
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="sale"
+                checked={type === "sale"}
+                onChange={handleTypeChange}
+                className="mr-2"
+              />
+              De vânzare
+            </label>
+          </div>
           <select name="property" value={property} onChange={handlePropertyChange} className="block w-full mt-4 px-4 py-2 rounded-md bg-gray-100 border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
             <option value="apartment">Apartament</option>
             <option value="house">Casă</option>

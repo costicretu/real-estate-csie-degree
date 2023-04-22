@@ -132,79 +132,80 @@ export default function Announces() {
   }
   return (
     <div>
-      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-red-500 rounded-lg">Anunțuri</h1>
-      <div className='max-w-6xl mx-2 px-3'>
-        <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-[30%] lg:w-[30%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg" id="pentruMine">
-            <div className=' bg-red-500 text-gray-100 rounded-lg flex items-center px-1 mt-1  my-4  after:border-t after:flex-1 after:border-gray-100'>
-              <AiOutlineSearch className='px-0.5 text-4xl' />
+      
+        <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-red-500 rounded-lg shadow-lg">Anunțuri</h1>
+        <div className='max-w-6xl mx-2 px-3'>
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-[30%] lg:w-[30%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg" id="pentruMine">
+              <div className=' bg-red-500 text-gray-100 rounded-lg flex items-center px-1 mt-1  my-4  after:border-t after:flex-1 after:border-gray-100'>
+                <AiOutlineSearch className='px-0.5 text-4xl' />
+              </div>
+              <div className="flex items-center justify-center px-1 py-1 mt-6 text-gray-100">
+                <label className='mr-3 text-4xl'>
+                  <BsFillBuildingFill className='bg-red-500 rounded px-1' />
+                </label>
+                <label className="mr-3 text-md font-medium text-gray-100 ">
+                  <input
+                    type="radio"
+                    name="type"
+                    value="rent"
+                    checked={type === "rent"}
+                    onChange={handleTypeChange}
+                    className="mr-1 transition ease-in-out text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                  Închiriere
+                </label>
+                <label className='text-md font-medium text-gray-100 '>
+                  <input
+                    type="radio"
+                    name="type"
+                    value="sale"
+                    checked={type === "sale"}
+                    onChange={handleTypeChange}
+                    className="mr-1 transition ease-in-out text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                  Vânzare
+                </label>
+              </div>
+              <select name="property" value={property} onChange={handlePropertyChange} className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md   focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">
+                <option value="apartment" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" >Apartament</option>
+                <option value="house" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md  focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Casă</option>
+                <option value="land" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Teren</option>
+              </select>
+              <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="text-md transition ease-in-out font-medium block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
+              <div className="flex justify-center mt-6">
+                <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out font-medium " onClick={handleSearchClick}>
+                  Caută acum
+                </button>
+              </div>
             </div>
-            <div className="flex items-center justify-center px-1 py-1 mt-6 text-gray-100">
-              <label className='mr-3 text-4xl'>
-                <BsFillBuildingFill className='bg-red-500 rounded px-1' />
-              </label>
-              <label className="mr-3 text-md font-medium text-gray-100 ">
-                <input
-                  type="radio"
-                  name="type"
-                  value="rent"
-                  checked={type === "rent"}
-                  onChange={handleTypeChange}
-                  className="mr-1 transition ease-in-out "
-                />
-                Închiriere
-              </label>
-              <label className='text-md font-medium text-gray-100 '>
-                <input
-                  type="radio"
-                  name="type"
-                  value="sale"
-                  checked={type === "sale"}
-                  onChange={handleTypeChange}
-                  className="mr-1 transition ease-in-out  "
-                />
-                Vânzare
-              </label>
-            </div>
-            <select name="property" value={property} onChange={handlePropertyChange} className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md   focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">
-              <option value="apartment" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" >Apartament</option>
-              <option value="house" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md  focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Casă</option>
-              <option value="land" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Teren</option>
-            </select>
-            <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="text-md transition ease-in-out font-medium block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
-            <div className="flex justify-center mt-6">
-              <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150 font-medium " onClick={handleSearchClick}>
-                Caută acum
-              </button>
-            </div>
-          </div>
-          <div className="w-full md:flex-2 md:w-[100%] lg:w-[100%]" id="pentruAnunturi">
-            {loading ? (
-              <Spinner />
-            ) : listings && listings.length > 0 ? (
-              <>
-                <main>
-                  <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
-                    {listings.map((listing) => (
-                      <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
-                    ))}
-                  </ul>
-                </main>
+            <div className="w-full md:flex-2 md:w-[100%] lg:w-[100%]" id="pentruAnunturi">
+              {loading ? (
+                <Spinner />
+              ) : listings && listings.length > 0 ? (
+                <>
+                  <main>
+                    <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+                      {listings.map((listing) => (
+                        <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
+                      ))}
+                    </ul>
+                  </main>
 
-              </>
-            ) : (
-              <p className='text-2xl font-normal'>Nu există anunțuri momentan</p>
-            )}
+                </>
+              ) : (
+                <p className='text-2xl font-normal'>Nu există anunțuri momentan</p>
+              )}
+            </div>
           </div>
         </div>
+        {lastFetchListing && (
+          <div className="flex justify-center items-center">
+            <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out" onClick={() => onFetchMoreListings(type, property, address)}>
+              Afișează mai multe
+            </button>
+          </div>
+        )}
       </div>
-      {lastFetchListing && (
-        <div className="flex justify-center items-center">
-          <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150" onClick={() => onFetchMoreListings(type, property, address)}>
-            Afișează mai multe
-          </button>
-        </div>
-      )}
-    </div>
-  )
+      )
 }

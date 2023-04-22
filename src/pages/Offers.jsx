@@ -132,7 +132,7 @@ export default function Offers() {
   }
   return (
     <div>
-      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-red-500 rounded-lg">Oferte</h1>
+      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-red-500 rounded-lg shadow-lg">Oferte</h1>
       <div className='max-w-6xl mx-2 px-3'>
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-[30%] lg:w-[30%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg" id="pentruMine">
@@ -150,7 +150,7 @@ export default function Offers() {
                   value="rent"
                   checked={type === "rent"}
                   onChange={handleTypeChange}
-                  className="mr-1 transition ease-in-out "
+                  className="mr-1 transition ease-in-out text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 Închiriere
               </label>
@@ -161,7 +161,7 @@ export default function Offers() {
                   value="sale"
                   checked={type === "sale"}
                   onChange={handleTypeChange}
-                  className="mr-1 transition ease-in-out  "
+                  className="mr-1 transition ease-in-out text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 Vânzare
               </label>
@@ -173,7 +173,7 @@ export default function Offers() {
             </select>
             <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="text-md transition ease-in-out font-medium block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
             <div className="flex justify-center mt-6">
-              <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150 font-medium " onClick={handleSearchClick}>
+              <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out font-medium " onClick={handleSearchClick}>
                 Caută acum
               </button>
             </div>
@@ -200,7 +200,7 @@ export default function Offers() {
       </div>
       {lastFetchListing && (
         <div className="flex justify-center items-center">
-          <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150" onClick={() => onFetchMoreListings(type, property, address)}>
+          <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out " onClick={() => onFetchMoreListings(type, property, address)}>
             Afișează mai multe
           </button>
         </div>

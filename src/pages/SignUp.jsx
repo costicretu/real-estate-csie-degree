@@ -48,7 +48,7 @@ export default function SignUp() {
   }
   return (
     <section>
-      <h1 className='text-3xl text-center mt-6 font-bold'>Înregistrează-te</h1>
+      <h1 className='text-3xl text-center mt-6 font-bold'>Creare cont</h1>
       <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto'>
         <div className='md:w-[67%] lg:w-[50%] mb-12 md:mb-6'>
           <img src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=773&q=80" alt="key" className='w-full rounded-2xl' />
@@ -69,7 +69,7 @@ export default function SignUp() {
             </div>
             <div className='flex justify-between whitespace-nowrap text-sm:text-lg'>
               <p className='mb-6'>Ai deja un cont?
-                <Link to='/sign-in' className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Conectează-te</Link>
+                <Link to='/sign-in' className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Continuă</Link>
               </p>
               <p>
                 <Link to='/forgot-password' className='text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out'>Ai uitat parola?</Link>

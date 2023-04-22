@@ -146,9 +146,9 @@ export default function SignIn() {
   }
   return (
     <section>
-      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-10 bg-red-500 rounded-lg shadow-lg">Intră în cont</h1>
-      <div className="justify-center items-center max-w-md bg-slate-500 rounded-md mx-auto px-10 py-10 shadow-lg" id='pentruCont'>
-        <div className="mx-auto px-3">
+      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-5 bg-red-500 rounded-lg shadow-lg">Intră în cont</h1>
+      <div className="justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg" id='pentruCont'>
+        <div className="mx-auto px-3 ">
           <div className="flex text-center items-center justify-center rounded-sm py-1">
             <label for="forAgent" className=" text-gray-100 text-xl mr-2">Sunt agent RE/CSIE</label>
             <input onChange={(e) => setIsForAgent(e.target.checked)} type="checkbox" name="forAgent" id="forAgent"
@@ -157,11 +157,11 @@ export default function SignIn() {
           {!isForAgent && (
             <form onSubmit={onSubmit}>
               <div className="relative mb-6 mt-6">
-                <input type="email" id="email" value={email} onChange={onChange} placeholder="Email" className="w-full px-4 py-2 text-xl bg-gray-100 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type="email" id="email" value={email} onChange={onChange} placeholder="Email" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 <MdAccountCircle className="absolute right-3 top-2 text-3xl" />
               </div>
               <div className="relative mb-6">
-                <input type={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 {showPassword ? (<AiFillEyeInvisible className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)
                   : (<AiFillEye className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)}
               </div>
@@ -180,42 +180,49 @@ export default function SignIn() {
           {isForAgent && (
             <form onSubmit={onSubmitAgent}>
               <div className="relative">
-                <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email" className="mt-6 mb-6 w-full px-4 py-2 text-xl bg-gray-100 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email" className="mt-6 mb-6 w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 <MdAccountCircle className="absolute right-3 top-8 text-3xl" />
               </div>
               <div className="relative mb-6">
-                <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 {showPassword ? (<AiFillEyeInvisible className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)
                   : (<AiFillEye className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)}
               </div>
               {showCode && (
                 <div>
-                  <input type="text" id="code" onChange={onChange} placeholder="Codul tău" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <input type="text" id="code" onChange={onChange} placeholder="Codul tău" className='mb-3 w-full px-4 py-2 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                 </div>
               )}
               {showQuestions && (
                 <div>
-                  <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                    <option value="Ce nume are câinele tău ?">Ce nume are câinele tău?</option>
-                    <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
-                    <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
-                  </select>
-                  <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns la prima întrebare" value={answer1} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
-                  <select value={question2} onChange={onChange} name="question2" id="question2" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                    <option value="Unde locuiești ?">Unde locuiești ?</option>
-                    <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
-                    <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
-                  </select>
-                  <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns la a doua întrebare" value={answer2} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
-                  <select value={question3} onChange={onChange} name="question3" id="question3" className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-                    <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
-                    <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
-                    <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
-                  </select>
-                  <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns la a treia întrebare" value={answer3} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' />
+                  <h3 className="text-center text-gray-100 text-xl mb-2">Răspunde la următoarele întrebări:</h3>
+                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                    <select value={question1} onChange={onChange} name="question1" id="question1" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                      <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
+                      <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
+                      <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
+                    </select>
+                    <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns" value={answer1} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  </div>
+                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                    <select value={question2} onChange={onChange} name="question2" id="question2" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                      <option value="Unde locuiești ?">Unde locuiești ?</option>
+                      <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
+                      <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
+                    </select>
+                    <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns" value={answer2} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  </div>
+                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                    <select value={question3} onChange={onChange} name="question3" id="question3" className='w-[450px] text-xl text-gray-700 bg-gray-100 border border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                      <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
+                      <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
+                      <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
+                    </select>
+                    <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns" value={answer3} className='mt-0.5  text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  </div>
                 </div>
               )}
-              <button className="w-full  bg-red-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
+              <button className="w-full bg-red-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
             </form>
           )}
         </div>

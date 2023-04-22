@@ -166,13 +166,13 @@ export default function Offers() {
                 Vânzare
               </label>
             </div>
-            <select name="property" value={property} onChange={handlePropertyChange} className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md   focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">
-              <option value="apartment" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" >Apartament</option>
-              <option value="house" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md  focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Casă</option>
-              <option value="land" className="text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Teren</option>
+            <select name="property" value={property} onChange={handlePropertyChange} className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md   focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">
+              <option value="apartment" className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" >Apartament</option>
+              <option value="house" className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md  focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Casă</option>
+              <option value="land" className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Teren</option>
             </select>
-            <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="text-md transition ease-in-out font-medium block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
-            <div className="flex justify-center mt-6">
+            <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="bg-gray-100 text-lg transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
+            <div className="flex justify-center mt-4">
               <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out font-medium " onClick={handleSearchClick}>
                 Caută acum
               </button>
@@ -200,7 +200,7 @@ export default function Offers() {
       </div>
       {lastFetchListing && (
         <div className="flex justify-center items-center">
-          <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out " onClick={() => onFetchMoreListings(type, property, address)}>
+          <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out font-medium" onClick={() => onFetchMoreListings(type, property, address)}>
             Afișează mai multe
           </button>
         </div>

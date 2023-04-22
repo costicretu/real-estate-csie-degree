@@ -47,9 +47,9 @@ export default function Home() {
               </div>
               <div className='flex items-center justify-center text-xl font-thin'>
                 <Link to='/offers'>
-                  <p className='px-3 py-2 text-blue-500 hover:text-blue-800 transition  flex items-center active:scale-110 transition-scale  ease-in-out'>
+                  <p className='px-3 py-1 bg-gray-300 rounded-md mr-1  text-blue-500 hover:text-blue-700 transition font-semibold  flex items-center active:scale-110 transition-scale  ease-in-out'>
                     Mai multe oferte?
-                    <BsBoxArrowUpRight className='inline-block ml-1' />
+                    <BsBoxArrowUpRight className='inline-block ml-2 text-2xl' />
                   </p>
                 </Link>
               </div>

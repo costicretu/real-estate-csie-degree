@@ -7,7 +7,7 @@ import { useAuthStatusAgent } from '../hooks/useAuthStatusAgent'
 import logo from '../assets/logo-no-background.png';
 
 export default function Header() {
-  const [pageState, setPageState] = useState('Conectează-te')
+  const [pageState, setPageState] = useState('Cont')
   const location = useLocation()
   const navigate = useNavigate()
   const auth = getAuth()
@@ -45,7 +45,7 @@ export default function Header() {
     <div className="bg-slate-500 shadow-md sticky top-0 z-50">
       <header className="flex justify-between items-center  max-w-7xl mx-auto">
         <div>
-        <img src={logo} alt="logo" className="h-28 py-2.5 cursor-pointer active:scale-105 transition-scale duration-200 ease-in-out" onClick={() => navigate("/")}/>
+        <img src={logo} alt="logo" className="h-20 py-1 cursor-pointer active:scale-105 transition-scale duration-200 ease-in-out" onClick={() => navigate("/")}/>
         </div>
         <div>
           <ul className="flex space-x-5">

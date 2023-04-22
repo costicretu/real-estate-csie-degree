@@ -5,6 +5,7 @@ import { db } from '../firebase'
 import { Link } from 'react-router-dom'
 import ListingItem from '../components/ListingItem'
 import Spinner from '../components/Spinner'
+import { BsBoxArrowUpRight } from 'react-icons/bs'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -32,26 +33,35 @@ export default function Home() {
   }, [])
   return (
     <div className='relative'>
-    <div className='absolute top-0 left-0 z-10'>
-      <Slider />
+      <div className='absolute top-0 left-0 z-10'>
+        <Slider />
+      </div>
+      <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
+        {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
+          <div>
+            <div className='flex bg-red-500 rounded-lg'>
+              <div className='flex-1 flex'>
+                <h2 className='py-2 px-3 text-2xl font-semibold text-gray-100 rounded-full shadow-2xl'>
+                  Cele mai recente oferte
+                </h2>
+              </div>
+              <div className='flex items-center justify-center text-xl font-thin'>
+                <Link to='/offers'>
+                  <p className='px-3 py-2 text-blue-500 hover:text-blue-800 transition  flex items-center active:scale-110 transition-scale  ease-in-out'>
+                    Mai multe oferte?
+                    <BsBoxArrowUpRight className='inline-block ml-1' />
+                  </p>
+                </Link>
+              </div>
+            </div>
+            <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+              {offerListing.map((listing) => (
+                <ListingItem key={listing.id} listing={listing.data} id={listing.id} />
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
-    <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
-      {loading ? (<Spinner />) : offerListing && offerListing.length > 0 ? (
-        <div className=''>
-          <h2 className='px-3 text-2xl mt-6 font-bold '>Cele mai recente oferte</h2>
-          <Link to='/offers'>
-            <p className='px-3 text-1xl text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out'>
-              Arată mai multe oferte
-            </p>
-          </Link>
-          <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {offerListing.map((listing) => (
-              <ListingItem key={listing.id} listing={listing.data} id={listing.id} />
-            ))}
-          </ul>
-        </div>
-      ) : (<p>Nu există oferte recente momentan</p>)}
-    </div>
-  </div>
   )
 }

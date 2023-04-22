@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore'
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import Spinner from '../components/Spinner'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -15,7 +15,7 @@ export default function Slider() {
     useEffect(() => {
         async function fetchListings() {
             const listingsRef = collection(db, 'listings')
-            const q = query(listingsRef, orderBy('timestamp', 'desc'), limit(5))
+            const q = query(listingsRef, where('offer', '==', true) ,orderBy('timestamp', 'desc'), limit(5))
             const querySnap = await getDocs(q)
             let listings = []
             querySnap.forEach((doc) => {

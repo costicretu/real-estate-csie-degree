@@ -196,7 +196,7 @@ export default function SignIn() {
               {showQuestions && (
                 <div>
                   <h3 className="text-center text-gray-100 text-xl mb-2">Răspunde la următoarele întrebări:</h3>
-                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question1} onChange={onChange} name="question1" id="question1" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
                       <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
@@ -204,7 +204,7 @@ export default function SignIn() {
                     </select>
                     <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns" value={answer1} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                   </div>
-                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question2} onChange={onChange} name="question2" id="question2" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Unde locuiești ?">Unde locuiești ?</option>
                       <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
@@ -212,7 +212,7 @@ export default function SignIn() {
                     </select>
                     <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns" value={answer2} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                   </div>
-                  <div className="bg-blue-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question3} onChange={onChange} name="question3" id="question3" className='w-[450px] text-xl text-gray-700 bg-gray-100 border border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
                       <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
-import { Link } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { db } from '../firebase'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
@@ -69,11 +68,6 @@ export default function SignUp() {
                 <AiFillEye className='absolute right-3 top-2 text-3xl cursor-pointer'
                   onClick={() => setShowPassword((prevState) => !prevState)} />
               )}
-            </div>
-            <div class="flex justify-between mb-3 items-center">
-              <Link to="/sign-in" class="bg-gray-300 rounded-md px-3 py-1 text-sm sm:text-lg font-medium text-red-600 hover:text-red-800 transition duration-200 ease-in-out">Ai deja un cont?</Link>
-              <p class="flex-grow"></p>
-              <Link to="/forgot-password" class="bg-gray-300 rounded-md px-3 py-1 text-sm sm:text-lg font-medium text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out">Ai greșit parola?</Link>
             </div>
             <div className='text-center'>
               <button className='items-center text-center bg-red-600 text-gray-100 px-10 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800' type='submit'>Continuă</button>

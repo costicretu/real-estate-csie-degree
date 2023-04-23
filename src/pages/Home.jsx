@@ -39,7 +39,7 @@ export default function Home() {
       <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
           <div>
-            <div className='flex bg-red-500 rounded-lg'>
+            <div className='flex bg-slate-500 rounded-lg'>
               <div className='flex-1 flex'>
                 <h2 className='py-2 px-3 text-2xl font-semibold text-gray-100 rounded-full shadow-2xl'>
                   Cele mai recente oferte
@@ -47,7 +47,7 @@ export default function Home() {
               </div>
               <div className='flex items-center justify-center text-xl font-thin'>
                 <Link to='/offers'>
-                  <p className='px-3 py-1 bg-gray-300 rounded-md mr-1  text-blue-500 hover:text-blue-700 transition font-semibold  flex items-center active:scale-110 transition-scale  ease-in-out'>
+                  <p className='px-3 py-1 bg-gray-300 rounded-md mr-1  text-blue-500 hover:text-blue-700 transition font-semibold  flex items-center'>
                     Mai multe oferte?
                     <BsBoxArrowUpRight className='inline-block ml-2 text-2xl' />
                   </p>

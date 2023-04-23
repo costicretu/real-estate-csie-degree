@@ -29,9 +29,9 @@ export default function OAuth() {
     }
   }
   return (
-    <div className='relative'>
-      <button type='button' onClick={onGoogleClick} className='flex w-full justify-center items-center bg-gray-300 text-gray-900 px-7 py-3 uppercase text-sm font-medium hover:bg-gray-400 active:bg-gray-500 shadow-md hover:shadow-lg active:shadow-lg transition duration-150 ease-in-out rounded-lg'>
-        <FcGoogle className='text-2xl bg-white rounded-full absolute left-2 top-2.5' />Continuă cu Google
+    <div className='relative mb-3'>
+      <button type='button' onClick={onGoogleClick} className='items-center text-center bg-gray-300 text-gray-900  w-full px-10 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-gray-400 transition duration-150 ease-in-out hover:shadow-lg active:bg-gray-500'>
+        <FcGoogle className='text-2xl bg-white rounded-full absolute left-3 top-2.5' />Continuă cu Google
       </button>
     </div>
 

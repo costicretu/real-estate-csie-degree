@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { MdAccountCircle } from 'react-icons/md'
+import { MdMail } from 'react-icons/md'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -90,7 +90,6 @@ export default function SignIn() {
       toast.error("Acreditări de utilizator neutilizabile");
     }
   }
-
   async function onSubmitAgent(e) {
     e.preventDefault();
     const agentsCollection = collection(db, 'agents');
@@ -146,7 +145,7 @@ export default function SignIn() {
   }
   return (
     <section>
-      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-5 bg-red-500 rounded-lg shadow-lg">Intră în cont</h1>
+      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg">Intră în cont</h1>
       <div className="justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg" id='pentruCont'>
         <div className="mx-auto px-3 ">
           <div className="flex text-center items-center justify-center rounded-sm py-1">
@@ -158,7 +157,7 @@ export default function SignIn() {
             <form onSubmit={onSubmit}>
               <div className="relative mb-6 mt-6">
                 <input type="email" id="email" value={email} onChange={onChange} placeholder="Email" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
-                <MdAccountCircle className="absolute right-3 top-2 text-3xl" />
+                <MdMail className="absolute right-3 top-2 text-3xl" />
               </div>
               <div className="relative mb-6">
                 <input type={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
@@ -166,22 +165,26 @@ export default function SignIn() {
                   : (<AiFillEye className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)}
               </div>
               <div class="flex justify-between mb-3 items-center">
-                <Link to="/sign-up" class="bg-gray-300 rounded-md px-3 py-1 text-sm sm:text-lg font-medium text-red-500 hover:text-red-700 transition duration-200 ease-in-out">Nu ai cont?</Link>
+                <Link to="/sign-up" class="bg-gray-300 rounded-md px-2 py-1 text-sm sm:text-lg font-medium text-red-600 hover:text-red-800 transition duration-200 ease-in-out">Nu ai încă cont?</Link>
                 <p class="flex-grow"></p>
-                <Link to="/forgot-password" class="bg-gray-300 rounded-md px-3 py-1 text-sm sm:text-lg font-medium text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out">Ai uitat parola?</Link>
+                <Link to="/forgot-password" class="bg-gray-300 rounded-md px-2 py-1 text-sm sm:text-lg font-medium text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out">Ai greșit parola?</Link>
               </div>
-              <button className="w-full  bg-red-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
+              <div className="text-center">
+                <button className="items-center text-center bg-red-600 text-gray-100 px-10 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
+              </div>
               <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
                 <p className="text-center font-semibold mx-4">SAU</p>
               </div>
-              <OAuth />
+              <div className="text-center">
+                <OAuth />
+              </div>
             </form>
           )}
           {isForAgent && (
             <form onSubmit={onSubmitAgent}>
               <div className="relative">
                 <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email" className="mt-6 mb-6 w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
-                <MdAccountCircle className="absolute right-3 top-8 text-3xl" />
+                <MdMail className="absolute right-3 top-8 text-3xl" />
               </div>
               <div className="relative mb-6">
                 <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
@@ -190,13 +193,13 @@ export default function SignIn() {
               </div>
               {showCode && (
                 <div>
-                  <input type="text" id="code" onChange={onChange} placeholder="Codul tău" className='mb-3 w-full px-4 py-2 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  <input type="text" id="code" onChange={onChange} placeholder="Cod autentificare" className='mb-3 w-full px-4 py-2 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                 </div>
               )}
               {showQuestions && (
                 <div>
-                  <h3 className="text-center text-gray-100 text-xl mb-2">Răspunde la următoarele întrebări:</h3>
-                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <h3 className="text-center text-gray-100 text-xl mb-2">Alege și răspunde la următoarele întrebări:</h3>
+                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question1} onChange={onChange} name="question1" id="question1" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
                       <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
@@ -204,7 +207,7 @@ export default function SignIn() {
                     </select>
                     <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns" value={answer1} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                   </div>
-                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question2} onChange={onChange} name="question2" id="question2" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Unde locuiești ?">Unde locuiești ?</option>
                       <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
@@ -212,7 +215,7 @@ export default function SignIn() {
                     </select>
                     <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns" value={answer2} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                   </div>
-                  <div className="bg-blue-800 px-3 py-2 mb-3 rounded-md shadow-lg ">
+                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
                     <select value={question3} onChange={onChange} name="question3" id="question3" className='w-[450px] text-xl text-gray-700 bg-gray-100 border border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                       <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
                       <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
@@ -222,7 +225,9 @@ export default function SignIn() {
                   </div>
                 </div>
               )}
-              <button className="w-full bg-red-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
+              <div className="text-center">
+                <button className="items-center text-center bg-red-600 text-gray-100 px-10 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-red-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-800" type="submit">Continuă</button>
+              </div>
             </form>
           )}
         </div>

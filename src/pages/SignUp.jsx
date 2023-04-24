@@ -13,6 +13,7 @@ export default function SignUp() {
     name: "",
     email: "",
     password: "",
+    phone:0,
   });
   const { name, email, password } = formData;
   const navigate = useNavigate()
@@ -52,7 +53,7 @@ export default function SignUp() {
         <div className='mx-auto px-3'>
           <form onSubmit={onSubmit}>
             <div className='relative mb-6'>
-              <input type="text" id="name" value={name} onChange={onChange} placeholder="Nume-prenume" className='w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+              <input type="text" id="name" value={name} onChange={onChange} placeholder="Nume și prenume" className='w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
               <MdAccountCircle className="absolute right-3 top-2 text-3xl" />
             </div>
             <div className='relative mb-6'>

@@ -132,7 +132,7 @@ export default function Announces() {
   }
   return (
     <div>
-        <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg">Anunțuri</h1>
+        <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg">Anunțuri</h1>
         <div className='mx-2 px-3'>
           <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-[35%] lg:w-[15%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full " id="pentruMine">

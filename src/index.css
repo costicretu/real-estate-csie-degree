@@ -16,11 +16,11 @@ body {
 }
 
 /*remove scrollbar for chrome*/
-html::-webkit-scrollbar {
+/* html::-webkit-scrollbar {
     display: none;
-}
+} */
 
 /*remove scrollbar for chrome + firefox*/
-html {
+/* html {
     scrollbar-width: none;
-}
+} */

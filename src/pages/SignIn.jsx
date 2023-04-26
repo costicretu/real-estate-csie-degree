@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { MdMail } from 'react-icons/md'
+import { MdMail, MdQuestionAnswer } from 'react-icons/md'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -145,7 +145,7 @@ export default function SignIn() {
   }
   return (
     <section>
-      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg">Intră în cont</h1>
+      <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg">Intră în cont</h1>
       <div className="justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg" id='pentruCont'>
         <div className="mx-auto px-3 ">
           <div className="flex text-center items-center justify-center rounded-sm py-1">
@@ -199,29 +199,47 @@ export default function SignIn() {
               {showQuestions && (
                 <div>
                   <h3 className="text-center text-gray-100 text-xl mb-2">Alege și răspunde la următoarele întrebări:</h3>
-                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
-                    <select value={question1} onChange={onChange} name="question1" id="question1" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
-                      <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
-                      <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
-                      <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
-                    </select>
-                    <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns" value={answer1} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  <div className="bg-gray-700 px-0.5 py-2 mb-3 rounded-md shadow-lg ">
+                    <div className='relative mb-1 '>
+                      <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                      <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 1</h3>
+                    </div>
+                    <div className='px-2 py-1'>
+                      <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                        <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
+                        <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
+                        <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
+                      </select>
+                      <input type="text" id="answer1" onChange={onChange} placeholder="Răspuns" value={answer1} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                    </div>
                   </div>
-                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
-                    <select value={question2} onChange={onChange} name="question2" id="question2" className='w-[450px] text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
-                      <option value="Unde locuiești ?">Unde locuiești ?</option>
-                      <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
-                      <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
-                    </select>
-                    <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns" value={answer2} className='mt-0.5 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  <div className="bg-gray-700 px-0.5 py-2 mb-3 rounded-md shadow-lg ">
+                    <div className='relative mb-1 '>
+                      <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                      <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 2</h3>
+                    </div>
+                    <div className='px-2 py-1'>
+                      <select value={question2} onChange={onChange} name="question2" id="question2" className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                        <option value="Unde locuiești ?">Unde locuiești ?</option>
+                        <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
+                        <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
+                      </select>
+                      <input type="text" id="answer2" onChange={onChange} placeholder="Răspuns" value={answer2} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                    </div>
                   </div>
-                  <div className="bg-gray-700 px-3 py-2 mb-3 rounded-md shadow-lg ">
-                    <select value={question3} onChange={onChange} name="question3" id="question3" className='w-[450px] text-xl text-gray-700 bg-gray-100 border border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
-                      <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
-                      <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
-                      <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
-                    </select>
-                    <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns" value={answer3} className='mt-0.5  text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                  <div className="bg-gray-700 px-0.5 py-2 mb-3 rounded-md shadow-lg ">
+                    <div className='relative mb-1 '>
+                      <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                      <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 3</h3>
+                    </div>
+                    <div className='px-2 py-1'>
+                      <select value={question3} onChange={onChange} name="question3" id="question3" className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
+                        <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
+                        <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
+                        <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
+                      </select>
+                      <input type="text" id="answer3" onChange={onChange} placeholder="Răspuns" value={answer3} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                    </div>
                   </div>
                 </div>
               )}

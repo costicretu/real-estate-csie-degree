@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
-import { getAuth, createUserWithEmailAndPassword, updateProfile, updatePhoneNumber } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { db } from '../firebase'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ export default function SignUp() {
     password: "",
     phone: 0,
   });
-  const { name, email, password, phone } = formData;
+  const { name, email, password } = formData;
   const navigate = useNavigate()
   function onChange(e) {
     setFormData((prevState) => ({
@@ -34,7 +34,6 @@ export default function SignUp() {
         updateProfile(auth.currentUser, {
           displayName: name
         })
-        await updatePhoneNumber(auth.currentUser, phone); // replace with your desired phone number
         const user = userCredential.user
         const formDataCopy = { ...formData }
         delete formDataCopy.password
@@ -45,11 +44,10 @@ export default function SignUp() {
         toast.error('Înregistrarea nu a funcționat')
       }
     }
-
   }
   return (
     <section>
-      <h1 className='text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg'>Creare cont</h1>
+      <h1 className='text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg'>Creare cont</h1>
       <div className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg'>
         <div className='mx-auto px-3'>
           <form onSubmit={onSubmit}>

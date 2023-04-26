@@ -95,10 +95,9 @@ export default function Profile() {
   return (
     <>
       <section>
-        <h1 className='text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg'>Profilul meu</h1>
-        <div className='mx-2 px-3'>
+        <div className='mx-2 px-3 py-2'>
           <div className='flex flex-col md:flex-row'>
-            <div className="w-full md:w-[60%] lg:w-[23%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full overflow-y-auto" style={{ height: "395px" }}>
+            <div className="w-full md:w-[60%] lg:w-[20%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full " style={{ height: "395px" }}>
               <form>
                 <div className='w-full px-5 py-2'>
                   <div className='flex justify-center'>
@@ -127,7 +126,7 @@ export default function Profile() {
                     </div>
                     {agents.map(agent => (
                       <div key={agent.id}>
-                        <input type="text" value={agent.phone} disabled={!changeDetail}
+                        <input type="tel" value={agent.phone} disabled={!changeDetail}
                           className={'w-full mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500 '}
                           onChange={e => {
                             const newAgents = [...agents]

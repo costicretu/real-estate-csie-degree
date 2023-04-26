@@ -7,6 +7,8 @@ import { db } from '../firebase'
 import { FcHome } from 'react-icons/fc'
 import { Link } from 'react-router-dom'
 import ListingItem from '../components/ListingItem'
+import { MdAccountCircle, MdMail, MdQuestionAnswer } from 'react-icons/md'
+import { AiFillPhone } from 'react-icons/ai'
 
 export default function ProfileAgent() {
     const auth = getAuth()
@@ -41,11 +43,11 @@ export default function ProfileAgent() {
                     await updateDoc(docRef, {
                         name: name,
                     })
-                    toast.success('Profile agent name updated')
+                    toast.success('Numele și prenumele au fost actualizate')
                 }
             }
         } catch (error) {
-            toast.error('Could not update the profile agent name')
+            toast.error(error)
         }
     }
     useEffect(() => {
@@ -67,26 +69,19 @@ export default function ProfileAgent() {
     }, [auth.currentUser.uid])
     async function onDelete(listingID) {
         if (window.confirm('Chiar vrei să ștergi acest anunț?')) {
-          try {
-            // Delete listing from Firestore
-            await deleteDoc(doc(db, 'listings', listingID))
-            await deleteDoc(doc(db, 'favouriteListings', listingID))
-      
-            // Remove listing from listings state
-            const updatedListings = listings.filter(listing => listing.id !== listingID)
-            setListings(updatedListings)
-      
-            // Remove listing from favouriteListings state
-            const updatedFavouriteListings = favouriteListings.filter(listing => listing.id !== listingID)
-            setFavouriteListings(updatedFavouriteListings)
-      
-            toast.success('Ștergerea anunțului s-a efectuat cu succes')
-          } catch (error) {
-            
-          }
+            try {
+                await deleteDoc(doc(db, 'listings', listingID))
+                await deleteDoc(doc(db, 'favouriteListings', listingID))
+                const updatedListings = listings.filter(listing => listing.id !== listingID)
+                setListings(updatedListings)
+                const updatedFavouriteListings = favouriteListings.filter(listing => listing.id !== listingID)
+                setFavouriteListings(updatedFavouriteListings)
+                toast.success('Ștergerea anunțului s-a efectuat cu succes')
+            } catch (error) {
+
+            }
         }
-      }
-      
+    }
     function onEdit(listingID) {
         navigate(`/edit-listing/${listingID}`)
     }
@@ -105,7 +100,6 @@ export default function ProfileAgent() {
         }
     }
     fetchAgentCode()
-
     const [agents, setAgents] = useState([])
     useEffect(() => {
         const fetchAgents = async () => {
@@ -122,6 +116,7 @@ export default function ProfileAgent() {
                     question1: data.question1,
                     question2: data.question2,
                     question3: data.question3,
+                    phone: data.phone,
                 };
             });
             setAgents(agentsData);
@@ -131,133 +126,261 @@ export default function ProfileAgent() {
     const updateAgent = async (agent) => {
         const agentsRef = collection(db, 'agents')
         const docRef = doc(agentsRef, agent.id)
-        try {
-            await updateDoc(docRef, {
-                answer1: agent.answer1,
-                answer2: agent.answer2,
-                answer3: agent.answer3,
-                question1: agent.question1,
-                question2: agent.question2,
-                question3: agent.question3,
-            })
-            toast.success('Întrebările și răspunsurile s-au actualizat')
-        } catch (err) {
-            toast.success('Nu s-au putut actualiza întrebările și răspunsurile')
-        }
+        const q = query(agentsRef, where("emailAgent", "==", auth.currentUser.email));
+        const snapshot = await getDocs(q);
+        const agentsData = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            if (doc.data().phone !== agent.phone) {
+                try {
+                    updateDoc(docRef, {
+                        phone: agent.phone,
+                    })
+                    toast.success('Număr de telefon actualizat')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().answer1 !== agent.answer1) {
+                try {
+                    updateDoc(docRef, {
+                        answer1: agent.answer1,
+                    })
+                    toast.success('Răspunsul din prima secțiune a fost actualizat')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().answer2 !== agent.answer2) {
+                try {
+                    updateDoc(docRef, {
+                        answer2: agent.answer2,
+                    })
+                    toast.success('Răspunsul din a doua secțiune a fost actualizat')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().answer3 !== agent.answer3) {
+                try {
+                    updateDoc(docRef, {
+                        answer3: agent.answer3,
+                    })
+                    toast.success('Răspunsul din a treia secțiune a fost actualizat')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().question1 !== agent.question1) {
+                try {
+                    updateDoc(docRef, {
+                        question1: agent.question1,
+                    })
+                    toast.success('Întrebarea din prima secțiune a fost actualizată')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().question2 !== agent.question2) {
+                try {
+                    updateDoc(docRef, {
+                        question2: agent.question2,
+                    })
+                    toast.success('Întrebarea din a doua secțiune a fost actualizată')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+            if (doc.data().question3 !== agent.question3) {
+                try {
+                    updateDoc(docRef, {
+                        question3: agent.question3,
+                    })
+                    toast.success('Întrebarea din a treia secțiune a fost actualizată')
+                } catch (err) {
+                    toast.error(err)
+                }
+            }
+        });
     }
     return (
         <>
-            <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
-                <h1 className='text-3xl text-center mt-6 font-bold'>Profilul meu - agent</h1>
-                <div className='w-full md:w-[50%] mt-6 px-3'>
-                    <form>
-                        <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange}
-                            className={`mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out 
-            ${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
-                        <input type="email" id='email' value={email} disabled
-                            className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out' />
-                        <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
-                            <p className='flex items-center mb-6'>Vrei să îți schimbi numele?
-                                <span onClick={() => {
-                                    changeDetail && onSubmit()
-                                    setChangeDetail((prevState) => !prevState)
-                                }} className='text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer'>
-                                    {changeDetail ? "Aplică schimbare" : "Editează"}</span>
-                            </p>
-                            <p onClick={onLogout} className='text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out cursor-pointer'>Deloghează-te</p>
+            <section>
+                <div className='mx-2 px-3 my-2 '>
+                    <div className='flex flex-col md:flex-row'>
+                        <div className="w-full md:w-[60%] lg:w-[25%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full">
+                            <form>
+                                <div id='pentruCod'>
+                                    <p id={`agentCode-${agentCode}`} className='text-sm font-medium text-gray-200 text-right'>
+                                        COD AUTENTIFICARE: <strong>{agentCode}</strong>
+                                    </p>
+                                </div>
+                                <div className='w-full px-5 py-1'>
+                                    <div className='flex justify-center'>
+                                        <h2 className='font-semibold rounded text-center text-2xl px-1 py-0.5 bg-gray-300 text-black shadow-md'>Date personale</h2>
+                                    </div>
+                                </div>
+                                <div id='pentruEmail' className='px-4'>
+                                    <div className='relative mb-1'>
+                                        <MdMail className="absolute left-0 top-0 text-3xl" />
+                                        <h3 className='font-semibold text-lg text-gray-100 ml-8'>Email</h3>
+                                    </div>
+                                    <input type="email" id='email' value={email} disabled
+                                        className='w-full mb-3 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded' />
+                                </div>
+                                <div id='pentruNumeSiPrenume' className='px-4'>
+                                    <div className='relative mb-1'>
+                                        <MdAccountCircle className="absolute left-0 top-0 text-3xl" />
+                                        <h3 className='font-semibold text-lg text-gray-100 ml-8'>Nume și prenume</h3>
+                                    </div>
+                                    <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange}
+                                        className='w-full mb-3 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                </div>
+                                <div id='pentruIntrebariSiRaspunsuri' className='px-4'>
+                                    {agents.map(agent => (
+                                        <div key={agent.id}>
+                                            <div id='pentruTelefon' >
+                                                <div className='relative mb-1'>
+                                                    <AiFillPhone className="absolute left-0 top-0 text-3xl" />
+                                                    <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
+                                                </div>
+                                                <input type="tel" value={agent.phone} disabled={!changeDetail}
+                                                    className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
+                                                    onChange={e => {
+                                                        const newAgents = [...agents]
+                                                        const index = newAgents.findIndex(a => a.id === agent.id)
+                                                        newAgents[index].phone = e.target.value
+                                                        setAgents(newAgents)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div id='pentruUnu' className="mt-3 bg-gray-700 px-0.5 py-2 mb-3 rounded-md ">
+                                                <div className='relative mb-1 '>
+                                                    <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                                                    <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 1</h3>
+                                                </div>
+                                                <div className='px-2 py-1'>
+                                                    <select id='question1' value={agent.question1} disabled={!changeDetail} className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].question1 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}>
+                                                        <option value="Ce nume are câinele tău ?">Ce nume are câinele tău?</option>
+                                                        <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
+                                                        <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
+                                                    </select>
+                                                    <input type="text" value={agent.answer1} disabled={!changeDetail} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].answer1 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div id='pentruDoi' className="mt-3 bg-gray-700 px-0.5 py-2 mb-3 rounded-md shadow-lg ">
+                                                <div className='relative mb-1'>
+                                                    <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                                                    <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 2</h3>
+                                                </div>
+                                                <div className='px-2 py-1'>
+                                                    <select id='question2' value={agent.question2} disabled={!changeDetail} className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].question2 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}>
+                                                        <option value="Unde locuiești ?">Unde locuiești ?</option>
+                                                        <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
+                                                        <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
+                                                    </select>
+                                                    <input type="text" value={agent.answer2} disabled={!changeDetail} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].answer2 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div id='pentruTrei' className="mt-3 bg-gray-700 px-0.5 py-2 mb-3 rounded-md shadow-lg ">
+                                                <div className='relative mb-1'>
+                                                    <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />
+                                                    <h3 className='font-semibold text-lg text-gray-100 ml-8'>Secțiunea 3</h3>
+                                                </div>
+                                                <div className='px-2 py-1'>
+                                                    <select id='question3' value={agent.question3} disabled={!changeDetail} className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].question3 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}>
+                                                        <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
+                                                        <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
+                                                        <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
+                                                    </select>
+                                                    <input type="text" value={agent.answer3} disabled={!changeDetail} className='w-full mt-1 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].answer3 = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='flex justify-between whitespace-nowrap font-medium text-md sm:text-md'>
+                                                <p className='mt-5 flex items-center '>
+                                                    <span onClick={() => {
+                                                        changeDetail && onSubmit()
+                                                        setChangeDetail((prevState) => !prevState)
+                                                        updateAgent(agent)
+                                                    }} className='px-1 py-1 text-red-600 hover:text-red-800 transition ease-in-out duration-200 cursor-pointer bg-gray-300 rounded-md '>
+                                                        {changeDetail ? "Actualizează date" : "Modifică date"}</span>
+                                                </p>
+                                                <p onClick={onLogout} className='px-1 rounded-md py-1 mt-5 text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out cursor-pointer bg-gray-300'>Deloghează-te</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                    {agents.map(agent => (
-                        <div key={agent.id}>
-                            <select id='question1' value={agent.question1}
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].question1 = e.target.value
-                                    setAgents(newAgents)
-                                }}>
-                                <option value="Ce nume are câinele tău ?">Ce nume are câinele tău?</option>
-                                <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
-                                <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
-                            </select>
-                            <input type="text" value={agent.answer1} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].answer1 = e.target.value
-                                    setAgents(newAgents)
-                                }}
-                            />
-                            <select id='question2' value={agent.question2}
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].question2 = e.target.value
-                                    setAgents(newAgents)
-                                }}>
-                                <option value="Unde locuiești ?">Unde locuiești ?</option>
-                                <option value="Unde te-ai născut ?">Unde te-ai născut ?</option>
-                                <option value="Ce culoare au ochii tăi ?">Ce culoare au ochii tăi ?</option>
-                            </select>
-                            <input type="text" value={agent.answer2} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].answer2 = e.target.value
-                                    setAgents(newAgents)
-                                }}
-                            />
-                            <select id='question3' value={agent.question3}
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].question3 = e.target.value
-                                    setAgents(newAgents)
-                                }}>
-                                <option value="Care este destinația ta de vacanță preferată ?">Care este destinația ta de vacanță preferată ?</option>
-                                <option value="Care este culoarea ta preferată ?">Care este culoarea ta preferată ?</option>
-                                <option value="Ce sport te pasionează ?">Ce sport te pasionează ?</option>
-                            </select>
-                            <input type="text" value={agent.answer3} className='mr-2 px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out'
-                                onChange={e => {
-                                    const newAgents = [...agents]
-                                    const index = newAgents.findIndex(a => a.id === agent.id)
-                                    newAgents[index].answer3 = e.target.value
-                                    setAgents(newAgents)
-                                }}
-                            />
-                            <button onClick={() => updateAgent(agent)}>Vrei să schimbi întrebările și răspunsurile?</button>
+                        <div className='flex-grow'>
+                            <div className='flex items-center justify-between'>
+                                <h2 className='ml-2 text-2xl font-semibold'>Anunțurile mele</h2>
+                                <button type="submit" className='bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
+                                    <Link to='/create-listing' className='flex items-center'>
+                                        <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
+                                        Creează anunț
+                                    </Link>
+                                </button>
+                            </div>
+
+                            <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
+                            {!loading && listings.length > 0 && (
+                                <>
+                                    <ul className='sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
+                                        {listings.map((listing) => (
+                                            <ListingItem
+                                                key={listing.id}
+                                                id={listing.id}
+                                                listing={listing.data}
+                                                onDelete={() => onDelete(listing.id)}
+                                                onEdit={() => onEdit(listing.id)}
+                                            />
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
                         </div>
-                    ))}
-                    <p id={`agentCode-${agentCode}`} className='text-sm text-gray-700'>
-                        Codul tău: <strong>{agentCode}</strong>
-                    </p>
-                    <button type="submit" className='w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
-                        <Link to='/create-listing' className='flex justify-center items-center'>
-                            <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
-                            Creează anunț
-                        </Link>
-                    </button>
+                    </div>
                 </div>
             </section>
-            <div className='max-w-6xl px-3 mt-6 mx-auto'>
-                {!loading && listings.length > 0 && (
-                    <>
-                        <h2 className='text-2xl text-center font-semibold mb-6'>Anunțurile mele</h2>
-                        <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 mt-6 mb-6'>
-                            {listings.map((listing) => (
-                                <ListingItem
-                                    key={listing.id}
-                                    id={listing.id}
-                                    listing={listing.data}
-                                    onDelete={() => onDelete(listing.id)}
-                                    onEdit={() => onEdit(listing.id)}
-                                />
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </div>
         </>
     )
 }

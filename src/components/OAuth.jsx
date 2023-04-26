@@ -14,13 +14,14 @@ export default function OAuth() {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
       const user = result.user
+      user.phoneNumber = 0;
       const docRef = doc(db, 'users', user.uid)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) {
         await setDoc(docRef, {
           name: user.displayName,
           email: user.email,
-          phone: 0,
+          phone: "abc",
           timestamp: serverTimestamp(),
         })
       }

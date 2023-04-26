@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile, updatePhoneNumber } from 'firebase/auth'
 import { db } from '../firebase'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
@@ -13,9 +13,9 @@ export default function SignUp() {
     name: "",
     email: "",
     password: "",
-    phone:0,
+    phone: 0,
   });
-  const { name, email, password } = formData;
+  const { name, email, password, phone } = formData;
   const navigate = useNavigate()
   function onChange(e) {
     setFormData((prevState) => ({
@@ -34,6 +34,7 @@ export default function SignUp() {
         updateProfile(auth.currentUser, {
           displayName: name
         })
+        await updatePhoneNumber(auth.currentUser, phone); // replace with your desired phone number
         const user = userCredential.user
         const formDataCopy = { ...formData }
         delete formDataCopy.password

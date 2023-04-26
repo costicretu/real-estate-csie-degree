@@ -183,11 +183,11 @@ export default function SignIn() {
           {isForAgent && (
             <form onSubmit={onSubmitAgent}>
               <div className="relative">
-                <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email" className="mt-6 mb-6 w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type="email" id="emailAgent" value={emailAgent} onChange={onChange} placeholder="Email agent" className="mt-6 mb-6 w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 <MdMail className="absolute right-3 top-8 text-3xl" />
               </div>
               <div className="relative mb-6">
-                <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
+                <input type={showPassword ? "text" : "password"} id="passwordAgent" value={passwordAgent} onChange={onChange} placeholder="Parolă agent" className="w-full px-4 py-2 text-xl bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500" />
                 {showPassword ? (<AiFillEyeInvisible className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)
                   : (<AiFillEye className="absolute right-3 top-2 text-3xl cursor-pointer" onClick={() => setShowPassword((prevState) => !prevState)} />)}
               </div>

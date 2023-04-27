@@ -112,8 +112,7 @@ export default function SignUpAgent() {
     }
     return (
         <section>
-            <h1 className='text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg'>Înregistrează agent</h1>
-            <div className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg'>
+            <div className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg my-5'>
                 <div className='mx-auto px-3'>
                     <form onSubmit={onSubmit}>
                         <div className='relative mb-6'>

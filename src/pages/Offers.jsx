@@ -132,10 +132,9 @@ export default function Offers() {
   }
   return (
     <div>
-      <h1 className="text-3xl text-center ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg">Oferte</h1>
-      <div className=' mx-2 px-3'>
+      <div className='mx-2 px-3 py-6'>
         <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-[35%] lg:w-[15%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">
+          <div className="w-full md:w-[35%] lg:w-[15%] mt-9 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">
             <div className=' bg-red-500 text-gray-100 rounded-lg flex items-center px-1 mt-1  my-4  after:border-t after:flex-1 after:border-gray-100'>
               <AiOutlineSearch className='px-0.5 text-4xl' />
             </div>
@@ -179,6 +178,8 @@ export default function Offers() {
             </div>
           </div>
           <div className="flex-grow" id="pentruAnunturi">
+          <h2 className='ml-2 text-2xl font-semibold'>Oferte</h2>
+          <div className="flex items-center ml-2.5 my-1 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
             {loading ? (
               <Spinner />
             ) : listings && listings.length > 0 ? (
@@ -193,7 +194,7 @@ export default function Offers() {
 
               </>
             ) : (
-              <p className='text-2xl font-normal'>Nu există oferte momentan</p>
+              <p className='text-2xl font-normal ml-2 mt-2'>Nu există oferte momentan</p>
             )}
           </div>
         </div>

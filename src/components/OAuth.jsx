@@ -36,6 +36,5 @@ export default function OAuth() {
         <FcGoogle className='text-2xl bg-white rounded-full absolute left-3 top-2.5' />Continuă cu Google
       </button>
     </div>
-
   )
 }

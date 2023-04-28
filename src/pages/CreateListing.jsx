@@ -187,307 +187,311 @@ export default function CreateListing() {
         return <Spinner />;
     }
     return (
-        <main className='justify-center items-center  max-w-7xl px-2 mx-auto'>
-            <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg mt-6 font-semibold text-center text-gray-100'>Adaugă un anunț</h2>
-            <form onSubmit={onSubmit} className="justify-center max-w-7xl">
-                <div className="flex flex-col md:flex-row justify-center">
-                    <div className={`md:w-[60%] lg:w-[40%] mb-4 mr-3 md:mb-0 rounded-lg px-2 py-2`}>
-                        <p className='text-lg mt-6 font-semibold'>Titlu anunț</p>
-                        <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
-                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
-                        <div className='flex'>
-                            <button type='button' id='type' value="sale" onClick={onChange}
-                                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+        <>
+            <section>
+                <div className='mx-2 px-3'>
+                    <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg mt-6 font-semibold text-center text-gray-100'>Adaugă un anunț</h2>
+                    <div className='flex flex-col md:flex-row justify-center'>
+                        <div className="w-full md:w-[60%] lg:w-[25%] mr-20 md:mb-0 rounded-lg px-1 py-1 ">
+                            <form onSubmit={onSubmit}>
+                                <p className='text-lg mt-6 font-semibold'>Titlu anunț</p>
+                                <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
+                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
+                                <div className='flex'>
+                                    <button type='button' id='type' value="sale" onClick={onChange}
+                                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
                                         ${type === "rent" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre vânzare</button>
-                            <button type='button' id='type' value="rent" onClick={onChange}
-                                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                    <button type='button' id='type' value="rent" onClick={onChange}
+                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
                                         ${type === "sale" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre închiriere</button>
-                        </div>
-                        <div className="mb-6 mt-3">
-                            <p className='text-lg font-semibold'>Imagini</p>
-                            <p className='text-gray-600'>Prima imagine va fi cu titlu de prezentare (maxim 6)</p>
-                            <input type="file" id='images' onChange={onChange} accept=".jpg,.png,.jpeg" multiple required
-                                className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border' />
-                        </div>
-                        <p className='text-lg mt-6 font-semibold'>Adresă</p>
-                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
-                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
-                        {!geolocationEnabled && (
-                            <div className='flex space-x-6 justify-start mb-6'>
-                                <div className=''>
-                                    <p className='text-lg font-semibold' >Latitude</p>
-                                    <input type="number" id="latitude" value={latitude} onChange={onChange} required min='-90' max='90'
-                                        className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
                                 </div>
-                                <div className=''>
-                                    <p className='text-lg font-semibold' >Longitude</p>
-                                    <input type="number" id="longitude" value={longitude} onChange={onChange} required min='-180' max='180'
-                                        className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
+                                <div className="mb-6 mt-3">
+                                    <p className='text-lg font-semibold'>Imagini</p>
+                                    <p className='text-gray-600'>Prima imagine va fi cu titlu de prezentare (maxim 6)</p>
+                                    <input type="file" id='images' onChange={onChange} accept=".jpg,.png,.jpeg" multiple required
+                                        className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border' />
                                 </div>
-                            </div>
-                        )}
-                        <p className='text-lg font-semibold'>Descriere</p>
-                        <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
-                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
-                        <p className='text-lg font-semibold'>Ofertă</p>
-                        <div className='flex mb-6'>
-                            <button type='button' id='offer' value={true} onClick={onChange}
-                                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                        ${!offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
-                            <button type='button' id='offer' value={false} onClick={onChange}
-                                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                        ${offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
-                        </div>
-                        <div className='flex items-center mb-6'>
-                            <div className=''>
-                                <p className='text-lg font-semibold'>Preț fără discount</p>
-                                <div className='flex w-full justify-center items-center space-x-6'>
-                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
-                                        className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
-                                    {type === "rent" && (
+                                <p className='text-lg mt-6 font-semibold'>Adresă</p>
+                                <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
+                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
+                                {!geolocationEnabled && (
+                                    <div className='flex space-x-6 justify-start mb-6'>
                                         <div className=''>
-                                            <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
+                                            <p className='text-lg font-semibold' >Latitude</p>
+                                            <input type="number" id="latitude" value={latitude} onChange={onChange} required min='-90' max='90'
+                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
                                         </div>
-                                    )}
+                                        <div className=''>
+                                            <p className='text-lg font-semibold' >Longitude</p>
+                                            <input type="number" id="longitude" value={longitude} onChange={onChange} required min='-180' max='180'
+                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
+                                        </div>
+                                    </div>
+                                )}
+                                <p className='text-lg font-semibold'>Descriere</p>
+                                <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
+                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
+                                <p className='text-lg font-semibold'>Ofertă</p>
+                                <div className='flex mb-6'>
+                                    <button type='button' id='offer' value={true} onClick={onChange}
+                                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                        ${!offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
+                                    <button type='button' id='offer' value={false} onClick={onChange}
+                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                        ${offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
                                 </div>
-                            </div>
+                                <div className='flex items-center mb-6'>
+                                    <div className=''>
+                                        <p className='text-lg font-semibold'>Preț fără discount</p>
+                                        <div className='flex w-full justify-center items-center space-x-6'>
+                                            <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
+                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                                            {type === "rent" && (
+                                                <div className=''>
+                                                    <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                {offer && (
+                                    <div className='flex items-center mb-6'>
+                                        <div className=''>
+                                            <p className='text-lg font-semibold'>Preț cu discount</p>
+                                            <div className='flex w-full justify-center items-center space-x-6'>
+                                                <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                                                {type === "rent" && (
+                                                    <div className=''>
+                                                        <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {propertyType !== 'Alege' && (
+                                    <div>
+                                        <button type="submit" className='w-full mb-6 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                                    </div>
+                                )}
+                            </form>
                         </div>
-                        {offer && (
-                            <div className='flex items-center mb-6'>
-                                <div className=''>
-                                    <p className='text-lg font-semibold'>Preț cu discount</p>
-                                    <div className='flex w-full justify-center items-center space-x-6'>
-                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
-                                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
-                                        {type === "rent" && (
-                                            <div className=''>
-                                                <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
+                        <div className='w-full md:w-[60%] lg:w-[25%] px-1 py-1'>
+                            <form onSubmit={onSubmit}>
+                                <div className="w-full">
+                                    <p className='text-lg mt-6 font-semibold'>Tip proprietate</p>
+                                    <select value={property} onChange={onChange} className='w-full text-xl px-4 py-2 text-md  rounded transition duration-150 ease-in-out' id="property" name="property">
+                                        <option value="Alege" disabled={property !== "Alege"} >Alege</option>
+                                        <option value="apartment">Apartament</option>
+                                        <option value="house">Casă</option>
+                                        <option value="land">Teren</option>
+                                    </select>
+                                </div>
+                                {(propertyType === 'apartment' || propertyType === 'house' || propertyType === 'land') && (
+                                    <div className="bg-slate-500 rounded-md px-10 py-10 mt-6">
+                                        {propertyType === 'apartment' && (
+                                            <div>
+                                                <p className='text-lg  font-semibold'>Compartimentare</p>
+                                                <select value={partitioning} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="partitioning" name="partitioning">
+                                                    <option value="decomandat">Decomandat</option>
+                                                    <option value="semidecomandat">Semidecomandat</option>
+                                                    <option value="nedecomandat">Nedecomandat</option>
+                                                    <option value="circular">Circular</option>
+                                                    <option value="vagon">Vagon</option>
+                                                </select>
+                                                <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
+                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
+                                                <p className='text-lg mt-6 font-semibold'>Etaj</p>
+                                                <select value={floor} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="floor" name="floor">
+                                                    <option value='Demisol'>Demisol</option>
+                                                    <option value='Parter'>Parter</option>
+                                                    <option value='Etaj 1'>Etaj 1</option>
+                                                    <option value='Etaj 2'>Etaj 2</option>
+                                                    <option value='Etaj 3'>Etaj 3</option>
+                                                    <option value='Etaj 4'>Etaj 4</option>
+                                                    <option value='Etaj 5'>Etaj 5</option>
+                                                    <option value='Etaj 6'>Etaj 6</option>
+                                                    <option value='Etaj 7'>Etaj 7</option>
+                                                    <option value='Etaj 8'>Etaj 8</option>
+                                                    <option value='Etaj 9'>Etaj 9</option>
+                                                    <option value='Etaj 10'>Etaj 10</option>
+                                                    <option value='Peste 10'>Peste 10</option>
+                                                    <option value='Mansarda'>Mansarda</option>
+                                                </select>
+                                                <div className="flex space-x-6 mt-6 mb-6">
+                                                    <div>
+                                                        <p className='text-lg font-semibold'>Număr camere</p>
+                                                        <input
+                                                            type='number'
+                                                            id='rooms'
+                                                            value={rooms}
+                                                            onChange={onChange}
+                                                            min='1'
+                                                            max='50'
+                                                            required
+                                                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        {roomsNumber > 2 && (
+                                                            <div>
+                                                                <p className='text-lg font-semibold'>Număr băi</p>
+                                                                <input
+                                                                    type='number'
+                                                                    id='bathrooms'
+                                                                    value={bathrooms}
+                                                                    onChange={onChange}
+                                                                    min='1'
+                                                                    max='50'
+                                                                    required
+                                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
+                                                <div className='flex'>
+                                                    <button type='button' id='parking' value={true} onClick={onChange}
+                                                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                                ${!parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
+                                                    <button type='button' id='parking' value={false} onClick={onChange}
+                                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                                ${parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
+                                                </div>
+                                                {type === 'sale' && (
+                                                    <div>
+                                                        <p className='text-lg mt-6 font-semibold'>Mobilat</p>
+                                                        <div className='flex'>
+                                                            <button type='button' id='furnished' value={true} onClick={onChange}
+                                                                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                ${!furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
+                                                            <button type='button' id='furnished' value={false} onClick={onChange}
+                                                                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                ${furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <p className='text-lg mt-6 font-semibold'>An clădire</p>
+                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
+                                                    <option value='Dupa 2000'>După 2000</option>
+                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
+                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
+                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                </select>
+                                            </div>
+                                        )}
+                                        {propertyType === 'house' && (
+                                            <div>
+                                                <p className='text-lg font-semibold'>Tip locuință</p>
+                                                <select value={houseType} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="houseType" name="housetType">
+                                                    <option value="individuala">Individuală</option>
+                                                    <option value="duplex">Duplex</option>
+                                                    <option value="triplex">Triplex</option>
+                                                    <option value="insiruita">Înșiruită</option>
+                                                    <option value="altele">Altele</option>
+                                                </select>
+                                                <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
+                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
+                                                <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
+                                                <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='0'
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
+                                                <div className="flex space-x-6 mb-6 mt-6">
+                                                    <div>
+                                                        <p className='text-lg font-semibold'>Număr camere</p>
+                                                        <input
+                                                            type='number'
+                                                            id='rooms'
+                                                            value={rooms}
+                                                            onChange={onChange}
+                                                            min='1'
+                                                            max='50'
+                                                            required
+                                                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        {roomsNumber > 2 && (
+                                                            <div>
+                                                                <p className='text-lg font-semibold'>Număr băi</p>
+                                                                <input
+                                                                    type='number'
+                                                                    id='bathrooms'
+                                                                    value={bathrooms}
+                                                                    onChange={onChange}
+                                                                    min='1'
+                                                                    max='50'
+                                                                    required
+                                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
+                                                <div className='flex'>
+                                                    <button type='button' id='parking' value={true} onClick={onChange}
+                                                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                                ${!parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
+                                                    <button type='button' id='parking' value={false} onClick={onChange}
+                                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                                ${parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
+                                                </div>
+                                                {type === 'sale' && (
+                                                    <div>
+                                                        <p className='text-lg mt-6 font-semibold'>Mobilat</p>
+                                                        <div className='flex'>
+                                                            <button type='button' id='furnished' value={true} onClick={onChange}
+                                                                className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                ${!furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
+                                                            <button type='button' id='furnished' value={false} onClick={onChange}
+                                                                className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                                ${furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <p className='text-lg mt-6 font-semibold'>An clădire</p>
+                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
+                                                    <option value='Dupa 2000'>După 2000</option>
+                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
+                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
+                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                </select>
+
+                                            </div>
+                                        )}
+                                        {propertyType === 'land' && (
+                                            <div>
+                                                <p className='text-lg font-semibold'>Tip teren</p>
+                                                <select value={landtype} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landtype" name="landtype">
+                                                    <option value="constructii">Constructii</option>
+                                                    <option value="agricol">Agricol</option>
+                                                    <option value="padure">Pădure</option>
+                                                    <option value="livada">Livadă</option>
+                                                </select>
+                                                <p className='text-lg  font-semibold mt-6'>Clasificare teren</p>
+                                                <select value={landClassification} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landClassification" name="landClassification">
+                                                    <option value="intravilan">Intravilan</option>
+                                                    <option value="extravilan">Extravilan</option>
+                                                </select>
+                                                <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
+                                                <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
+                                                <p className='text-lg font-semibold mt-6' >Front stradal(m)</p>
+                                                <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='5'
+                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
                                             </div>
                                         )}
                                     </div>
-                                </div>
-                            </div>
-                        )}
-                        {propertyType !== 'Alege' && (
-                            <div>
-                                <button type="submit" className='w-full mb-6 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
-                            </div>
-                        )}
-                    </div>
-                    <div className='md:w-[60%] lg:w-[40%] mb-4 mr-3 md:mb-0 rounded-lg px-2 py-2 '>
-                        <div>
-                            <div className="w-full">
-                                <p className='text-lg mt-6 font-semibold'>Tip proprietate</p>
-                                <select value={property} onChange={onChange} className='w-full text-xl px-4 py-2 text-md  rounded transition duration-150 ease-in-out' id="property" name="property">
-                                    <option value="Alege" disabled={property !== "Alege"} >Alege</option>
-                                    <option value="apartment">Apartament</option>
-                                    <option value="house">Casă</option>
-                                    <option value="land">Teren</option>
-                                </select>
-                            </div>
-                            {(propertyType === 'apartment' || propertyType === 'house' || propertyType === 'land') && (
-                                <div className="bg-slate-500 rounded-md px-10 py-10 mt-6">
-                                    {propertyType === 'apartment' && (
-                                        <div>
-                                            <p className='text-lg  font-semibold'>Compartimentare</p>
-                                            <select value={partitioning} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="partitioning" name="partitioning">
-                                                <option value="decomandat">Decomandat</option>
-                                                <option value="semidecomandat">Semidecomandat</option>
-                                                <option value="nedecomandat">Nedecomandat</option>
-                                                <option value="circular">Circular</option>
-                                                <option value="vagon">Vagon</option>
-                                            </select>
-                                            <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
-                                            <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                            <p className='text-lg mt-6 font-semibold'>Etaj</p>
-                                            <select value={floor} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="floor" name="floor">
-                                                <option value='Demisol'>Demisol</option>
-                                                <option value='Parter'>Parter</option>
-                                                <option value='Etaj 1'>Etaj 1</option>
-                                                <option value='Etaj 2'>Etaj 2</option>
-                                                <option value='Etaj 3'>Etaj 3</option>
-                                                <option value='Etaj 4'>Etaj 4</option>
-                                                <option value='Etaj 5'>Etaj 5</option>
-                                                <option value='Etaj 6'>Etaj 6</option>
-                                                <option value='Etaj 7'>Etaj 7</option>
-                                                <option value='Etaj 8'>Etaj 8</option>
-                                                <option value='Etaj 9'>Etaj 9</option>
-                                                <option value='Etaj 10'>Etaj 10</option>
-                                                <option value='Peste 10'>Peste 10</option>
-                                                <option value='Mansarda'>Mansarda</option>
-                                            </select>
-                                            <div className="flex space-x-6 mt-6 mb-6">
-                                                <div>
-                                                    <p className='text-lg font-semibold'>Număr camere</p>
-                                                    <input
-                                                        type='number'
-                                                        id='rooms'
-                                                        value={rooms}
-                                                        onChange={onChange}
-                                                        min='1'
-                                                        max='50'
-                                                        required
-                                                        className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
-                                                    />
-                                                </div>
-                                                <div>
-                                                    {roomsNumber > 2 && (
-                                                        <div>
-                                                            <p className='text-lg font-semibold'>Număr băi</p>
-                                                            <input
-                                                                type='number'
-                                                                id='bathrooms'
-                                                                value={bathrooms}
-                                                                onChange={onChange}
-                                                                min='1'
-                                                                max='50'
-                                                                required
-                                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
-                                            <div className='flex'>
-                                                <button type='button' id='parking' value={true} onClick={onChange}
-                                                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                                ${!parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
-                                                <button type='button' id='parking' value={false} onClick={onChange}
-                                                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                                ${parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
-                                            </div>
-                                            {type === 'sale' && (
-                                                <div>
-                                                    <p className='text-lg mt-6 font-semibold'>Mobilat</p>
-                                                    <div className='flex'>
-                                                        <button type='button' id='furnished' value={true} onClick={onChange}
-                                                            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                ${!furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
-                                                        <button type='button' id='furnished' value={false} onClick={onChange}
-                                                            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                ${furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            <p className='text-lg mt-6 font-semibold'>An clădire</p>
-                                            <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
-                                                <option value='Dupa 2000'>După 2000</option>
-                                                <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                <option value='Inainte de 1977'>Înainte de 1977</option>
-                                            </select>
-                                        </div>
-                                    )}
-                                    {propertyType === 'house' && (
-                                        <div>
-                                            <p className='text-lg font-semibold'>Tip locuință</p>
-                                            <select value={houseType} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="houseType" name="housetType">
-                                                <option value="individuala">Individuală</option>
-                                                <option value="duplex">Duplex</option>
-                                                <option value="triplex">Triplex</option>
-                                                <option value="insiruita">Înșiruită</option>
-                                                <option value="altele">Altele</option>
-                                            </select>
-                                            <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
-                                            <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                            <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
-                                            <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='0'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                            <div className="flex space-x-6 mb-6 mt-6">
-                                                <div>
-                                                    <p className='text-lg font-semibold'>Număr camere</p>
-                                                    <input
-                                                        type='number'
-                                                        id='rooms'
-                                                        value={rooms}
-                                                        onChange={onChange}
-                                                        min='1'
-                                                        max='50'
-                                                        required
-                                                        className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
-                                                    />
-                                                </div>
-                                                <div>
-                                                    {roomsNumber > 2 && (
-                                                        <div>
-                                                            <p className='text-lg font-semibold'>Număr băi</p>
-                                                            <input
-                                                                type='number'
-                                                                id='bathrooms'
-                                                                value={bathrooms}
-                                                                onChange={onChange}
-                                                                min='1'
-                                                                max='50'
-                                                                required
-                                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
-                                            <div className='flex'>
-                                                <button type='button' id='parking' value={true} onClick={onChange}
-                                                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                                ${!parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
-                                                <button type='button' id='parking' value={false} onClick={onChange}
-                                                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                                ${parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
-                                            </div>
-                                            {type === 'sale' && (
-                                                <div>
-                                                    <p className='text-lg mt-6 font-semibold'>Mobilat</p>
-                                                    <div className='flex'>
-                                                        <button type='button' id='furnished' value={true} onClick={onChange}
-                                                            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                ${!furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
-                                                        <button type='button' id='furnished' value={false} onClick={onChange}
-                                                            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
-                                                ${furnished ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            <p className='text-lg mt-6 font-semibold'>An clădire</p>
-                                            <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
-                                                <option value='Dupa 2000'>După 2000</option>
-                                                <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                <option value='Inainte de 1977'>Înainte de 1977</option>
-                                            </select>
-
-                                        </div>
-                                    )}
-                                    {propertyType === 'land' && (
-                                        <div>
-                                            <p className='text-lg font-semibold'>Tip teren</p>
-                                            <select value={landtype} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landtype" name="landtype">
-                                                <option value="constructii">Constructii</option>
-                                                <option value="agricol">Agricol</option>
-                                                <option value="padure">Pădure</option>
-                                                <option value="livada">Livadă</option>
-                                            </select>
-                                            <p className='text-lg  font-semibold mt-6'>Clasificare teren</p>
-                                            <select value={landClassification} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landClassification" name="landClassification">
-                                                <option value="intravilan">Intravilan</option>
-                                                <option value="extravilan">Extravilan</option>
-                                            </select>
-                                            <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
-                                            <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                            <p className='text-lg font-semibold mt-6' >Front stradal(m)</p>
-                                            <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='5'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                                )}
+                            </form>
                         </div>
                     </div>
                 </div>
-            </form>
-        </main>
+            </section>
+        </>
     );
 }

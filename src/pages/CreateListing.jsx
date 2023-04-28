@@ -188,11 +188,11 @@ export default function CreateListing() {
     }
     return (
         <>
-            <section>
-                <div className='mx-2 px-3'>
-                    <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg mt-6 font-semibold text-center text-gray-100'>Adaugă un anunț</h2>
-                    <div className='flex flex-col md:flex-row justify-center'>
-                        <div className="w-full md:w-[60%] lg:w-[25%] mr-20 md:mb-0 rounded-lg px-1 py-1 ">
+            <section className="flex items-center justify-center">
+                <div className='mx-2 w-[800px]'>
+                    <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg text-center mt-3 font-semibold text-gray-100'>Adaugă un anunț</h2>
+                    <div className='flex flex-col md:flex-row  px-3'>
+                        <div className="md:w-[70%] lg:w-[48%]  mr-3 md:mb-0 rounded-lg " id="a">
                             <form onSubmit={onSubmit}>
                                 <p className='text-lg mt-6 font-semibold'>Titlu anunț</p>
                                 <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
@@ -202,7 +202,7 @@ export default function CreateListing() {
                                         className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
                                         ${type === "rent" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre vânzare</button>
                                     <button type='button' id='type' value="rent" onClick={onChange}
-                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full
                                         ${type === "sale" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre închiriere</button>
                                 </div>
                                 <div className="mb-6 mt-3">
@@ -219,12 +219,12 @@ export default function CreateListing() {
                                         <div className=''>
                                             <p className='text-lg font-semibold' >Latitude</p>
                                             <input type="number" id="latitude" value={latitude} onChange={onChange} required min='-90' max='90'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
+                                                className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
                                         </div>
                                         <div className=''>
                                             <p className='text-lg font-semibold' >Longitude</p>
                                             <input type="number" id="longitude" value={longitude} onChange={onChange} required min='-180' max='180'
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
+                                                className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
                                         </div>
                                     </div>
                                 )}
@@ -234,50 +234,51 @@ export default function CreateListing() {
                                 <p className='text-lg font-semibold'>Ofertă</p>
                                 <div className='flex mb-6'>
                                     <button type='button' id='offer' value={true} onClick={onChange}
-                                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                        className={`w-full mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out  
                                         ${!offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Da</button>
                                     <button type='button' id='offer' value={false} onClick={onChange}
-                                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
+                                        className={`w-full ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out  
                                         ${offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
                                 </div>
-                                <div className='flex items-center mb-6'>
-                                    <div className=''>
-                                        <p className='text-lg font-semibold'>Preț fără discount</p>
-                                        <div className='flex w-full justify-center items-center space-x-6'>
-                                            <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
-                                                className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
-                                            {type === "rent" && (
-                                                <div className=''>
-                                                    <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
+                                <div className="flex mb-6">
+                                    <div>
+                                        <div className='flex items-center'>
+                                            <div className=''>
+                                                <p className='text-lg font-semibold'>Preț fără discount</p>
+                                                <div className='flex  justify-center items-center space-x-3'>
+                                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
+                                                        className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                                                    {type === "rent" && (
+                                                        <div className=''>
+                                                            <p className='text-md  whitespace-nowrap'>€ / lună</p>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                                {offer && (
-                                    <div className='flex items-center mb-6'>
-                                        <div className=''>
-                                            <p className='text-lg font-semibold'>Preț cu discount</p>
-                                            <div className='flex w-full justify-center items-center space-x-6'>
-                                                <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
-                                                {type === "rent" && (
-                                                    <div className=''>
-                                                        <p className='text-md w-full whitespace-nowrap'>€ / lună</p>
-                                                    </div>
-                                                )}
                                             </div>
                                         </div>
                                     </div>
-                                )}
-                                {propertyType !== 'Alege' && (
                                     <div>
-                                        <button type="submit" className='w-full mb-6 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                                        {offer && (
+                                            <div className='flex items-center'>
+                                                <div className=''>
+                                                    <p className='text-lg font-semibold'>Preț cu discount</p>
+                                                    <div className='flex  justify-center items-center space-x-3'>
+                                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
+                                                            className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 ' />
+                                                        {type === "rent" && (
+                                                            <div className=''>
+                                                                <p className='text-md  whitespace-nowrap'>€ / lună</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
                             </form>
                         </div>
-                        <div className='w-full md:w-[60%] lg:w-[25%] px-1 py-1'>
+                        <div className='flex-grow mb-6' id='b'>
                             <form onSubmit={onSubmit}>
                                 <div className="w-full">
                                     <p className='text-lg mt-6 font-semibold'>Tip proprietate</p>
@@ -490,6 +491,11 @@ export default function CreateListing() {
                             </form>
                         </div>
                     </div>
+                    <form onSubmit={onSubmit}>
+                        <div className="text-center">
+                            <button type="submit" className='mb-3 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                        </div>
+                    </form>
                 </div>
             </section>
         </>

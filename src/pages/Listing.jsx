@@ -39,38 +39,30 @@ export default function Listing() {
     return (
         <main>
             <div className="m-10 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
-                <div className="w-full lg:h-[600px] md:h-[500px] z-10 overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
-                    <p className='text-2xl font-bold mb-1 text-blue-900'>
-                        {listing.title} - €{" "}
-                        {listing.offer
-                            ? listing.discountedPrice
-                                .toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                            : listing.regularPrice
-                                .toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                        {listing.type === "rent" ? " / lună" : ""}
-                    </p>
-                    <div className='flex justify-start items-center space-x-4 w-[75%]'>
-                        <p className='w-full max-w-[200px] bg-green-800 rounded p-1 text-white text-center font-semibold shadow-md'>
-                            {listing.offer && (
-                                <p>
-                                    €{+listing.regularPrice - +listing.discountedPrice} discount
+                <div className="w-full lg:h-[700px] md:h-[500px] z-10 overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
+                    <div className='relative h-[40px]'>
+                        <p className='text-2xl font-bold mb-1 text-blue-900' id='a'>
+                            {listing.title} - €{" "}
+                            {listing.offer
+                                ? listing.discountedPrice
+                                    .toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                : listing.regularPrice
+                                    .toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            {listing.type === "rent" ? " / lună" : ""}
+                        </p>
+                        <div className='absolute right-0 top-0'>
+                            <div className='flex justify-between items-center space-x-4 w-[100%]' id='b'>
+                                <p className='w-full max-w-[400px] bg-green-800 rounded p-1 text-white text-center font-semibold shadow-md'>
+                                    {listing.offer && (
+                                        <p>
+                                            €{+listing.regularPrice - +listing.discountedPrice} discount
+                                        </p>
+                                    )}
                                 </p>
-                            )}
-                            {listing.property === 'apartment' && (
-                                <p>Apartament</p>
-                            )}
-                            {listing.property === 'house' && (
-                                <p>Casă</p>
-                            )}
-                            {listing.property === 'land' && (
-                                <p>Teren</p>
-                            )}
-                        </p>
-                        <p className='bg-red-800 w-full max-w[200px] rounded-md p-1 text-white text-center font-semibold shadow-md'>
-                            {listing.type === 'rent' ? 'De închiriat' : 'De vânzare'}
-                        </p>
+                            </div>
+                        </div>
                     </div>
                     <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect='fade' modules={[EffectFade]}>
                         {listing.imgUrls.map((url, index) => (
@@ -80,30 +72,37 @@ export default function Listing() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    {listing.property === 'land' ? (
+                    {listing.property === 'apartment' && (
+                        <div>
+                            <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-3 mt-3'>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaBed className='text-lg mr-1' />
+                                    {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaBath className='text-lg mr-1' />
+                                    {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaParking className='text-lg mr-1' />
+                                    {+listing.parking ? 'Loc de parcare' : 'X parcare'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaChair className='text-lg mr-1' />
+                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
+                                </li>
+                            </ul>
+                            <p>Compartimentare:{listing.partitioning}</p>
+                            <p>Suprafață utilă:{listing.utilSurface}mp</p>
+                            <p>{listing.floor}</p>
+                            <p>An clădire:{listing.constructionYear}</p>
+                        </div>
+                    )}
+                    {listing.property === 'land' && (
                         <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6'>
                             <li className='flex items-center whitespace-nowrap'>
                                 <FiMap className='text-lg mr-1' />
                                 {listing.utilSurface}
-                            </li>
-                        </ul>
-                    ) : (
-                        <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6'>
-                            <li className='flex items-center whitespace-nowrap'>
-                                <FaBed className='text-lg mr-1' />
-                                {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
-                            </li>
-                            <li className='flex items-center whitespace-nowrap'>
-                                <FaBath className='text-lg mr-1' />
-                                {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
-                            </li>
-                            <li className='flex items-center whitespace-nowrap'>
-                                <FaParking className='text-lg mr-1' />
-                                {+listing.parking ? 'Loc de parcare' : 'X parcare'}
-                            </li>
-                            <li className='flex items-center whitespace-nowrap'>
-                                <FaChair className='text-lg mr-1' />
-                                {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                             </li>
                         </ul>
                     )}
@@ -111,13 +110,13 @@ export default function Listing() {
                         <div className='relative'>
                             <span className='font-semibold'>Detalii adiționale </span>
                             <button onClick={() => setDetails()}></button>
-                            {details ? (<BsFillArrowDownCircleFill  onClick={() => setDetails((prevState) => !prevState)} />)
-                                : (<BsFillArrowDownCircleFill  onClick={() => setDetails((prevState) => !prevState)} />)}
-                                {details && (
-                                    <div>
-                                        {listing.description}
-                                    </div>
-                                )}
+                            {details ? (<BsFillArrowDownCircleFill onClick={() => setDetails((prevState) => !prevState)} />)
+                                : (<BsFillArrowDownCircleFill onClick={() => setDetails((prevState) => !prevState)} />)}
+                            {details && (
+                                <div>
+                                    {listing.description}
+                                </div>
+                            )}
                         </div>
                     </p>
                 </div>

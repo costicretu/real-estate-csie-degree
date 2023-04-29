@@ -205,7 +205,7 @@ export default function CreateListing() {
                                 <div className="mb-6 mt-6">
                                     <p className='text-lg font-semibold'>Titlu anunț</p>
                                     <div className="relative">
-                                        <MdTitle className="absolute right-3 top-2 text-3xl" />
+                                        <MdTitle className="absolute right-3 top-2 text-4xl" />
                                         <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
                                             className='w-full px-4 py-2 text-xl bg-white border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                     </div>

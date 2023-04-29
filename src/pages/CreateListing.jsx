@@ -543,7 +543,7 @@ export default function CreateListing() {
             </section>
             <form onSubmit={onSubmit}>
                 <div className="text-center">
-                    <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[200px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                    <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[150px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Creează</button>
                 </div>
             </form>
         </>

@@ -7,6 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { MdTitle, MdDescription, MdApartment } from 'react-icons/md'
+import { BsFillImageFill, BsBuildingsFill, BsFillHouseDoorFill } from 'react-icons/bs'
+import { FaLocationArrow } from 'react-icons/fa'
+import { AiOutlineApartment } from 'react-icons/ai'
+import { RiMapFill } from 'react-icons/ri'
+import { TbBuildingWarehouse } from 'react-icons/tb'
+import { GiPoland } from 'react-icons/gi'
 
 export default function CreateListing() {
     const navigate = useNavigate();
@@ -161,6 +168,7 @@ export default function CreateListing() {
             delete formDataCopy.houseType
             delete formDataCopy.floor
             delete formDataCopy.constructionYear
+            delete formDataCopy.utilSurface
         } else if (propertyType === 'apartment') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
@@ -173,6 +181,7 @@ export default function CreateListing() {
             delete formDataCopy.landtype
             delete formDataCopy.landSurface
             delete formDataCopy.partitioning
+            delete formDataCopy.streetfront
         }
         delete formDataCopy.images;
         !formDataCopy.offer && delete formDataCopy.discountedPrice;
@@ -189,14 +198,19 @@ export default function CreateListing() {
     return (
         <>
             <section className="flex items-center justify-center">
-                <div className='mx-2 w-[800px]'>
+                <div className='mx-2 w-[900px]'>
                     <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg text-center mt-3 font-semibold text-gray-100'>Adaugă un anunț</h2>
-                    <div className='flex flex-col md:flex-row  px-3'>
-                        <div className="md:w-[70%] lg:w-[48%]  mr-3 md:mb-0 rounded-lg " id="a">
+                    <div className='flex flex-col md:flex-row px-3 '>
+                        <div className="md:w-[55%] lg:w-[55%] mr-3 md:mb-0 rounded-lg w-full" id="a">
                             <form onSubmit={onSubmit}>
-                                <p className='text-lg mt-6 font-semibold'>Titlu anunț</p>
-                                <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
-                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
+                                <div className="mb-6 mt-6">
+                                    <p className='text-lg font-semibold'>Titlu anunț</p>
+                                    <div className="relative">
+                                        <MdTitle className="absolute right-3 top-2 text-3xl" />
+                                        <input type="text" id='title' value={title} onChange={onChange} placeholder="Titlu" maxLength="32" minLength="10" required
+                                            className='w-full px-4 py-2 text-xl bg-white border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                    </div>
+                                </div>
                                 <div className='flex'>
                                     <button type='button' id='type' value="sale" onClick={onChange}
                                         className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
@@ -205,32 +219,45 @@ export default function CreateListing() {
                                         className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full
                                         ${type === "sale" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre închiriere</button>
                                 </div>
-                                <div className="mb-6 mt-3">
+                                <div className="mb-3 mt-3">
                                     <p className='text-lg font-semibold'>Imagini</p>
                                     <p className='text-gray-600'>Prima imagine va fi cu titlu de prezentare (maxim 6)</p>
-                                    <input type="file" id='images' onChange={onChange} accept=".jpg,.png,.jpeg" multiple required
-                                        className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border' />
-                                </div>
-                                <p className='text-lg mt-6 font-semibold'>Adresă</p>
-                                <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
-                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
-                                {!geolocationEnabled && (
-                                    <div className='flex space-x-6 justify-start mb-6'>
-                                        <div className=''>
-                                            <p className='text-lg font-semibold' >Latitude</p>
-                                            <input type="number" id="latitude" value={latitude} onChange={onChange} required min='-90' max='90'
-                                                className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
-                                        </div>
-                                        <div className=''>
-                                            <p className='text-lg font-semibold' >Longitude</p>
-                                            <input type="number" id="longitude" value={longitude} onChange={onChange} required min='-180' max='180'
-                                                className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
-                                        </div>
+                                    <div className="relative">
+                                        <BsFillImageFill className="absolute right-3 top-2 text-3xl" />
+                                        <input type="file" id='images' onChange={onChange} accept=".jpg,.png,.jpeg" multiple required
+                                            className='w-full px-3 py-1.5 bg-white border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                     </div>
-                                )}
-                                <p className='text-lg font-semibold'>Descriere</p>
-                                <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
-                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6' />
+                                </div>
+                                <div className="mb-3 mt-3">
+                                    <p className='text-lg  font-semibold'>Adresă</p>
+                                    <div className="relative">
+                                        <FaLocationArrow className="absolute right-3 top-8 text-3xl" />
+                                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
+                                            className='w-full px-4 py-1 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                    </div>
+                                    {!geolocationEnabled && (
+                                        <div className='flex space-x-6 justify-start '>
+                                            <div className=''>
+                                                <p className='text-lg font-semibold' >Latitude</p>
+                                                <input type="number" id="latitude" value={latitude} onChange={onChange} required min='-90' max='90'
+                                                    className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
+                                            </div>
+                                            <div className=''>
+                                                <p className='text-lg font-semibold' >Longitude</p>
+                                                <input type="number" id="longitude" value={longitude} onChange={onChange} required min='-180' max='180'
+                                                    className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border text-center' />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="mb-3 mt-3">
+                                    <p className='text-lg font-semibold'>Descriere</p>
+                                    <div className="relative">
+                                        <MdDescription className="absolute right-3 top-16 text-4xl" />
+                                        <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
+                                            className='w-full h-[102px] px-4 py-2 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                    </div>
+                                </div>
                                 <p className='text-lg font-semibold'>Ofertă</p>
                                 <div className='flex mb-6'>
                                     <button type='button' id='offer' value={true} onClick={onChange}
@@ -240,7 +267,7 @@ export default function CreateListing() {
                                         className={`w-full ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out  
                                         ${offer ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Nu</button>
                                 </div>
-                                <div className="flex mb-6">
+                                <div className={`flex ${type === 'sale' ? 'space-x-24' : 'space-x-8'}`}>
                                     <div>
                                         <div className='flex items-center'>
                                             <div className=''>
@@ -278,34 +305,51 @@ export default function CreateListing() {
                                 </div>
                             </form>
                         </div>
-                        <div className='flex-grow mb-6' id='b'>
+                        <div className='flex-grow' id='b'>
                             <form onSubmit={onSubmit}>
                                 <div className="w-full">
                                     <p className='text-lg mt-6 font-semibold'>Tip proprietate</p>
-                                    <select value={property} onChange={onChange} className='w-full text-xl px-4 py-2 text-md  rounded transition duration-150 ease-in-out' id="property" name="property">
-                                        <option value="Alege" disabled={property !== "Alege"} >Alege</option>
-                                        <option value="apartment">Apartament</option>
-                                        <option value="house">Casă</option>
-                                        <option value="land">Teren</option>
-                                    </select>
+                                    <div className="relative">
+                                        {propertyType === 'Alege' && (
+                                            <BsBuildingsFill className="absolute left-2 top-2 text-3xl" />
+                                        )}
+                                        {property === 'apartment' && (
+                                            <MdApartment className="absolute left-2 top-2 text-3xl" />
+                                        )}
+                                        {property === 'house' && (
+                                            <BsFillHouseDoorFill className="absolute left-2 top-2 text-3xl" />
+                                        )}
+                                        {property === 'land' && (
+                                            <GiPoland className="absolute left-2 top-2 text-3xl" />
+                                        )}
+                                        <select value={property} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="property" name="property">
+                                            <option value="Alege" disabled={property !== "Alege"} >Alege</option>
+                                            <option value="apartment">Apartament</option>
+                                            <option value="house">Casă</option>
+                                            <option value="land">Teren</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 {(propertyType === 'apartment' || propertyType === 'house' || propertyType === 'land') && (
-                                    <div className="bg-slate-500 rounded-md px-10 py-10 mt-6">
+                                    <div className="bg-slate-400 rounded-md px-4 py-2 mt-6">
                                         {propertyType === 'apartment' && (
                                             <div>
-                                                <p className='text-lg  font-semibold'>Compartimentare</p>
-                                                <select value={partitioning} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="partitioning" name="partitioning">
-                                                    <option value="decomandat">Decomandat</option>
-                                                    <option value="semidecomandat">Semidecomandat</option>
-                                                    <option value="nedecomandat">Nedecomandat</option>
-                                                    <option value="circular">Circular</option>
-                                                    <option value="vagon">Vagon</option>
-                                                </select>
-                                                <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
-                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                                <p className='text-lg mt-6 font-semibold'>Etaj</p>
-                                                <select value={floor} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="floor" name="floor">
+                                                <p className='text-lg text-white  font-semibold'>Compartimentare</p>
+                                                <div className="relative">
+                                                    <AiOutlineApartment className="absolute left-2 top-2 text-3xl" />
+                                                    <select value={partitioning} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="partitioning" name="partitioning">
+                                                        <option value="decomandat">Decomandat</option>
+                                                        <option value="semidecomandat">Semidecomandat</option>
+                                                        <option value="nedecomandat">Nedecomandat</option>
+                                                        <option value="circular">Circular</option>
+                                                        <option value="vagon">Vagon</option>
+                                                    </select>
+                                                </div>
+                                                <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
+                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='1'
+                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                                <p className='text-lg mt-3 font-semibold text-white'>Etaj</p>
+                                                <select value={floor} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="floor" name="floor">
                                                     <option value='Demisol'>Demisol</option>
                                                     <option value='Parter'>Parter</option>
                                                     <option value='Etaj 1'>Etaj 1</option>
@@ -321,9 +365,9 @@ export default function CreateListing() {
                                                     <option value='Peste 10'>Peste 10</option>
                                                     <option value='Mansarda'>Mansarda</option>
                                                 </select>
-                                                <div className="flex space-x-6 mt-6 mb-6">
+                                                <div className="flex space-x-32 w-full mt-3 mb-3">
                                                     <div>
-                                                        <p className='text-lg font-semibold'>Număr camere</p>
+                                                        <p className='text-lg text-white font-semibold'>Camere</p>
                                                         <input
                                                             type='number'
                                                             id='rooms'
@@ -332,13 +376,13 @@ export default function CreateListing() {
                                                             min='1'
                                                             max='50'
                                                             required
-                                                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                            className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
                                                         />
                                                     </div>
                                                     <div>
                                                         {roomsNumber > 2 && (
                                                             <div>
-                                                                <p className='text-lg font-semibold'>Număr băi</p>
+                                                                <p className='text-lg text-white font-semibold text-right'>Băi</p>
                                                                 <input
                                                                     type='number'
                                                                     id='bathrooms'
@@ -347,13 +391,20 @@ export default function CreateListing() {
                                                                     min='1'
                                                                     max='50'
                                                                     required
-                                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
                                                                 />
                                                             </div>
                                                         )}
                                                     </div>
                                                 </div>
-                                                <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
+                                                <p className='text-lg mt-3 text-white font-semibold'>An clădire</p>
+                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
+                                                    <option value='Dupa 2000'>După 2000</option>
+                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
+                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
+                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                </select>
+                                                <p className='text-lg mt-3 text-white font-semibold'>Loc de parcare</p>
                                                 <div className='flex'>
                                                     <button type='button' id='parking' value={true} onClick={onChange}
                                                         className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
@@ -364,7 +415,7 @@ export default function CreateListing() {
                                                 </div>
                                                 {type === 'sale' && (
                                                     <div>
-                                                        <p className='text-lg mt-6 font-semibold'>Mobilat</p>
+                                                        <p className='text-lg mt-3 text-white font-semibold'>Mobilat</p>
                                                         <div className='flex'>
                                                             <button type='button' id='furnished' value={true} onClick={onChange}
                                                                 className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
@@ -375,34 +426,30 @@ export default function CreateListing() {
                                                         </div>
                                                     </div>
                                                 )}
-                                                <p className='text-lg mt-6 font-semibold'>An clădire</p>
-                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
-                                                    <option value='Dupa 2000'>După 2000</option>
-                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
-                                                </select>
                                             </div>
                                         )}
                                         {propertyType === 'house' && (
                                             <div>
-                                                <p className='text-lg font-semibold'>Tip locuință</p>
-                                                <select value={houseType} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="houseType" name="housetType">
-                                                    <option value="individuala">Individuală</option>
-                                                    <option value="duplex">Duplex</option>
-                                                    <option value="triplex">Triplex</option>
-                                                    <option value="insiruita">Înșiruită</option>
-                                                    <option value="altele">Altele</option>
-                                                </select>
-                                                <p className='text-lg font-semibold mt-6' >Suprafața utilă(mp)</p>
-                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='0'
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                                <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
-                                                <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='0'
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                                <div className="flex space-x-6 mb-6 mt-6">
+                                                <p className='text-lg text-white font-semibold'>Tip locuință</p>
+                                                <div className="relative">
+                                                    <TbBuildingWarehouse className="absolute left-2 top-2 text-3xl" />
+                                                    <select value={houseType} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="houseType" name="housetType">
+                                                        <option value="individuala">Individuală</option>
+                                                        <option value="duplex">Duplex</option>
+                                                        <option value="triplex">Triplex</option>
+                                                        <option value="insiruita">Înșiruită</option>
+                                                        <option value="altele">Altele</option>
+                                                    </select>
+                                                </div>
+                                                <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
+                                                <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='1'
+                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                                <p className='text-lg font-semibold mt-3 text-white' >Suprafața teren(mp)</p>
+                                                <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
+                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                                <div className="flex space-x-32 w-full mt-3 mb-3">
                                                     <div>
-                                                        <p className='text-lg font-semibold'>Număr camere</p>
+                                                        <p className='text-lg text-white font-semibold'>Camere</p>
                                                         <input
                                                             type='number'
                                                             id='rooms'
@@ -411,13 +458,13 @@ export default function CreateListing() {
                                                             min='1'
                                                             max='50'
                                                             required
-                                                            className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                            className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
                                                         />
                                                     </div>
                                                     <div>
                                                         {roomsNumber > 2 && (
                                                             <div>
-                                                                <p className='text-lg font-semibold'>Număr băi</p>
+                                                                <p className='text-lg text-white font-semibold text-right'>Băi</p>
                                                                 <input
                                                                     type='number'
                                                                     id='bathrooms'
@@ -426,13 +473,20 @@ export default function CreateListing() {
                                                                     min='1'
                                                                     max='50'
                                                                     required
-                                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
+                                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'
                                                                 />
                                                             </div>
                                                         )}
                                                     </div>
                                                 </div>
-                                                <p className='text-lg mt-6 font-semibold'>Loc de parcare</p>
+                                                <p className='text-lg mt-3 text-white font-semibold'>An clădire</p>
+                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
+                                                    <option value='Dupa 2000'>După 2000</option>
+                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
+                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
+                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                </select>
+                                                <p className='text-lg mt-3 text-white font-semibold'>Loc de parcare</p>
                                                 <div className='flex'>
                                                     <button type='button' id='parking' value={true} onClick={onChange}
                                                         className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
@@ -443,7 +497,7 @@ export default function CreateListing() {
                                                 </div>
                                                 {type === 'sale' && (
                                                     <div>
-                                                        <p className='text-lg mt-6 font-semibold'>Mobilat</p>
+                                                        <p className='text-lg mt-3 text-white font-semibold'>Mobilat</p>
                                                         <div className='flex'>
                                                             <button type='button' id='furnished' value={true} onClick={onChange}
                                                                 className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-out w-full 
@@ -454,36 +508,31 @@ export default function CreateListing() {
                                                         </div>
                                                     </div>
                                                 )}
-                                                <p className='text-lg mt-6 font-semibold'>An clădire</p>
-                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="constructionYear" name="constructionYear">
-                                                    <option value='Dupa 2000'>După 2000</option>
-                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
-                                                </select>
-
                                             </div>
                                         )}
                                         {propertyType === 'land' && (
                                             <div>
-                                                <p className='text-lg font-semibold'>Tip teren</p>
-                                                <select value={landtype} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landtype" name="landtype">
-                                                    <option value="constructii">Constructii</option>
-                                                    <option value="agricol">Agricol</option>
-                                                    <option value="padure">Pădure</option>
-                                                    <option value="livada">Livadă</option>
-                                                </select>
-                                                <p className='text-lg  font-semibold mt-6'>Clasificare teren</p>
-                                                <select value={landClassification} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600' id="landClassification" name="landClassification">
+                                                <p className='text-lg text-white font-semibold'>Tip teren</p>
+                                                <div className="relative">
+                                                    <RiMapFill className="absolute left-2 top-2 text-3xl" />
+                                                    <select value={landtype} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landtype" name="landtype">
+                                                        <option value="constructii">Constructii</option>
+                                                        <option value="agricol">Agricol</option>
+                                                        <option value="padure">Pădure</option>
+                                                        <option value="livada">Livadă</option>
+                                                    </select>
+                                                </div>
+                                                <p className='text-lg  font-semibold mt-3 text-white'>Clasificare teren</p>
+                                                <select value={landClassification} onChange={onChange} className='w-full rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landClassification" name="landClassification">
                                                     <option value="intravilan">Intravilan</option>
                                                     <option value="extravilan">Extravilan</option>
                                                 </select>
-                                                <p className='text-lg font-semibold mt-6' >Suprafața teren(mp)</p>
+                                                <p className='text-lg font-semibold mt-3 text-white' >Suprafața teren(mp)</p>
                                                 <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border' />
-                                                <p className='text-lg font-semibold mt-6' >Front stradal(m)</p>
+                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                                <p className='text-lg font-semibold mt-3 text-white' >Front stradal(m)</p>
                                                 <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='5'
-                                                    className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border  text-center' />
+                                                    className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                             </div>
                                         )}
                                     </div>
@@ -491,13 +540,13 @@ export default function CreateListing() {
                             </form>
                         </div>
                     </div>
-                    <form onSubmit={onSubmit}>
-                        <div className="text-center">
-                            <button type="submit" className='mb-3 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
-                        </div>
-                    </form>
                 </div>
             </section>
+            <form onSubmit={onSubmit}>
+                <div className="text-center">
+                    <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                </div>
+            </form>
         </>
     );
 }

@@ -8,11 +8,11 @@ body {
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-    color: #2744a3;
+    color: rgb(239, 68, 68)
 }
 
 .swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
-    background: #2744a3 !important;
+    background: rgb(239, 68, 68) !important;
 }
 
 /*remove scrollbar for chrome*/

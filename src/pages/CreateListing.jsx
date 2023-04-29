@@ -169,20 +169,19 @@ export default function CreateListing() {
             delete formDataCopy.floor
             delete formDataCopy.constructionYear
             delete formDataCopy.utilSurface
-        } else if (propertyType === 'apartment') {
+          } else if (propertyType === 'apartment') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
             delete formDataCopy.landSurface
             delete formDataCopy.streetfront
             delete formDataCopy.houseType
-            delete formDataCopy.floor
-        } else if (propertyType === 'house') {
+          } else if (propertyType === 'house') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
-            delete formDataCopy.landSurface
             delete formDataCopy.partitioning
             delete formDataCopy.streetfront
-        }
+            delete formDataCopy.floor
+          }
         delete formDataCopy.images;
         !formDataCopy.offer && delete formDataCopy.discountedPrice;
         delete formDataCopy.latitude;
@@ -544,7 +543,7 @@ export default function CreateListing() {
             </section>
             <form onSubmit={onSubmit}>
                 <div className="text-center">
-                    <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
+                    <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[200px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Creează anunț</button>
                 </div>
             </form>
         </>

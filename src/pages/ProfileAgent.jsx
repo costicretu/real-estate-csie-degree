@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import { toast } from 'react-toastify'
 import { updateDoc, doc, collection, query, where, orderBy, getDocs, getDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { FcHome } from 'react-icons/fc'
+import { AiOutlinePlus } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import ListingItem from '../components/ListingItem'
 import { MdAccountCircle, MdMail, MdQuestionAnswer } from 'react-icons/md'
@@ -214,11 +214,6 @@ export default function ProfileAgent() {
                                         COD AUTENTIFICARE: <strong>{agentCode}</strong>
                                     </p>
                                 </div>
-                                <div className='w-full px-5 py-1'>
-                                    <div className='flex justify-center'>
-                                        <h2 className='font-semibold rounded text-center text-2xl px-1 py-0.5 bg-gray-300 text-black shadow-md'>Date personale</h2>
-                                    </div>
-                                </div>
                                 <div id='pentruEmail' className='px-4'>
                                     <div className='relative mb-1'>
                                         <MdMail className="absolute left-0 top-0 text-3xl" />
@@ -353,9 +348,9 @@ export default function ProfileAgent() {
                         <div className='flex-grow'>
                             <div className='flex items-center justify-between'>
                                 <h2 className='ml-2 text-2xl font-semibold'>Anunțurile mele</h2>
-                                <button type="submit" className='bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
+                                <button type="submit" className='bg-red-500 text-gray-100 uppercase px-7 py-3 text-sm font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-700'>
                                     <Link to='/create-listing' className='flex items-center'>
-                                        <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
+                                        <AiOutlinePlus className='mr-2 text-3xl' />
                                         Adaugă anunț
                                     </Link>
                                 </button>

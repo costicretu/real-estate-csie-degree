@@ -6,7 +6,7 @@ import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
 import 'swiper/css/bundle'
-import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaChair } from 'react-icons/fa'
+import { FaShareSquare, FaMapMarkerAlt, FaBed, FaBath, FaChair } from 'react-icons/fa'
 import { getAuth } from 'firebase/auth'
 import Contact from '../components/Contact';
 import ContactListing from '../components/ContactListing';
@@ -20,9 +20,9 @@ export default function Listing() {
     const params = useParams()
     const [listing, setListing] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [shareLinkCopied, setShareLinkCopied] = useState(false)
     const [contactLandLord, setContactLandLord] = useState(false)
     const [detailsVisible, setDetailsVisible] = useState(false);
+    const [shareLinkCopied, setShareLinkCopied] = useState(false);
     const toggleDetails = () => {
         setDetailsVisible((prevState) => !prevState);
     };
@@ -42,9 +42,9 @@ export default function Listing() {
         return <Spinner />
     }
     return (
-        <main className='relative'>
-            <div className="m-5 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
-                <div className="w-full max-h-[900px] h-full z-10 overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
+        <main>
+            <div className="m-5 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-2 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
+                <div className="w-full max-h-[900px] h-full  overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
                     <div className='relative h-full mb-2 text-2xl'>
                         <div className='font-normal mb-1' id='a'>
                             {listing.title} {" "}
@@ -73,26 +73,26 @@ export default function Listing() {
                             </div>
                         ) : (
                             <div className='text-lg absolute right-0 top-0 w-[20%] h-full'>
-                            <div className='flex space-x-4'>
-                                <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
-                                    {listing.offer
-                                        ? listing.discountedPrice
-                                            .toString()
-                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                                        : listing.regularPrice
-                                            .toString()
-                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                    €{listing.type === "rent" ? " / lună" : ""}
-                                </p>
-                                {listing.offer && (
-                                    <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
-                                        <p>
-                                            {+listing.regularPrice - +listing.discountedPrice}€ discount
-                                        </p>
-                                    </div>
-                                )}
+                                <div className='flex space-x-4'>
+                                    <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
+                                        {listing.offer
+                                            ? listing.discountedPrice
+                                                .toString()
+                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                            : listing.regularPrice
+                                                .toString()
+                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                        €{listing.type === "rent" ? " / lună" : ""}
+                                    </p>
+                                    {listing.offer && (
+                                        <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
+                                            <p>
+                                                {+listing.regularPrice - +listing.discountedPrice}€ discount
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
                         )}
                     </div>
                     <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect='fade' modules={[EffectFade]}>
@@ -214,10 +214,10 @@ export default function Listing() {
                         )}
                     </div>
                 </div>
-                <div className="lg:w-[500px] md:w-[550px] lg:h-[500px] md:h-[500px]" id='a'>
+                <div className="lg:w-[500px] md:w-[550px] lg:h-[500px] md:h-[500px] z-10" id='a'>
                     <ContactListing userRef={listing.userRef} listing={listing} />
-                    <div className='w-[420px] h-[430px] overflow-hidden'>
-                        <p className='flex items-center font-medium text-lg'>
+                    <div className='w-[420px] h-[430px] z-10 overflow-hidden'>
+                        <p className='flex items-center font-medium text-xl'>
                             <FaMapMarkerAlt className='text-green-700 mr-1 text-xl' />
                             {listing.address}
                         </p>
@@ -236,7 +236,7 @@ export default function Listing() {
                     </div>
                     {listing.userRef !== auth.currentUser?.uid && !contactLandLord && (
                         <div className='mt-2 text-center'>
-                            <button onClick={() => setContactLandLord(true)} className='bg-gray-300 text-black px-5 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-gray-400 hover:text-white transition duration-150 ease-in-out hover:shadow-lg active:bg-gray-500 active:text-white'>
+                            <button onClick={() => setContactLandLord(true)} className='w-full bg-gray-300 text-black px-5 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-gray-400 hover:text-white transition duration-150 ease-in-out hover:shadow-lg active:bg-gray-500 active:text-white'>
                                 Contactează agent
                             </button>
                         </div>
@@ -245,20 +245,17 @@ export default function Listing() {
                         <Contact userRef={listing.userRef} listing={listing} />
                     )}
                 </div>
-                <div className="absolute top-1 right-1 z-10 bg-white cursor-pointer border-2 border-gray-400 rounded-full w-12 h-12 flex justify-center items-center" id='share'
-                    onClick={() => {
-                        navigator.clipboard.writeText(window.location.href)
-                        setShareLinkCopied(true)
-                        setTimeout(() => {
-                            setShareLinkCopied(false)
-                        }, 2000)
-                    }}>
-                    <FaShare className='text-lg text-slate-500' />
-                </div>
-            </div>
-            <div className='absolute lg:right-52 lg:top-0'>
+                <FaShareSquare className='absolute right-1 bottom-1 text-3xl text-gray-600' onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    setShareLinkCopied(true);
+                    setTimeout(() => {
+                        setShareLinkCopied(false);
+                    }, 2000);
+                }} />
                 {shareLinkCopied && (
-                    <p className='font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copiat</p>
+                    <p className="absolute right-10 bottom-1 font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2 text-gray-600 text-lg">
+                        Link copiat
+                    </p>
                 )}
             </div>
         </main>

@@ -6,7 +6,7 @@ import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
 import 'swiper/css/bundle'
-import { FaShareSquare, FaMapMarkerAlt, FaBed, FaBath, FaChair } from 'react-icons/fa'
+import { FaShareSquare, FaMapMarkerAlt, FaBed, FaBath } from 'react-icons/fa'
 import { getAuth } from 'firebase/auth'
 import Contact from '../components/Contact';
 import ContactListing from '../components/ContactListing';
@@ -14,6 +14,8 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
 import { GiStairs } from 'react-icons/gi'
 import { TbParking, TbParkingOff } from 'react-icons/tb'
+import { MdChair } from 'react-icons/md';
+import { IoIosBed } from 'react-icons/io'
 
 export default function Listing() {
     const auth = getAuth()
@@ -50,18 +52,20 @@ export default function Listing() {
                             {listing.title} {" "}
                         </div>
                         {listing.offer ? (
-                            <div className='text-lg absolute right-0 top-0 w-[40%] h-full'>
+                            <div className='text-lg absolute right-0 top-0 w-[35%] h-full'>
                                 <div className='flex space-x-4'>
-                                    <p className='w-full bg-red-800 rounded-lg p-1 text-white text-center font-semibold '>
-                                        {listing.offer
-                                            ? listing.discountedPrice
-                                                .toString()
-                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                                            : listing.regularPrice
-                                                .toString()
-                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                        €{listing.type === "rent" ? " / lună" : ""}
-                                    </p>
+                                    <div className='w-full bg-red-800 rounded-lg p-1 text-white text-center font-semibold '>
+                                        <p >
+                                            {listing.offer
+                                                ? listing.discountedPrice
+                                                    .toString()
+                                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                                : listing.regularPrice
+                                                    .toString()
+                                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                            €{listing.type === "rent" ? " / lună" : ""}
+                                        </p>
+                                    </div>
                                     {listing.offer && (
                                         <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
                                             <p>
@@ -126,7 +130,7 @@ export default function Listing() {
                             </ul>
                             <ul className='flex items-center space-x-2 lg:space-x-10 text-md font-semibold ml-1 mt-3'>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <FaBed className='text-lg mr-1' />
+                                    <IoIosBed className='text-xl mr-1' />
                                     {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
@@ -134,16 +138,16 @@ export default function Listing() {
                                     {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <GiStairs className='text-lg mr-1' />
+                                    <GiStairs className='text-xl mr-1' />
                                     {listing.floor}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <MdChair className='text-xl mr-1' />
+                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
                                     {listing.parking ? <TbParking className='text-xl mr-1' /> : <TbParkingOff className='text-xl mr-1' />}
                                     {+listing.parking ? 'Loc de parcare' : 'Loc de parcare'}
-                                </li>
-                                <li className='flex items-center whitespace-nowrap'>
-                                    <FaChair className='text-lg mr-1' />
-                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                                 </li>
                             </ul>
                         </div>
@@ -174,7 +178,7 @@ export default function Listing() {
                             </ul>
                             <ul className='flex items-center space-x-2 lg:space-x-10 text-md font-semibold ml-1 mt-3'>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <FaBed className='text-lg mr-1' />
+                                    <IoIosBed className='text-xl mr-1' />
                                     {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
@@ -182,12 +186,12 @@ export default function Listing() {
                                     {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    {listing.parking ? <TbParking className='text-xl mr-1' /> : <TbParkingOff className='text-xl mr-1' />}
-                                    {+listing.parking ? 'Loc de parcare' : 'Loc de parcare'}
+                                    <MdChair className='text-xl mr-1' />
+                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <FaChair className='text-lg mr-1' />
-                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
+                                    {listing.parking ? <TbParking className='text-xl mr-1' /> : <TbParkingOff className='text-xl mr-1' />}
+                                    {+listing.parking ? 'Loc de parcare' : 'Loc de parcare'}
                                 </li>
                             </ul>
                         </div>

@@ -36,7 +36,7 @@ export default function Home() {
       <div className='absolute top-0 left-0 z-10'>
         <Slider />
       </div>
-      <div className='relative z-20 max-w-6xl mx-auto pt-4 space-y-6'>
+      <div className='relative z-20 max-w-7xl mx-auto pt-4 space-y-6'>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
           <div>
             <div className='flex bg-slate-500 rounded-lg'>

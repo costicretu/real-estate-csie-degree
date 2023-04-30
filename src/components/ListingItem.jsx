@@ -12,7 +12,7 @@ import { setDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export default function ListingItem({ listing, id, onEdit, onDelete, setListingItems }) {
     const [isFavorite, setIsFavorite] = useState(false);
-    const { loggedIn, isAgent } = useAuthStatusAgent();    
+    const { loggedIn, isAgent } = useAuthStatusAgent();
     useEffect(() => {
         const fetchIsFavorite = async () => {
             const auth = getAuth();
@@ -30,7 +30,6 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
         };
         fetchIsFavorite();
     }, [id]);
-
     const toggleFavorite = async () => {
         setIsFavorite(!isFavorite);
         const auth = getAuth();
@@ -59,47 +58,43 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
         } catch (error) {
             console.error('Eroare la actualizarea documentului utilizatorului');
         }
-    };   
+    };
     return <li className='relative bg-white flex-col justify-between items-center shadow-md hover:shadow-xl rounded overflow-hidden transition-shadow duration-150 m-[10px]'>
         <Link className='contents' to={`/category/${listing.type}/${id}`}>
             <img className='h-[170px] w-full object-cover hover:scale-105 transition-scale duration-200 ease-in' loading='lazy' src={listing.imgUrls[0]} />
             <Moment className='absolute top-2 bg-[#3377cc] text-white uppercase text-xs font-semibold rounded-md px-2 py-1 shadow-lg left-2' fromNow>{listing.timestamp?.toDate()}</Moment>
             <div className='w-full p-[10px]'>
-                <div className='flex items-center space-x-1'>
-                    <MdLocationOn className='h-4 w-4 text-green-600' />
-                    <p className='font-semibold text-sm mb-[2px] text-gray-600 truncate'>{listing.address}</p>
+                <div className='flex items-center justify-between'>
+                    <div className='bg-red-500 p-1 rounded-md text-gray-100'>
+                        <p className='font-semibold'>€{listing.offer
+                            ? listing.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                            : listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            {listing.type === 'rent' && " / lună"}
+                        </p>
+                    </div>
+                    <div className='flex items-center'>
+                        <MdLocationOn className='h-4 w-4 text-green-600' />
+                        <p className='font-semibold text-sm text-gray-600 truncate'>{listing.address}</p>
+                    </div>
                 </div>
-                <p className='font-semibold m-0 text-xl'>{listing.title}</p>
-                <p className='text-[#457b9d] truncate mt-2 font-semibold'>€{listing.offer
-                    ? listing.discountedPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    : listing.regularPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    {listing.type === 'rent' && " / lună"}
-                </p>
+                <p className='font-normal m-0 text-xl'>{listing.title}</p>
                 <div className="flex items-center mt-[10px] space-x-3">
-                    {listing.property === 'land' ? (
+                    {listing.property === 'apartment' && (
                         <div className="flex items-center space-x-1">
-                            <p className="font-bold text-xs">
-                                {`${listing.utilSurface} mp`}
-                            </p>
+                            <p className="font-semibold text-sm">{`${listing.utilSurface}`}<span className='font-bold'>mp</span></p>
+                            <p className="font-semibold text-sm">{listing.rooms > 1 ? (<div>{listing.rooms}<span className='font-bold'> camere</span></div>) : (<div>1<span className='font-bold'>-cameră</span></div>)}</p>
                         </div>
-                    ) : (
-                        <div className="flex items-center mt-[10px] space-x-3">
-                            <div className="flex items-center space-x-1">
-                                <p className="font-bold text-xs">
-                                    {listing.bedrooms > 1 ? `${listing.rooms} camere` : "1 cameră"}
-                                </p>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                <p className="font-bold text-xs">
-                                    {listing.bathrooms > 1
-                                        ? `${listing.bathrooms} băi`
-                                        : "1 baie"}
-                                </p>
-                            </div>
+                    )}
+                    {listing.property === 'house' && (
+                        <div className="flex items-center space-x-1">
+                            <p className="font-semibold text-sm">{`${listing.utilSurface}`}<span className='font-bold'>mp</span></p>
+                            <p className="font-semibold text-sm">teren: {`${listing.landSurface}`}<span className='font-bold'>mp</span></p>
+                        </div>
+                    )}
+                    {listing.property === 'land' && (
+                        <div className="flex items-center space-x-1">
+                            <p className="font-semibold text-sm">{`${listing.landSurface}`}<span className='font-bold'>mp</span></p>
+                            <p className="font-semibold text-sm">f.s: {`${listing.streetfront}`}<span className='font-bold'>mp</span></p>
                         </div>
                     )}
                 </div>

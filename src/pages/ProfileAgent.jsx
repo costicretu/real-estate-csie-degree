@@ -348,7 +348,7 @@ export default function ProfileAgent() {
                         <div className='flex-grow'>
                             <div className='flex items-center justify-between'>
                                 <h2 className='ml-2 text-2xl font-semibold'>Anunțurile mele</h2>
-                                <button type="submit" className='bg-red-500 text-gray-100 uppercase px-7 py-3 text-sm font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-700'>
+                                <button type="submit" className='bg-red-500 text-gray-100 uppercase px-7 py-3 text-sm font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-150 ease-in-out hover:shadow-lg active:bg-red-700'>
                                     <Link to='/create-listing' className='flex items-center'>
                                         <AiOutlinePlus className='mr-2 text-3xl' />
                                         Adaugă anunț

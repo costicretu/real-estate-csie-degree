@@ -79,15 +79,15 @@ export default function CreateListing() {
     async function onSubmit(e) {
         e.preventDefault();
         setLoading(true);
-        if (+discountedPrice >= +regularPrice) {
-            setLoading(false);
-            toast.error("Discounted price needs to be less than regular price");
-            return;
-        }
         if (images.length > 6) {
-            setLoading(false);
-            toast.error("maximum 6 images are allowed");
-            return;
+            setLoading(false)
+            toast.error('Nu poți încărca mai multe de 6 imagini')
+        } else if (!images) {
+            setLoading(false)
+        }
+        if (propertyType === 'Alege') {
+            setLoading(false)
+            toast.error('Te rog alege un tip de imobil')
         }
         let geolocation = {};
         let location;
@@ -109,7 +109,6 @@ export default function CreateListing() {
             geolocation.lat = latitude;
             geolocation.lng = longitude;
         }
-
         async function storeImage(image) {
             return new Promise((resolve, reject) => {
                 const storage = getStorage();
@@ -142,7 +141,6 @@ export default function CreateListing() {
                 );
             });
         }
-
         const imgUrls = await Promise.all(
             [...images].map((image) => storeImage(image))
         ).catch((error) => {
@@ -150,7 +148,6 @@ export default function CreateListing() {
             toast.error("Imaginele nu au putut fi încărcate");
             return;
         });
-
         const formDataCopy = {
             ...formData,
             imgUrls,
@@ -169,19 +166,19 @@ export default function CreateListing() {
             delete formDataCopy.floor
             delete formDataCopy.constructionYear
             delete formDataCopy.utilSurface
-          } else if (propertyType === 'apartment') {
+        } else if (propertyType === 'apartment') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
             delete formDataCopy.landSurface
             delete formDataCopy.streetfront
             delete formDataCopy.houseType
-          } else if (propertyType === 'house') {
+        } else if (propertyType === 'house') {
             delete formDataCopy.landClassification
             delete formDataCopy.landtype
             delete formDataCopy.partitioning
             delete formDataCopy.streetfront
             delete formDataCopy.floor
-          }
+        }
         delete formDataCopy.images;
         !formDataCopy.offer && delete formDataCopy.discountedPrice;
         delete formDataCopy.latitude;
@@ -196,12 +193,12 @@ export default function CreateListing() {
     }
     return (
         <>
-            <section className="flex items-center justify-center">
-                <div className='mx-2 w-[900px]'>
-                    <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg text-center mt-3 font-semibold text-gray-100'>Adaugă un anunț</h2>
-                    <div className='flex flex-col md:flex-row px-3 '>
-                        <div className="md:w-[55%] lg:w-[55%] mr-3 md:mb-0 rounded-lg w-full" id="a">
-                            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
+                <section className="flex items-center justify-center">
+                    <div className='mx-2 w-[900px]'>
+                        <h2 className='py-1 px-3 text-2xl bg-slate-500 shadow-lg rounded-lg text-center mt-3 font-semibold text-gray-100'>Adaugă un anunț</h2>
+                        <div className='flex flex-col md:flex-row px-3 '>
+                            <div className="md:w-[55%] lg:w-[55%] mr-3 md:mb-0 rounded-lg w-full" id="a">
                                 <div className="mb-6 mt-6">
                                     <p className='text-lg font-semibold'>Titlu anunț</p>
                                     <div className="relative">
@@ -223,15 +220,23 @@ export default function CreateListing() {
                                     <p className='text-gray-600'>Prima imagine va fi cu titlu de prezentare (maxim 6)</p>
                                     <div className="relative">
                                         <BsFillImageFill className="absolute right-3 top-2 text-3xl" />
-                                        <input type="file" id='images' onChange={onChange} accept=".jpg,.png,.jpeg" multiple required
-                                            className='w-full px-3 py-1.5 bg-white border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                        <input
+                                            type="file"
+                                            id="images"
+                                            onChange={onChange}
+                                            accept=".jpg,.png,.jpeg"
+                                            multiple
+                                            required
+                                            className="w-full px-3 py-1.5 bg-white border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500"
+                                            disabled={formData.property === 'Alege'}
+                                        />
                                     </div>
                                 </div>
                                 <div className="mb-3 mt-3">
                                     <p className='text-lg  font-semibold'>Adresă</p>
                                     <div className="relative">
                                         <FaLocationArrow className="absolute right-3 top-8 text-3xl" />
-                                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
+                                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare(ex: Strada Orhideei 15)" required
                                             className='w-full px-4 py-1 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                     </div>
                                     {!geolocationEnabled && (
@@ -272,8 +277,8 @@ export default function CreateListing() {
                                             <div className=''>
                                                 <p className='text-lg font-semibold'>Preț fără discount</p>
                                                 <div className='flex  justify-center items-center space-x-3'>
-                                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
-                                                        className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required disabled={formData.property === 'Alege'}
+                                                        className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                     {type === "rent" && (
                                                         <div className=''>
                                                             <p className='text-md  whitespace-nowrap'>€ / lună</p>
@@ -289,8 +294,8 @@ export default function CreateListing() {
                                                 <div className=''>
                                                     <p className='text-lg font-semibold'>Preț cu discount</p>
                                                     <div className='flex  justify-center items-center space-x-3'>
-                                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
-                                                            className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 ' />
+                                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer} disabled={formData.property === 'Alege'}
+                                                            className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                         {type === "rent" && (
                                                             <div className=''>
                                                                 <p className='text-md  whitespace-nowrap'>€ / lună</p>
@@ -302,12 +307,10 @@ export default function CreateListing() {
                                         )}
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div className='flex-grow' id='b'>
-                            <form onSubmit={onSubmit}>
+                            </div>
+                            <div className='flex-grow' id='b'>
                                 <div className="w-full">
-                                    <p className='text-lg mt-6 font-semibold'>Tip proprietate</p>
+                                    <p className='text-lg mt-6 font-semibold'>*Tip proprietate</p>
                                     <div className="relative">
                                         {propertyType === 'Alege' && (
                                             <BsBuildingsFill className="absolute left-2 top-2 text-3xl" />
@@ -321,7 +324,7 @@ export default function CreateListing() {
                                         {property === 'land' && (
                                             <GiPoland className="absolute left-2 top-2 text-3xl" />
                                         )}
-                                        <select value={property} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="property" name="property">
+                                        <select value={property} onChange={onChange} required className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="property" name="property">
                                             <option value="Alege" disabled={property !== "Alege"} >Alege</option>
                                             <option value="apartment">Apartament</option>
                                             <option value="house">Casă</option>
@@ -336,7 +339,7 @@ export default function CreateListing() {
                                                 <p className='text-lg text-white  font-semibold'>Compartimentare</p>
                                                 <div className="relative">
                                                     <AiOutlineApartment className="absolute left-2 top-2 text-3xl" />
-                                                    <select value={partitioning} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="partitioning" name="partitioning">
+                                                    <select value={partitioning} required onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="partitioning" name="partitioning">
                                                         <option value="Decomandat">Decomandat</option>
                                                         <option value="Semidecomandat">Semidecomandat</option>
                                                         <option value="Nedecomandat">Nedecomandat</option>
@@ -344,7 +347,7 @@ export default function CreateListing() {
                                                         <option value="Vagon">Vagon</option>
                                                     </select>
                                                 </div>
-                                                <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
+                                                <p className='text-lg text-white font-semibold mt-3' >*Suprafața utilă(mp)</p>
                                                 <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='1'
                                                     className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                 <p className='text-lg mt-3 font-semibold text-white'>Etaj</p>
@@ -432,7 +435,7 @@ export default function CreateListing() {
                                                 <p className='text-lg text-white font-semibold'>Tip locuință</p>
                                                 <div className="relative">
                                                     <TbBuildingWarehouse className="absolute left-2 top-2 text-3xl" />
-                                                    <select value={houseType} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="houseType" name="housetType">
+                                                    <select value={houseType} required onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="houseType" name="housetType">
                                                         <option value="Individuală">Individuală</option>
                                                         <option value="Duplex">Duplex</option>
                                                         <option value="Triplex">Triplex</option>
@@ -440,10 +443,10 @@ export default function CreateListing() {
                                                         <option value="Altele">Altele</option>
                                                     </select>
                                                 </div>
-                                                <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
+                                                <p className='text-lg text-white font-semibold mt-3' >*Suprafața utilă(mp)</p>
                                                 <input type="number" id="utilSurface" value={utilSurface} onChange={onChange} required min='1'
                                                     className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
-                                                <p className='text-lg font-semibold mt-3 text-white' >Suprafața teren(mp)</p>
+                                                <p className='text-lg font-semibold mt-3 text-white' >*Suprafața teren(mp)</p>
                                                 <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
                                                     className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                 <div className="flex space-x-32 w-full mt-3 mb-3">
@@ -479,7 +482,7 @@ export default function CreateListing() {
                                                     </div>
                                                 </div>
                                                 <p className='text-lg mt-3 text-white font-semibold'>An clădire</p>
-                                                <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
+                                                <select value={constructionYear} required onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
                                                     <option value='După 2000'>După 2000</option>
                                                     <option value='Între 1990 și 2000'>Între 1990 și 2000</option>
                                                     <option value='Între 1977 și 1990'>Între 1977 și 1990</option>
@@ -514,7 +517,7 @@ export default function CreateListing() {
                                                 <p className='text-lg text-white font-semibold'>Tip teren</p>
                                                 <div className="relative">
                                                     <RiMapFill className="absolute left-2 top-2 text-3xl" />
-                                                    <select value={landtype} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landtype" name="landtype">
+                                                    <select value={landtype} required onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landtype" name="landtype">
                                                         <option value="Construcții">Construcții</option>
                                                         <option value="Agricol">Agricol</option>
                                                         <option value="Pădure">Pădure</option>
@@ -522,26 +525,24 @@ export default function CreateListing() {
                                                     </select>
                                                 </div>
                                                 <p className='text-lg  font-semibold mt-3 text-white'>Clasificare teren</p>
-                                                <select value={landClassification} onChange={onChange} className='w-full rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landClassification" name="landClassification">
+                                                <select value={landClassification} required onChange={onChange} className='w-full rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landClassification" name="landClassification">
                                                     <option value="Intravilan">Intravilan</option>
                                                     <option value="Extravilan">Extravilan</option>
                                                 </select>
-                                                <p className='text-lg font-semibold mt-3 text-white' >Suprafața teren(mp)</p>
+                                                <p className='text-lg font-semibold mt-3 text-white' >*Suprafața teren(mp)</p>
                                                 <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'
                                                     className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
-                                                <p className='text-lg font-semibold mt-3 text-white' >Front stradal(m)</p>
+                                                <p className='text-lg font-semibold mt-3 text-white' >*Front stradal(m)</p>
                                                 <input type="number" id="streetfront" value={streetfront} onChange={onChange} required min='5'
                                                     className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                             </div>
                                         )}
                                     </div>
                                 )}
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <form onSubmit={onSubmit}>
+                </section>
                 <div className="text-center">
                     <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[150px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Creează</button>
                 </div>

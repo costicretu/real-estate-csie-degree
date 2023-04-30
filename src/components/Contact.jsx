@@ -24,16 +24,12 @@ export default function Contact({ userRef, listing }) {
     return (
         <>{landlord !== null && (
             <div className='flex flex-col w-full'>
-                <p className='text-md'>
-                    Contactează-l pe {landlord.nameAgent} pentru {listing.title.toLowerCase()}
-                </p>
-                <div className='mt-3 mb-6'>
-                    <textarea placeholder='Scrie un mesaj...' name="message" id="message" rows="2" value={message} onChange={onChange} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'>
-
+                <div className='mt-3'>
+                    <textarea placeholder='Scrie un mesaj...' name="message" id="message" rows="2" value={message} onChange={onChange} className='w-full px-2 py-1 text-xl h-[80px] bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
                     </textarea>
                 </div>
-                <a href={`mailto:${landlord.emailAgent}?Subject=${listing.title}&body=${message}`}>
-                    <button className='px-7 py-3 bg-blue-600 text-white rounded text-sm uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 hover:focus-lg active:bg-blue-800 active:focus-lg transition duration-150 ease-in-out w-full text-center mb-6' type='button'>
+                <a href={`mailto:${landlord.emailAgent}?Subject=${listing.title}&body=${message}`} className='text-center'>
+                    <button className='bg-gray-300 text-black px-5 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-gray-400 hover:text-white transition duration-150 ease-in-out hover:shadow-lg active:bg-gray-500 active:text-white' type='button'>
                         Trimite mesaj
                     </button>
                 </a>

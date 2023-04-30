@@ -337,11 +337,11 @@ export default function CreateListing() {
                                                 <div className="relative">
                                                     <AiOutlineApartment className="absolute left-2 top-2 text-3xl" />
                                                     <select value={partitioning} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="partitioning" name="partitioning">
-                                                        <option value="decomandat">Decomandat</option>
-                                                        <option value="semidecomandat">Semidecomandat</option>
-                                                        <option value="nedecomandat">Nedecomandat</option>
-                                                        <option value="circular">Circular</option>
-                                                        <option value="vagon">Vagon</option>
+                                                        <option value="Decomandat">Decomandat</option>
+                                                        <option value="Semidecomandat">Semidecomandat</option>
+                                                        <option value="Nedecomandat">Nedecomandat</option>
+                                                        <option value="Circular">Circular</option>
+                                                        <option value="Vagon">Vagon</option>
                                                     </select>
                                                 </div>
                                                 <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
@@ -398,10 +398,10 @@ export default function CreateListing() {
                                                 </div>
                                                 <p className='text-lg mt-3 text-white font-semibold'>An clădire</p>
                                                 <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
-                                                    <option value='Dupa 2000'>După 2000</option>
-                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                    <option value='După 2000'>După 2000</option>
+                                                    <option value='Între 1990 și 2000'>Între 1990 și 2000</option>
+                                                    <option value='Între 1977 și 1990'>Între 1977 și 1990</option>
+                                                    <option value='Înainte de 1977'>Înainte de 1977</option>
                                                 </select>
                                                 <p className='text-lg mt-3 text-white font-semibold'>Loc de parcare</p>
                                                 <div className='flex'>
@@ -433,11 +433,11 @@ export default function CreateListing() {
                                                 <div className="relative">
                                                     <TbBuildingWarehouse className="absolute left-2 top-2 text-3xl" />
                                                     <select value={houseType} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="houseType" name="housetType">
-                                                        <option value="individuala">Individuală</option>
-                                                        <option value="duplex">Duplex</option>
-                                                        <option value="triplex">Triplex</option>
-                                                        <option value="insiruita">Înșiruită</option>
-                                                        <option value="altele">Altele</option>
+                                                        <option value="Individuală">Individuală</option>
+                                                        <option value="Duplex">Duplex</option>
+                                                        <option value="Triplex">Triplex</option>
+                                                        <option value="Înșiruită">Înșiruită</option>
+                                                        <option value="Altele">Altele</option>
                                                     </select>
                                                 </div>
                                                 <p className='text-lg text-white font-semibold mt-3' >Suprafața utilă(mp)</p>
@@ -480,10 +480,10 @@ export default function CreateListing() {
                                                 </div>
                                                 <p className='text-lg mt-3 text-white font-semibold'>An clădire</p>
                                                 <select value={constructionYear} onChange={onChange} className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="constructionYear" name="constructionYear">
-                                                    <option value='Dupa 2000'>După 2000</option>
-                                                    <option value='Intre 1990 si 2000'>Între 1990 și 2000</option>
-                                                    <option value='Intre 1977 si 1990'>Între 1977 și 1990</option>
-                                                    <option value='Inainte de 1977'>Înainte de 1977</option>
+                                                    <option value='După 2000'>După 2000</option>
+                                                    <option value='Între 1990 și 2000'>Între 1990 și 2000</option>
+                                                    <option value='Între 1977 și 1990'>Între 1977 și 1990</option>
+                                                    <option value='Înainte de 1977'>Înainte de 1977</option>
                                                 </select>
                                                 <p className='text-lg mt-3 text-white font-semibold'>Loc de parcare</p>
                                                 <div className='flex'>
@@ -515,16 +515,16 @@ export default function CreateListing() {
                                                 <div className="relative">
                                                     <RiMapFill className="absolute left-2 top-2 text-3xl" />
                                                     <select value={landtype} onChange={onChange} className='w-full px-10 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landtype" name="landtype">
-                                                        <option value="constructii">Constructii</option>
-                                                        <option value="agricol">Agricol</option>
-                                                        <option value="padure">Pădure</option>
-                                                        <option value="livada">Livadă</option>
+                                                        <option value="Construcții">Construcții</option>
+                                                        <option value="Agricol">Agricol</option>
+                                                        <option value="Pădure">Pădure</option>
+                                                        <option value="Livadă">Livadă</option>
                                                     </select>
                                                 </div>
                                                 <p className='text-lg  font-semibold mt-3 text-white'>Clasificare teren</p>
                                                 <select value={landClassification} onChange={onChange} className='w-full rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' id="landClassification" name="landClassification">
-                                                    <option value="intravilan">Intravilan</option>
-                                                    <option value="extravilan">Extravilan</option>
+                                                    <option value="Intravilan">Intravilan</option>
+                                                    <option value="Extravilan">Extravilan</option>
                                                 </select>
                                                 <p className='text-lg font-semibold mt-3 text-white' >Suprafața teren(mp)</p>
                                                 <input type="number" id="landSurface" value={landSurface} onChange={onChange} required min='10'

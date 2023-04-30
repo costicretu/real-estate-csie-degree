@@ -10,8 +10,10 @@ import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from 'reac
 import { FiMap } from 'react-icons/fi'
 import { getAuth } from 'firebase/auth'
 import Contact from '../components/Contact';
+import ContactListing from '../components/ContactListing';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { BsFillArrowDownCircleFill } from 'react-icons/bs'
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
+import { GiStairs } from 'react-icons/gi'
 
 export default function Listing() {
     const auth = getAuth()
@@ -20,7 +22,10 @@ export default function Listing() {
     const [loading, setLoading] = useState(true)
     const [shareLinkCopied, setShareLinkCopied] = useState(false)
     const [contactLandLord, setContactLandLord] = useState(false)
-    const [details, setDetails] = useState(false)
+    const [detailsVisible, setDetailsVisible] = useState(false);
+    const toggleDetails = () => {
+        setDetailsVisible((prevState) => !prevState);
+    };
     SwiperCore.use([Autoplay, Navigation, Pagination])
     useEffect(() => {
         async function fetchListing() {
@@ -37,44 +42,66 @@ export default function Listing() {
         return <Spinner />
     }
     return (
-        <main>
-            <div className="m-10 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
-                <div className="w-full lg:h-[700px] md:h-[500px] z-10 overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
-                    <div className='relative h-[40px]'>
-                        <p className='text-2xl font-bold mb-1 text-blue-900' id='a'>
-                            {listing.title} - €{" "}
-                            {listing.offer
-                                ? listing.discountedPrice
-                                    .toString()
-                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                                : listing.regularPrice
-                                    .toString()
-                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            {listing.type === "rent" ? " / lună" : ""}
-                        </p>
-                        <div className='absolute right-0 top-0'>
-                            <div className='flex justify-between items-center space-x-4 w-[100%]' id='b'>
-                                <p className='w-full max-w-[400px] bg-green-800 rounded p-1 text-white text-center font-semibold shadow-md'>
+        <main className='relative'>
+            <div className="m-5 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
+                <div className="w-full max-h-[900px] h-full z-10 overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
+                    <div className='relative h-full mb-2 text-2xl'>
+                        <div className='font-normal mb-1' id='a'>
+                            {listing.title} {" "}
+                        </div>
+                        <div className='text-lg absolute right-0 top-0 w-[40%] h-full'>
+                            <div className='flex space-x-4'>
+                                <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
+
+                                    {listing.offer
+                                        ? listing.discountedPrice
+                                            .toString()
+                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                        : listing.regularPrice
+                                            .toString()
+                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                    €{listing.type === "rent" ? " / lună" : ""}
+                                </p>
+                                <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
                                     {listing.offer && (
                                         <p>
-                                            €{+listing.regularPrice - +listing.discountedPrice} discount
+                                            {+listing.regularPrice - +listing.discountedPrice}€ discount
                                         </p>
                                     )}
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect='fade' modules={[EffectFade]}>
                         {listing.imgUrls.map((url, index) => (
                             <SwiperSlide key={index}>
-                                <div className='relative w-full overflow-hidden h-[400px]' style={{ background: `url(${listing.imgUrls[index]}) center no-repeat`, backgroundSize: 'cover' }}>
+                                <div className='relative w-full overflow-hidden h-[450px]' style={{ background: `url(${listing.imgUrls[index]}) center no-repeat`, backgroundSize: 'cover' }}>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                    <h2 className='text-2xl mt-1 text-red-600 font-semibold'>Specificații</h2>
+                    <div className="flex items-center mt-1 before:border-t-2  before:flex-1 before:border-gray-300 after:border-t-2 after:flex-1 after:border-gray-300 " />
                     {listing.property === 'apartment' && (
                         <div>
-                            <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-3 mt-3'>
+                            <ul className='list-none space-y-2 mt-1 text-lg'>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Tip compartimentare:</span>
+                                    <span className='text-gray-700'> {listing.partitioning}</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Suprafață utilă:</span>
+                                    <span className='text-gray-700'> {listing.utilSurface}mp</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>An clădire:</span>
+                                    <span className='text-gray-700'> {listing.constructionYear}</span>
+                                </li>
+                            </ul>
+                            <ul className='flex items-center space-x-2 lg:space-x-10 text-md font-semibold ml-1 mt-3'>
                                 <li className='flex items-center whitespace-nowrap'>
                                     <FaBed className='text-lg mr-1' />
                                     {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
@@ -82,6 +109,10 @@ export default function Listing() {
                                 <li className='flex items-center whitespace-nowrap'>
                                     <FaBath className='text-lg mr-1' />
                                     {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <GiStairs className='text-lg mr-1' />
+                                    {listing.floor}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
                                     <FaParking className='text-lg mr-1' />
@@ -92,38 +123,79 @@ export default function Listing() {
                                     {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
                                 </li>
                             </ul>
-                            <p>Compartimentare:{listing.partitioning}</p>
-                            <p>Suprafață utilă:{listing.utilSurface}mp</p>
-                            <p>{listing.floor}</p>
-                            <p>An clădire:{listing.constructionYear}</p>
                         </div>
                     )}
-                    {listing.property === 'land' && (
-                        <ul className='flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6'>
-                            <li className='flex items-center whitespace-nowrap'>
-                                <FiMap className='text-lg mr-1' />
-                                {listing.utilSurface}
-                            </li>
-                        </ul>
+                    {listing.property === 'house' && (
+                        <div>
+                            <ul className='list-none space-y-2 mt-1 text-lg'>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Tip compartimentare:</span>
+                                    <span className='text-gray-700'> {listing.partitioning}</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Suprafață utilă:</span>
+                                    <span className='text-gray-700'> {listing.utilSurface}mp</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>An clădire:</span>
+                                    <span className='text-gray-700'> {listing.constructionYear}</span>
+                                </li>
+                            </ul>
+                            <ul className='flex items-center space-x-2 lg:space-x-10 text-md font-semibold ml-1 mt-3'>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaBed className='text-lg mr-1' />
+                                    {+listing.rooms > 1 ? `${listing.rooms} camere` : '1 cameră'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaBath className='text-lg mr-1' />
+                                    {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <GiStairs className='text-lg mr-1' />
+                                    {listing.floor}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaParking className='text-lg mr-1' />
+                                    {+listing.parking ? 'Loc de parcare' : 'X parcare'}
+                                </li>
+                                <li className='flex items-center whitespace-nowrap'>
+                                    <FaChair className='text-lg mr-1' />
+                                    {+listing.furnished ? 'Mobilat' : 'Nemobilat'}
+                                </li>
+                            </ul>
+                        </div>
                     )}
-                    <p className='mt-3 mb-3 '>
-                        <div className='relative'>
-                            <span className='font-semibold'>Detalii adiționale </span>
-                            <button onClick={() => setDetails()}></button>
-                            {details ? (<BsFillArrowDownCircleFill onClick={() => setDetails((prevState) => !prevState)} />)
-                                : (<BsFillArrowDownCircleFill onClick={() => setDetails((prevState) => !prevState)} />)}
-                            {details && (
-                                <div>
-                                    {listing.description}
-                                </div>
+                    <div className='relative mt-1 mb-3 items-center'>
+                        <p className='font-semibold text-xl text-blue-700'>Detalii adiționale </p>
+                        <div className='absolute left-40 top-0 text-2xl'>
+                            {detailsVisible ? (
+                                <BsFillArrowUpCircleFill
+                                    className='text-blue-700'
+                                    onClick={toggleDetails}
+                                />
+                            ) : (
+                                <BsFillArrowDownCircleFill
+                                    className='text-blue-700'
+                                    onClick={toggleDetails}
+                                />
                             )}
                         </div>
-                    </p>
+                        {detailsVisible && (
+                            <div>
+                                <div className="flex items-center mt-1 before:border-t-2  before:flex-1 before:border-gray-300 after:border-t-2 after:flex-1 after:border-gray-300 " />
+                                <div className='text-md'>{listing.description}</div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="lg:w-[500px] md:w-[500px] lg:h-[500px] md:h-[500px]" id='a'>
-                    <div className='mt-5 rounded-md w-[400px] h-[300px] overflow-hidden'>
-                        <p className='flex items-center  mb-1 font-semibold'>
-                            <FaMapMarkerAlt className='text-green-700 mr-1' />
+                <div className="lg:w-[500px] md:w-[550px] lg:h-[500px] md:h-[500px]" id='a'>
+                    <ContactListing userRef={listing.userRef} listing={listing} />
+                    <div className='w-[420px] h-[430px] overflow-hidden'>
+                        <p className='flex items-center font-medium text-lg'>
+                            <FaMapMarkerAlt className='text-green-700 mr-1 text-xl' />
                             {listing.address}
                         </p>
                         <MapContainer center={[listing.geolocation.lat, listing.geolocation.lng]}
@@ -140,8 +212,8 @@ export default function Listing() {
                         </MapContainer>
                     </div>
                     {listing.userRef !== auth.currentUser?.uid && !contactLandLord && (
-                        <div className='mt-6'>
-                            <button onClick={() => setContactLandLord(true)} className='px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition duration-150 ease-in-out'>
+                        <div className='mt-2 text-center'>
+                            <button onClick={() => setContactLandLord(true)} className='bg-gray-300 text-black px-5 py-2 text-lg font-medium uppercase rounded-2xl shadow-md hover:bg-gray-400 hover:text-white transition duration-150 ease-in-out hover:shadow-lg active:bg-gray-500 active:text-white'>
                                 Contactează agent
                             </button>
                         </div>
@@ -160,8 +232,11 @@ export default function Listing() {
                     }}>
                     <FaShare className='text-lg text-slate-500' />
                 </div>
+            </div>
+
+            <div className='absolute lg:right-52 lg:top-0'>
                 {shareLinkCopied && (
-                    <p className='fixed top-[10%] right-[11%] font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copiat</p>
+                    <p className='font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copiat</p>
                 )}
             </div>
         </main>

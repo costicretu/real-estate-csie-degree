@@ -6,14 +6,14 @@ import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
 import 'swiper/css/bundle'
-import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from 'react-icons/fa'
-import { FiMap } from 'react-icons/fi'
+import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaChair } from 'react-icons/fa'
 import { getAuth } from 'firebase/auth'
 import Contact from '../components/Contact';
 import ContactListing from '../components/ContactListing';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
 import { GiStairs } from 'react-icons/gi'
+import { TbParking, TbParkingOff } from 'react-icons/tb'
 
 export default function Listing() {
     const auth = getAuth()
@@ -49,10 +49,32 @@ export default function Listing() {
                         <div className='font-normal mb-1' id='a'>
                             {listing.title} {" "}
                         </div>
-                        <div className='text-lg absolute right-0 top-0 w-[40%] h-full'>
+                        {listing.offer ? (
+                            <div className='text-lg absolute right-0 top-0 w-[40%] h-full'>
+                                <div className='flex space-x-4'>
+                                    <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
+                                        {listing.offer
+                                            ? listing.discountedPrice
+                                                .toString()
+                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                            : listing.regularPrice
+                                                .toString()
+                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                        €{listing.type === "rent" ? " / lună" : ""}
+                                    </p>
+                                    {listing.offer && (
+                                        <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
+                                            <p>
+                                                {+listing.regularPrice - +listing.discountedPrice}€ discount
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='text-lg absolute right-0 top-0 w-[20%] h-full'>
                             <div className='flex space-x-4'>
                                 <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
-
                                     {listing.offer
                                         ? listing.discountedPrice
                                             .toString()
@@ -62,15 +84,16 @@ export default function Listing() {
                                             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                     €{listing.type === "rent" ? " / lună" : ""}
                                 </p>
-                                <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
-                                    {listing.offer && (
+                                {listing.offer && (
+                                    <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
                                         <p>
                                             {+listing.regularPrice - +listing.discountedPrice}€ discount
                                         </p>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
+                        )}
                     </div>
                     <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect='fade' modules={[EffectFade]}>
                         {listing.imgUrls.map((url, index) => (
@@ -115,8 +138,8 @@ export default function Listing() {
                                     {listing.floor}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <FaParking className='text-lg mr-1' />
-                                    {+listing.parking ? 'Loc de parcare' : 'X parcare'}
+                                    {listing.parking ? <TbParking className='text-xl mr-1' /> : <TbParkingOff className='text-xl mr-1' />}
+                                    {+listing.parking ? 'Loc de parcare' : 'Loc de parcare'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
                                     <FaChair className='text-lg mr-1' />
@@ -125,7 +148,7 @@ export default function Listing() {
                             </ul>
                         </div>
                     )}
-                    {listing.property === 'house' && (
+                    {/* {listing.property === 'house' && (
                         <div>
                             <ul className='list-none space-y-2 mt-1 text-lg'>
                                 <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
@@ -167,7 +190,7 @@ export default function Listing() {
                                 </li>
                             </ul>
                         </div>
-                    )}
+                    )} */}
                     <div className='relative mt-1 mb-3 items-center'>
                         <p className='font-semibold text-xl text-blue-700'>Detalii adiționale </p>
                         <div className='absolute left-40 top-0 text-2xl'>
@@ -233,7 +256,6 @@ export default function Listing() {
                     <FaShare className='text-lg text-slate-500' />
                 </div>
             </div>
-
             <div className='absolute lg:right-52 lg:top-0'>
                 {shareLinkCopied && (
                     <p className='font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2'>Link copiat</p>

@@ -9,7 +9,7 @@ import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { MdTitle, MdDescription, MdApartment } from 'react-icons/md'
-import { BsFillImageFill, BsBuildingsFill, BsFillHouseDoorFill } from 'react-icons/bs'
+import { BsFillImageFill, BsFillHouseDoorFill } from 'react-icons/bs'
 import { FaLocationArrow } from 'react-icons/fa'
 import { AiOutlineApartment } from 'react-icons/ai'
 import { RiMapFill } from 'react-icons/ri'
@@ -223,7 +223,6 @@ export default function EditListing() {
     toast.success("Anunț editat");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
-
   if (loading) {
     return <Spinner />;
   }
@@ -252,7 +251,7 @@ export default function EditListing() {
                 ${type === "sale" ? "bg-white text-black" : "bg-slate-600 text-white"}`}>Spre închiriere</button>
                 </div>
                 <div className="mb-3 mt-3">
-                  <p className='text-lg font-semibold'>Imagini</p>
+                  <p className='text-lg font-semibold'>Încarcă din nou imaginile sau înlocuieștele pe cele vechi</p>
                   <p className='text-gray-600'>Prima imagine va fi cu titlu de prezentare (maxim 6)</p>
                   <div className="relative">
                     <BsFillImageFill className="absolute right-3 top-2 text-3xl" />
@@ -306,7 +305,7 @@ export default function EditListing() {
                         <p className='text-lg font-semibold'>Preț fără discount</p>
                         <div className='flex w-full justify-center items-center space-x-3'>
                           <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
-                            className='px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                            className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                           {type === "rent" && (
                             <div className=''>
                               <p className='text-md  whitespace-nowrap'>€ / lună</p>
@@ -323,7 +322,7 @@ export default function EditListing() {
                           <p className='text-lg font-semibold'>Preț cu discount</p>
                           <div className='flex w-full justify-center items-center space-x-3'>
                             <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
-                              className=' px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center' />
+                              className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                             {type === "rent" && (
                               <div className=''>
                                 <p className='text-md whitespace-nowrap'>€ / lună</p>

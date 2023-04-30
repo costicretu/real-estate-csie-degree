@@ -106,6 +106,9 @@ export default function EditListing() {
     if (e.target.id === 'rooms') {
       setRoomsNumber(e.target.value)
     }
+    if(type === 'rent'){
+      formData.furnished = true
+    }
   }
   async function onSubmit(e) {
     e.preventDefault();

@@ -52,7 +52,7 @@ export default function Listing() {
                         {listing.offer ? (
                             <div className='text-lg absolute right-0 top-0 w-[40%] h-full'>
                                 <div className='flex space-x-4'>
-                                    <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
+                                    <p className='w-full bg-red-800 rounded-lg p-1 text-white text-center font-semibold '>
                                         {listing.offer
                                             ? listing.discountedPrice
                                                 .toString()
@@ -74,7 +74,7 @@ export default function Listing() {
                         ) : (
                             <div className='text-lg absolute right-0 top-0 w-[20%] h-full'>
                                 <div className='flex space-x-4'>
-                                    <p className='w-full bg-red-500 rounded-lg p-1 text-white text-center font-semibold '>
+                                    <p className='w-full bg-red-800 rounded-lg p-1 text-white text-center font-semibold '>
                                         {listing.offer
                                             ? listing.discountedPrice
                                                 .toString()
@@ -148,18 +148,23 @@ export default function Listing() {
                             </ul>
                         </div>
                     )}
-                    {/* {listing.property === 'house' && (
+                    {listing.property === 'house' && (
                         <div>
                             <ul className='list-none space-y-2 mt-1 text-lg'>
                                 <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
                                     <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
-                                    <span className='font-semibold'>Tip compartimentare:</span>
-                                    <span className='text-gray-700'> {listing.partitioning}</span>
+                                    <span className='font-semibold'>Tip locuință:</span>
+                                    <span className='text-gray-700'> {listing.houseType}</span>
                                 </li>
                                 <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
                                     <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
                                     <span className='font-semibold'>Suprafață utilă:</span>
                                     <span className='text-gray-700'> {listing.utilSurface}mp</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Suprafață teren:</span>
+                                    <span className='text-gray-700'> {listing.landSurface}mp</span>
                                 </li>
                                 <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
                                     <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
@@ -177,12 +182,8 @@ export default function Listing() {
                                     {+listing.bathrooms > 1 ? `${listing.bathrooms} băi` : '1 baie'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
-                                    <GiStairs className='text-lg mr-1' />
-                                    {listing.floor}
-                                </li>
-                                <li className='flex items-center whitespace-nowrap'>
-                                    <FaParking className='text-lg mr-1' />
-                                    {+listing.parking ? 'Loc de parcare' : 'X parcare'}
+                                    {listing.parking ? <TbParking className='text-xl mr-1' /> : <TbParkingOff className='text-xl mr-1' />}
+                                    {+listing.parking ? 'Loc de parcare' : 'Loc de parcare'}
                                 </li>
                                 <li className='flex items-center whitespace-nowrap'>
                                     <FaChair className='text-lg mr-1' />
@@ -190,7 +191,33 @@ export default function Listing() {
                                 </li>
                             </ul>
                         </div>
-                    )} */}
+                    )}
+                    {listing.property === 'land' && (
+                        <div>
+                            <ul className='list-none space-y-2 mt-1 text-lg'>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Tip teren:</span>
+                                    <span className='text-gray-700'> {listing.landtype}</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Clasificare teren:</span>
+                                    <span className='text-gray-700'> {listing.landClassification}</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Suprafață teren:</span>
+                                    <span className='text-gray-700'> {listing.landSurface}mp</span>
+                                </li>
+                                <li className='list-inside' style={{ '--tw-text-opacity': '1' }}>
+                                    <span className='mr-1 text-2xl' style={{ '--tw-text-opacity': '1' }}>•</span>
+                                    <span className='font-semibold'>Front stradal:</span>
+                                    <span className='text-gray-700'> {listing.streetfront}mp</span>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                     <div className='relative mt-1 mb-3 items-center'>
                         <p className='font-semibold text-xl text-blue-700'>Detalii adiționale </p>
                         <div className='absolute left-40 top-0 text-2xl'>

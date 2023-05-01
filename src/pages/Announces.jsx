@@ -11,7 +11,6 @@ export default function Announces() {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [lastFetchListing, setLastFetchListing] = useState(null)
-
   useEffect(() => {
     async function fetchListings() {
       try {
@@ -78,7 +77,6 @@ export default function Announces() {
       toast.error('Nu s-a putut prelua anunțul');
     }
   }
-
   function handleTypeChange(event) {
     setType(event.target.value)
   }
@@ -132,7 +130,6 @@ export default function Announces() {
   }
   return (
     <div>
-        {/* <h1 className="text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-4 bg-slate-500 rounded-lg shadow-lg">Anunțuri</h1> */}
         <div className='mx-2 px-3 py-6'>
           <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-[35%] lg:w-[15%] mt-9 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">

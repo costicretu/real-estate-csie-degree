@@ -239,8 +239,8 @@ export default function Listing() {
                         </div>
                         {detailsVisible && (
                             <div>
-                                <div className="flex items-center mt-1 before:border-t-2  before:flex-1 before:border-gray-300 after:border-t-2 after:flex-1 after:border-gray-300 " />
-                                <div className='text-md'>{listing.description}</div>
+                                <div className="flex items-center mt-1 before:border-t-2   before:flex-1 before:border-gray-300 after:border-t-2 after:flex-1 after:border-gray-300 " />
+                                <div className='text-sm'>{listing.description}</div>
                             </div>
                         )}
                     </div>

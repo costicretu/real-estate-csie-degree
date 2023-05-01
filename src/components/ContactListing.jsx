@@ -21,11 +21,13 @@ export default function Contact({ userRef, listing }) {
     return (
         <>{landlord !== null && (
             <div className='flex justify-end items-center'>
-                                <RiAccountCircleFill className='mr-1 text-6xl text-gray-400' />
+                <RiAccountCircleFill className='mr-1 text-6xl text-gray-400' />
 
                 <div>
                     <p className='text-xl font-medium'>{landlord.nameAgent}</p>
-                    <p className='text-lg text-red-600 font-semibold '>T: {landlord.phone}</p>
+                    {landlord.phone !== 0 && (
+                        <p className='text-lg text-red-600 font-semibold '>T: {landlord.phone}</p>
+                    )}
                 </div>
             </div>
         )}</>

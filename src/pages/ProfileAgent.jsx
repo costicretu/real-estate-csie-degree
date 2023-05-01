@@ -233,21 +233,23 @@ export default function ProfileAgent() {
                                 <div id='pentruIntrebariSiRaspunsuri' className='px-4'>
                                     {agents.map(agent => (
                                         <div key={agent.id}>
-                                            <div id='pentruTelefon' >
-                                                <div className='relative mb-1'>
-                                                    <AiFillPhone className="absolute left-0 top-0 text-3xl" />
-                                                    <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
-                                                </div>
-                                                <input type="tel" value={agent.phone} disabled={!changeDetail}
-                                                    className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
-                                                    onChange={e => {
-                                                        const newAgents = [...agents]
-                                                        const index = newAgents.findIndex(a => a.id === agent.id)
-                                                        newAgents[index].phone = e.target.value
-                                                        setAgents(newAgents)
-                                                    }}
-                                                />
-                                            </div>
+                                            {email !== 'admineu@real-estate-csie-degree.com' && (
+                                                 <div id='pentruTelefon' >
+                                                 <div className='relative mb-1'>
+                                                     <AiFillPhone className="absolute left-0 top-0 text-3xl" />
+                                                     <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
+                                                 </div>
+                                                 <input type="tel" value={agent.phone} disabled={!changeDetail}
+                                                     className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
+                                                     onChange={e => {
+                                                         const newAgents = [...agents]
+                                                         const index = newAgents.findIndex(a => a.id === agent.id)
+                                                         newAgents[index].phone = e.target.value
+                                                         setAgents(newAgents)
+                                                     }}
+                                                 />
+                                             </div>
+                                            )}
                                             <div id='pentruUnu' className="mt-3 bg-gray-700 px-0.5 py-2 mb-3 rounded-md ">
                                                 <div className='relative mb-1 '>
                                                     <MdQuestionAnswer className="absolute left-0 top-0 text-3xl" />

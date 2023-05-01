@@ -68,7 +68,7 @@ export default function EditListing() {
       if (docSnap.exists()) {
         setListing(docSnap.data());
         setFormData({ ...docSnap.data() });
-        setPropertyType(docSnap.data().property); // Add this line
+        setPropertyType(docSnap.data().property);
         setLoading(false);
       } else {
         navigate("/");
@@ -86,14 +86,12 @@ export default function EditListing() {
     if (e.target.value === "false") {
       boolean = false;
     }
-    // Files
     if (e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
         images: e.target.files,
       }));
     }
-    // Text/Boolean/Number
     if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
@@ -288,7 +286,7 @@ export default function EditListing() {
                   <p className='text-lg font-semibold'>Descriere</p>
                   <div className="relative">
                     <MdDescription className="absolute right-3 top-16 text-4xl" />
-                    <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
+                    <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required maxLength={1050}
                       className='w-full h-[102px] px-4 py-2 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                   </div>
                 </div>

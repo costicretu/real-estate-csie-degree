@@ -87,7 +87,6 @@ export default function SignUpAgent() {
                     return;
                 } else {
                     try {
-
                         setIsFormSubmitted(true);
                         const auth = getAuth();
                         const userCredential = await createUserWithEmailAndPassword(auth, emailAgent, passwordAgent);
@@ -99,7 +98,6 @@ export default function SignUpAgent() {
                         formDataCopyAgent.timestamp = serverTimestamp();
                         await setDoc(doc(db, 'agents', agent.uid), formDataCopyAgent);
                         navigate('/');
-
                     } catch (error) {
                         toast.error(error);
                     }

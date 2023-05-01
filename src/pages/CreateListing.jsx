@@ -258,8 +258,8 @@ export default function CreateListing() {
                                     <p className='text-lg font-semibold'>Descriere</p>
                                     <div className="relative">
                                         <MdDescription className="absolute right-3 top-16 text-4xl" />
-                                        <textarea type="text" id='description' value={description} onChange={onChange} placeholder="Detalii adiționale" required
-                                            className='w-full h-[102px] px-4 py-2 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+                                        <textarea type="text" id='description' value={description} onChange={onChange} maxLength={1050} placeholder="Detalii adiționale" required className='w-full h-[102px] px-4 py-2 text-xl bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
+
                                     </div>
                                 </div>
                                 <p className='text-lg font-semibold'>Ofertă</p>

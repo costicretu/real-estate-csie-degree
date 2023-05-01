@@ -19,6 +19,7 @@ import ProfileAgent from "./pages/ProfileAgent";
 import Property from "./pages/Property";
 import Offers from "./pages/Offers";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -51,10 +52,11 @@ function App() {
             <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
         </Routes>
+        <Footer/>
       </Router>
       <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
+        position="bottom-right"
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -62,7 +64,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="colored"
       />
     </>
   );

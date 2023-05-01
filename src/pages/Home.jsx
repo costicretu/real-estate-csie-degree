@@ -14,7 +14,7 @@ export default function Home() {
     async function fetchListings() {
       try {
         const listingsRef = collection(db, 'listings')
-        const q = query(listingsRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(4))
+        const q = query(listingsRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(8))
         const querySnap = await getDocs(q)
         const listings = []
         querySnap.forEach((doc) => {
@@ -32,11 +32,9 @@ export default function Home() {
     setLoading(false)
   }, [])
   return (
-    <div className='relative'>
-      <div className='absolute top-0 left-0 z-10'>
-        <Slider />
-      </div>
-      <div className='relative z-20 max-w-7xl mx-auto pt-4 space-y-6'>
+    <div>
+      <Slider />
+      <div className='relative z-20 max-w-7xl mx-auto pt-4 '>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
           <div>
             <div className='flex bg-slate-500 rounded-lg'>

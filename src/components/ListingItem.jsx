@@ -61,7 +61,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
     };
     return <li className='relative bg-white flex-col justify-between items-center shadow-md hover:shadow-xl rounded overflow-hidden transition-shadow duration-150 m-[10px]'>
         <Link className='contents' to={`/category/${listing.type}/${id}`}>
-            <img className='h-[170px] w-full object-cover hover:scale-105 transition-scale duration-200 ease-in' loading='lazy' src={listing.imgUrls[0]} />
+            <img className='h-[170px] w-full object-cover' loading='lazy' src={listing.imgUrls[0]} />
             <Moment className='absolute top-2 bg-[#3377cc] text-white uppercase text-xs font-semibold rounded-md px-2 py-1 shadow-lg left-2' fromNow>{listing.timestamp?.toDate()}</Moment>
             <div className='w-full p-[10px]'>
                 <div className='flex items-center justify-between'>

@@ -43,24 +43,24 @@ export default function Header() {
   }
   return (
     <div className="bg-slate-500 shadow-md sticky top-0 z-50">
-      <header className="flex justify-between items-center  max-w-7xl mx-auto">
+      <header className="flex justify-between items-center  max-w-6xl mx-auto">
         <div>
-        <img src={logo} alt="logo" className="h-20 py-1 cursor-pointer active:scale-105 transition-scale duration-200 ease-in-out" onClick={() => navigate("/")}/>
+        <img src={logo} alt="logo" className="h-16 py-1 cursor-pointer active:scale-105 transition-scale duration-200 ease-in-out" onClick={() => navigate("/")}/>
         </div>
         <div>
           <ul className="flex space-x-5">
             {auth.currentUser?.email === 'admineu@real-estate-csie-degree.com' && (
-              <li className={`cursor-pointer py-3 text-lg font-semibold px-3 ${pathMatchRoute("/sign-up-agent") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition  active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={() => navigate("/sign-up-agent")}>
+              <li className={`cursor-pointer py-4 text-md font-semibold px-3 ${pathMatchRoute("/sign-up-agent") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition  active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={() => navigate("/sign-up-agent")}>
                 Înregistrează agent
               </li>
             )}
-            <li className={`cursor-pointer py-3 text-lg font-semibold px-5 ${pathMatchRoute("/") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150 " : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition hover:opacity-100  active:scale-110 transition-scale duration-150 ease-in-out active:opacity-100" }`} onClick={() => navigate("/")}>
+            <li className={`cursor-pointer py-4 text-md text-md font-semibold px-3 ${pathMatchRoute("/") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition ease-in-out active:bg-red-700 active:scale-110 transition-scale duration-150 " : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition hover:opacity-100  active:scale-110 transition-scale duration-150 ease-in-out active:opacity-100" }`} onClick={() => navigate("/")}>
               Acasă
             </li>
-            <li className={`cursor-pointer py-3 text-lg font-semibold px-5 ${pathMatchRoute("/announces") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition  active:bg-red-700 active:scale-110 transition-scale duration-150 ease-in-out" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition  active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={() => navigate("/announces")}>
+            <li className={`cursor-pointer py-4 text-md font-semibold px-3 ${pathMatchRoute("/announces") ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition  active:bg-red-700 active:scale-110 transition-scale duration-150 ease-in-out" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition  active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={() => navigate("/announces")}>
               Anunțuri
             </li>
-            <li className={`cursor-pointer py-3 text-lg font-semibold px-5 ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile") || pathMatchRoute("/profile-agent")) ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition  active:bg-red-700 active:scale-110 transition-scale duration-150 ease-in-out" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={handleProfileClick}>
+            <li className={`cursor-pointer py-4 text-md font-semibold px-3 ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile") || pathMatchRoute("/profile-agent")) ? "text-gray-100 bg-red-500 rounded-full hover:bg-red-600 transition  active:bg-red-700 active:scale-110 transition-scale duration-150 ease-in-out" : "text-gray-100 opacity-90 hover:bg-red-500 rounded-full transition active:scale-110 transition-scale duration-150 ease-in-out hover:opacity-100 active:opacity-100"}`} onClick={handleProfileClick}>
               {pageState}
             </li>
           </ul>

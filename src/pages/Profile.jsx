@@ -97,7 +97,7 @@ export default function Profile() {
       <section>
         <div className='mx-2 px-3 py-2'>
           <div className='flex flex-col md:flex-row'>
-            <div className="w-full md:w-[60%] lg:w-[20%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full " style={{ height: "395px" }}>
+          <div className=" w-auto mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full" style={{ height: "395px" }}>
               <form>
                 <div className='w-full px-5 py-2'>
                   <div className='flex justify-center'>
@@ -136,7 +136,7 @@ export default function Profile() {
                           }}
                         />
                         <div className='flex justify-between whitespace-nowrap font-medium text-md sm:text-md'>
-                          <p className='mt-5 flex items-center '>
+                          <p className='mt-5 flex items-center mr-10'>
                             <span onClick={() => {
                               changeDetail && onSubmit()
                               setChangeDetail((prevState) => !prevState)
@@ -155,7 +155,7 @@ export default function Profile() {
             <div className='flex-grow' id='aicilistings'>
               <h2 className='text-2xl text-left  ml-2.5 font-semibold'>Anunțuri salvate</h2>
               <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
-              <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+              <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
                 {listingItems}
               </ul>
             </div>

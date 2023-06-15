@@ -207,7 +207,7 @@ export default function ProfileAgent() {
             <section>
                 <div className='mx-2 px-3 my-2 '>
                     <div className='flex flex-col md:flex-row'>
-                        <div className="w-full md:w-[60%] lg:w-[25%] mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full">
+                        <div className=" w-auto max-w-md mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full">
                             <form>
                                 <div id='pentruCod'>
                                     <p id={`agentCode-${agentCode}`} className='text-sm font-medium text-gray-200 text-right'>
@@ -234,21 +234,21 @@ export default function ProfileAgent() {
                                     {agents.map(agent => (
                                         <div key={agent.id}>
                                             {email !== 'admineu@real-estate-csie-degree.com' && (
-                                                 <div id='pentruTelefon' >
-                                                 <div className='relative mb-1'>
-                                                     <AiFillPhone className="absolute left-0 top-0 text-3xl" />
-                                                     <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
-                                                 </div>
-                                                 <input type="tel" value={agent.phone} disabled={!changeDetail}
-                                                     className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
-                                                     onChange={e => {
-                                                         const newAgents = [...agents]
-                                                         const index = newAgents.findIndex(a => a.id === agent.id)
-                                                         newAgents[index].phone = e.target.value
-                                                         setAgents(newAgents)
-                                                     }}
-                                                 />
-                                             </div>
+                                                <div id='pentruTelefon' >
+                                                    <div className='relative mb-1'>
+                                                        <AiFillPhone className="absolute left-0 top-0 text-3xl" />
+                                                        <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
+                                                    </div>
+                                                    <input type="tel" value={agent.phone} disabled={!changeDetail}
+                                                        className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
+                                                        onChange={e => {
+                                                            const newAgents = [...agents]
+                                                            const index = newAgents.findIndex(a => a.id === agent.id)
+                                                            newAgents[index].phone = e.target.value
+                                                            setAgents(newAgents)
+                                                        }}
+                                                    />
+                                                </div>
                                             )}
                                             <div id='pentruUnu' className="mt-3 bg-gray-700 px-0.5 py-2 mb-3 rounded-md ">
                                                 <div className='relative mb-1 '>
@@ -361,7 +361,7 @@ export default function ProfileAgent() {
                             <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
                             {!loading && listings.length > 0 && (
                                 <>
-                                    <ul className='sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
+                                    <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
                                         {listings.map((listing) => (
                                             <ListingItem
                                                 key={listing.id}

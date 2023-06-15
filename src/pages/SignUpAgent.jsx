@@ -133,6 +133,7 @@ export default function SignUpAgent() {
                         </div>
                         {showCode && (
                             <div>
+                                <h3 className="text-center text-gray-100 text-xl mb-2">Cod pentru autentificare:<strong>{myCodeValue}</strong></h3>
                                 <input type="text" id="code" onChange={onChange} placeholder="Cod autentificare" className='mb-3 w-full px-4 py-2 text-xl text-gray-700 bg-gray-100 border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                             </div>
                         )}

@@ -45,16 +45,16 @@ export default function Listing() {
     }
     return (
         <main>
-            <div className="m-5 flex flex-col md:flex-row max-w-7xl lg:mx-auto p-2 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
-                <div className="w-full max-h-[900px] h-full  overflow-x-hidden overflow-y-hidden mt-6 md:mt-0 md:ml-2">
-                    <div className='relative h-full mb-2 text-2xl'>
-                        <div className='font-normal mb-1' id='a'>
+            <div className="m-5 flex flex-col md:flex-row md:space-x-5 max-w-7xl lg:mx-auto p-2 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
+                <div className="w-auto h-auto overflow-x-hidden overflow-y-hidden mx-auto mt-6 md:mt-0 md:ml-2">
+                    <div className='md:text-lg lg:text-2xl md:mb-5 relative mb-1 '>
+                        <div className='font-normal' id='a'>
                             {listing.title} {" "}
                         </div>
                         {listing.offer ? (
-                            <div className='text-lg absolute right-0 top-0 w-[35%] h-full'>
-                                <div className='flex space-x-4'>
-                                    <div className='w-full bg-red-800 rounded-lg p-1 text-white text-center font-semibold '>
+                            <div className='md:text-sm lg:text-base absolute right-0 top-0 w-auto'>
+                                <div className='flex lg:space-x-4 md:space-x-2'>
+                                    <div className='w-auto bg-red-800 rounded-lg p-2 text-white text-center font-semibold '>
                                         <p >
                                             {listing.offer
                                                 ? listing.discountedPrice
@@ -67,7 +67,7 @@ export default function Listing() {
                                         </p>
                                     </div>
                                     {listing.offer && (
-                                        <div className='w-full bg-green-800 text-center p-1 font-semibold rounded-lg text-white'>
+                                        <div className='w-auto bg-green-800 text-center p-2 font-semibold rounded-lg text-white'>
                                             <p>
                                                 {+listing.regularPrice - +listing.discountedPrice}€ discount
                                             </p>
@@ -102,7 +102,7 @@ export default function Listing() {
                     <Swiper slidesPerView={1} navigation pagination={{ type: "progressbar" }} effect='fade' modules={[EffectFade]}>
                         {listing.imgUrls.map((url, index) => (
                             <SwiperSlide key={index}>
-                                <div className='relative w-full overflow-hidden h-[450px]' style={{ background: `url(${listing.imgUrls[index]}) center no-repeat`, backgroundSize: 'cover' }}>
+                                <div className='relative w-full overflow-hidden lg:h-[450px] md:h-[350px]' style={{ background: `url(${listing.imgUrls[index]}) center no-repeat`, backgroundSize: 'cover' }}>
                                 </div>
                             </SwiperSlide>
                         ))}
@@ -245,9 +245,9 @@ export default function Listing() {
                         )}
                     </div>
                 </div>
-                <div className="lg:w-[500px] md:w-[550px] lg:h-[500px] md:h-[500px] z-10" id='a'>
+                <div className="w-auto z-10" id='a'>
                     <ContactListing userRef={listing.userRef} listing={listing} />
-                    <div className='w-[420px] h-[430px] z-10 overflow-hidden'>
+                    <div className='lg:w-[420px] lg:h-[430px] md:w-[320px] md:h-[330px] z-10 overflow-hidden'>
                         <p className='flex items-center font-medium text-xl'>
                             <FaMapMarkerAlt className='text-green-700 mr-1 text-xl' />
                             {listing.address}

@@ -57,17 +57,17 @@ export default function Slider() {
               }}
                 className="relative w-full h-[300px] overflow-hidden"
               ></div>
-              <p className="text-[#f1faee] absolute left-1 top-3 font-medium max-w-[90%] bg-[#0b5d91] shadow-lg opacity-90 p-2 rounded-br-3xl">
+              <p className="text-[#f1faee] absolute left-1 top-1 font-medium max-w-[90%] bg-[#0b5d91] shadow-lg opacity-90 p-2 rounded-br-3xl">
                 {data.property === 'apartment' ? 'Apartament' : data.property === 'house' ? 'Casă' : data.property === 'land' ? 'Teren' : ''}
               </p>
               <p className="text-[#f1faee] absolute left-1 bottom-1 font-medium max-w-[90%] bg-[#fca311] shadow-lg opacity-90 p-2 rounded-tr-3xl">
                 {data.type === 'rent' ? 'De închiriat' : 'De vânzare'}
               </p>
-              <p className="text-[#f1faee] absolute right-1 top-3 font-semibold max-w-[90%] bg-[#986cc0] shadow-lg opacity-90 p-2 rounded-bl-3xl">
+              <p className="text-[#f1faee] absolute right-1 top-1 font-semibold max-w-[90%] bg-[#986cc0] shadow-lg opacity-90 p-2 rounded-bl-3xl">
                 €{data.discountedPrice ?? data.regularPrice}
                 {data.type === "rent" && " / lună"}
               </p>
-              <p className="text-[#f1faee] absolute right-1 bottom-3 font-medium max-w-[90%] bg-[#2a9d8f] shadow-lg opacity-90 p-2 rounded-tl-3xl">
+              <p className="text-[#f1faee] absolute right-1 bottom-1 font-medium max-w-[90%] bg-[#2a9d8f] shadow-lg opacity-90 p-2 rounded-tl-3xl">
                 {data.title}
               </p>
             </SwiperSlide>

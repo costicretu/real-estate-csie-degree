@@ -118,7 +118,7 @@ export default function SignIn() {
           return;
         } else if (codeInputValue === agentCode) {
           setShowQuestions(true)
-          setQuestion1("Ce nume are câinele tău ?")
+          setQuestion1("Care este mâncarea ta favorită ?")
           setQuestion2("Unde locuiești ?")
           setQuestion3("Care este destinația ta de vacanță preferată ?")
           if (answer1InputValue === agentAnswer1 && answer2InputValue === agentAnswer2 && answer3InputValue === agentAnswer3
@@ -208,7 +208,7 @@ export default function SignIn() {
                     </div>
                     <div className='px-2 py-1'>
                       <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
-                        <option value="Ce nume are câinele tău ?" >Ce nume are câinele tău?</option>
+                        <option value="Care este mâncarea ta favorită ?" >Care este mâncarea ta favorită ?</option>
                         <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
                         <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
                       </select>

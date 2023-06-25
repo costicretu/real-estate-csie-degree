@@ -129,8 +129,8 @@ export default function Announces() {
     fetchListings();
   }
   return (
-    <div>
-        <div className='h-screen mx-2 px-3 py-6'>
+    <div className='h-screen'>
+        <div className=' mx-2 px-3 py-6'>
           <div className="flex flex-col md:flex-row">
           <div className="w-auto mt-9 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">
               <div className=' bg-red-500 text-gray-100 rounded-lg flex items-center px-1 mt-1  my-4  after:border-t after:flex-1 after:border-gray-100'>
@@ -182,7 +182,7 @@ export default function Announces() {
               ) : listings && listings.length > 0 ? (
                 <>
                   <main>
-                  <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
+                  <ul className="sm:grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                       {listings.map((listing) => (
                         <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
                       ))}

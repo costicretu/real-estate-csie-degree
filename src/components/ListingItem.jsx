@@ -63,22 +63,24 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
         <Link className='contents' to={`/category/${listing.type}/${id}`}>
             <img className='h-[170px] w-full object-cover' loading='lazy' src={listing.imgUrls[0]} />
             <Moment className='absolute top-2 bg-[#3377cc] text-white uppercase text-xs font-semibold rounded-md px-2 py-1 shadow-lg left-2' fromNow>{listing.timestamp?.toDate()}</Moment>
-            <div className='w-full p-[10px]'>
-                <div className='flex items-center justify-between'>
-                    <div className='bg-red-500 p-1 rounded-md text-gray-100'>
-                        <p className='font-semibold'>€{listing.offer
+            <span className='absolute top-32 right-2 bg-red-500 px-2 py-1 rounded-md text-gray-100 font-semibold  text-sm shadow-lg'>
+                        {listing.offer
                             ? listing.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                             : listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            {listing.type === 'rent' && " / lună"}
-                        </p>
-                    </div>
-                    <div className='flex items-center'>
-                        <MdLocationOn className='h-4 w-4 text-green-600' />
-                        <p className='font-semibold text-sm text-gray-600 truncate'>{listing.address}</p>
-                    </div>
+                        {listing.type === 'rent' && " / lună"} €
+                    </span>
+            <div className='w-full p-[10px]'>
+                <div className='flex items-center justify-between'>
+                    <p className='font-normal m-0 lg:text-lg md:text-sm'>{listing.title}</p>
+                    <p className='p-1 rounded-md'>
+                    
+                </p>
                 </div>
-                <p className='font-normal m-0 text-xl'>{listing.title}</p>
-                <div className="flex items-center mt-[10px] space-x-3">
+                <div className='flex items-center'>
+                    <MdLocationOn className='h-4 w-4 text-green-600' />
+                    <p className='font-semibold text-sm text-gray-600 truncate'>{listing.address}</p>
+                </div>
+                <div className="flex items-center mt-[5px] space-x-3">
                     {listing.property === 'apartment' && (
                         <div className="flex items-center space-x-1">
                             <p className="font-semibold text-sm">{`${listing.utilSurface}`}<span className='font-bold'>mp</span></p>

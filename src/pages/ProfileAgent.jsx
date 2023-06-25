@@ -227,7 +227,7 @@ export default function ProfileAgent() {
                                         <MdAccountCircle className="absolute left-0 top-0 text-3xl" />
                                         <h3 className='font-semibold text-lg text-gray-100 ml-8'>Nume și prenume</h3>
                                     </div>
-                                    <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange}
+                                    <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange} 
                                         className='w-full mb-3 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                 </div>
                                 <div id='pentruIntrebariSiRaspunsuri' className='px-4'>
@@ -239,7 +239,7 @@ export default function ProfileAgent() {
                                                         <AiFillPhone className="absolute left-0 top-0 text-3xl" />
                                                         <h3 className='font-semibold text-lg text-gray-100 ml-8'>Telefon</h3>
                                                     </div>
-                                                    <input type="tel" value={agent.phone} disabled={!changeDetail}
+                                                    <input type="text" value={agent.phone} disabled={!changeDetail} maxLength={13}
                                                         className={'w-full mb-1 px-2 py-1 text-xl bg-gray-100 border border-gray-300 rounded transition ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'}
                                                         onChange={e => {
                                                             const newAgents = [...agents]
@@ -361,7 +361,7 @@ export default function ProfileAgent() {
                             <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
                             {!loading && listings.length > 0 && (
                                 <>
-                                    <ul className="sm:grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5">
+                                    <ul className="sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
                                         {listings.map((listing) => (
                                             <ListingItem
                                                 key={listing.id}

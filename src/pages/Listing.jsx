@@ -246,16 +246,16 @@ export default function Listing() {
                     </div>
                 </div>
                 <div className="w-auto z-10" id='a'>
-                    <div className='relative flex lg:space-x-48 md:space-x-24'>
+                    <div className='relative flex lg:space-x-52 md:space-x-28'>
                         <ContactListing userRef={listing.userRef} listing={listing} />
                         <FaShareSquare className='text-3xl text-gray-600' onClick={() => {
                             navigator.clipboard.writeText(window.location.href);
                             toast.success('Link copiat')
                         }} />
                     </div>
-                    <div className='lg:w-[420px] lg:h-[440px] md:w-[320px] md:h-[338px] z-10 overflow-hidden'>
-                        <p className='flex items-center justify-end font-medium mb-1 text-xl'>
-                            <FaMapMarkerAlt className='text-green-700 mr-1 text-xl' />
+                    <div className='lg:w-[420px] lg:h-[450px] md:w-[320px] md:h-[346px] z-10 overflow-hidden'>
+                        <p className='lg:text-base md:text-sm mt-2 flex items-center  mb-1'>
+                            <FaMapMarkerAlt className='text-green-700 mr-1 lg:text-sm md:text-base' />
                             {listing.address}
                         </p>
                         <MapContainer center={[listing.geolocation.lat, listing.geolocation.lng]}

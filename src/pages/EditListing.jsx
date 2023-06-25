@@ -24,11 +24,10 @@ export default function EditListing() {
   const [listing, setListing] = useState(null);
   const [propertyType, setPropertyType] = useState('');
   const [roomsNumber, setRoomsNumber] = useState(1);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [formData, setFormData] = useState({
     property: 'apartment',
-    landtype: 'construction',
-    landClassification: 'town',
+    landtype: 'Construcții',
+    landClassification: 'Intravilan',
     utilSurface: 0,
     landSurface: 0,
     streetfront: 0,
@@ -36,10 +35,10 @@ export default function EditListing() {
     title: "",
     rooms: 1,
     bathrooms: 1,
-    partitioning: 'decomandat',
-    houseType: 'individuala',
+    partitioning: 'Decomandat',
+    houseType: 'Individuală',
     floor: 'Etaj 1',
-    constructionYear: 'Dupa 2000',
+    constructionYear: 'După 2000',
     parking: false,
     furnished: true,
     address: "",
@@ -93,11 +92,7 @@ export default function EditListing() {
         images: e.target.files,
       }));
     }
-    if (e.target.files && e.target.files.length > 0) {
-      setImageLoaded(true);
-    } else {
-      setImageLoaded(false);
-    }
+   
     if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
@@ -125,6 +120,16 @@ export default function EditListing() {
     if (images.length > 6) {
       setLoading(false);
       toast.error("Sunt permise maxim 6 imagini");
+      return;
+    }
+    if(+regularPrice >= 999999 || +discountedPrice >= 999999) {
+      setLoading(false)
+      toast.error("Preț maxim 999999 euro");
+      return;
+    }
+    if(+regularPrice <= 100 || +discountedPrice <= 100) {
+      setLoading(false)
+      toast.error("Preț minim 100 euro");
       return;
     }
     let geolocation = {};
@@ -311,7 +316,7 @@ export default function EditListing() {
                       <div className="">
                         <p className='text-lg font-semibold'>Preț fără discount</p>
                         <div className='flex w-full justify-center items-center space-x-3'>
-                          <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required
+                          <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='100' max='999999' required
                             className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                           {type === "rent" && (
                             <div className=''>
@@ -328,7 +333,7 @@ export default function EditListing() {
                         <div className=''>
                           <p className='text-lg font-semibold'>Preț cu discount</p>
                           <div className='flex w-full justify-center items-center space-x-3'>
-                            <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer}
+                            <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='100' max='999999' required={offer}
                               className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                             {type === "rent" && (
                               <div className=''>
@@ -578,7 +583,7 @@ export default function EditListing() {
       </section>
       <form onSubmit={onSubmit}>
         <div className="text-center">
-          <button type="submit" disabled={!imageLoaded}
+          <button type="submit"
           className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[150px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Editează</button>
         </div>
       </form>

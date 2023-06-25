@@ -24,8 +24,8 @@ export default function CreateListing() {
     const [roomsNumber, setRoomsNumber] = useState(1);
     const [formData, setFormData] = useState({
         property: 'Alege',
-        landtype: 'construction',
-        landClassification: 'town',
+        landtype: 'Construcții',
+        landClassification: 'Intravilan',
         utilSurface: 0,
         landSurface: 0,
         streetfront: 0,
@@ -236,7 +236,7 @@ export default function CreateListing() {
                                     <p className='text-lg  font-semibold'>Adresă</p>
                                     <div className="relative">
                                         <FaLocationArrow className="absolute right-3 top-8 text-3xl" />
-                                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare(ex: Strada Orhideei 15)" required
+                                        <textarea type="text" id='address' value={address} onChange={onChange} placeholder="Localizare" required
                                             className='w-full px-4 py-1 text-xl  bg-white border-gray-300 rounded transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                     </div>
                                     {!geolocationEnabled && (
@@ -277,7 +277,7 @@ export default function CreateListing() {
                                             <div className=''>
                                                 <p className='text-lg font-semibold'>Preț fără discount</p>
                                                 <div className='flex  justify-center items-center space-x-3'>
-                                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='50' max='4000000' required disabled={formData.property === 'Alege'}
+                                                    <input type="number" id='regularPrice' value={regularPrice} onChange={onChange} min='100' max='999999' required disabled={formData.property === 'Alege'}
                                                         className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                     {type === "rent" && (
                                                         <div className=''>
@@ -294,7 +294,7 @@ export default function CreateListing() {
                                                 <div className=''>
                                                     <p className='text-lg font-semibold'>Preț cu discount</p>
                                                     <div className='flex  justify-center items-center space-x-3'>
-                                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='50' max='4000000' required={offer} disabled={formData.property === 'Alege'}
+                                                        <input type="number" id='discountedPrice' value={discountedPrice} onChange={onChange} min='100' max='999999' required={offer} disabled={formData.property === 'Alege'}
                                                             className='w-full px-4 py-2 rounded-md text-xl bg-white border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500' />
                                                         {type === "rent" && (
                                                             <div className=''>

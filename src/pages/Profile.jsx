@@ -155,7 +155,7 @@ export default function Profile() {
             <div className='flex-grow' id='aicilistings'>
               <h2 className='text-2xl text-left  ml-2.5 font-semibold'>Anunțuri salvate</h2>
               <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
-              <ul className="sm:grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5">
+              <ul className="sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
                 {listingItems}
               </ul>
             </div>

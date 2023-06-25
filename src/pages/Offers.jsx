@@ -185,7 +185,7 @@ export default function Offers() {
             ) : listings && listings.length > 0 ? (
               <>
                 <main>
-                  <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
+                  <ul className="sm:grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                     {listings.map((listing) => (
                       <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
                     ))}

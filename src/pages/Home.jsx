@@ -32,7 +32,7 @@ export default function Home() {
     setLoading(false)
   }, [])
   return (
-    <div>
+    <div className='h-screen'>
       <Slider />
       <div className='relative z-20 max-w-7xl mx-auto pt-4 '>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (

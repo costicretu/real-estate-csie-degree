@@ -6,7 +6,7 @@ import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
 import 'swiper/css/bundle'
-import { FaShareSquare, FaMapMarkerAlt, FaBed, FaBath } from 'react-icons/fa'
+import { FaShareSquare, FaMapMarkerAlt, FaBath } from 'react-icons/fa'
 import { getAuth } from 'firebase/auth'
 import Contact from '../components/Contact';
 import ContactListing from '../components/ContactListing';
@@ -16,6 +16,7 @@ import { GiStairs } from 'react-icons/gi'
 import { TbParking, TbParkingOff } from 'react-icons/tb'
 import { MdChair } from 'react-icons/md';
 import { IoIosBed } from 'react-icons/io'
+import { toast } from 'react-toastify'
 
 export default function Listing() {
     const auth = getAuth()
@@ -24,7 +25,6 @@ export default function Listing() {
     const [loading, setLoading] = useState(true)
     const [contactLandLord, setContactLandLord] = useState(false)
     const [detailsVisible, setDetailsVisible] = useState(false);
-    const [shareLinkCopied, setShareLinkCopied] = useState(false);
     const toggleDetails = () => {
         setDetailsVisible((prevState) => !prevState);
     };
@@ -44,9 +44,9 @@ export default function Listing() {
         return <Spinner />
     }
     return (
-        <main>
+        <main className='h-screen'>
             <div className="m-5 flex flex-col md:flex-row md:space-x-5 max-w-7xl lg:mx-auto p-2 rounded-lg shadow-lg bg-white lg:space-x-5 relative">
-                <div className="w-auto h-auto overflow-x-hidden overflow-y-hidden mx-auto mt-6 md:mt-0 md:ml-2">
+                <div className="w-full h-auto overflow-x-hidden overflow-y-hidden mx-auto mt-6 md:mt-0 md:ml-2">
                     <div className='md:text-lg lg:text-2xl md:mb-5 relative mb-1 '>
                         <div className='font-normal' id='a'>
                             {listing.title} {" "}
@@ -246,9 +246,15 @@ export default function Listing() {
                     </div>
                 </div>
                 <div className="w-auto z-10" id='a'>
-                    <ContactListing userRef={listing.userRef} listing={listing} />
-                    <div className='lg:w-[420px] lg:h-[430px] md:w-[320px] md:h-[330px] z-10 overflow-hidden'>
-                        <p className='flex items-center font-medium text-xl'>
+                    <div className='relative flex lg:space-x-48 md:space-x-24'>
+                        <ContactListing userRef={listing.userRef} listing={listing} />
+                        <FaShareSquare className='text-3xl text-gray-600' onClick={() => {
+                            navigator.clipboard.writeText(window.location.href);
+                            toast.success('Link copiat')
+                        }} />
+                    </div>
+                    <div className='lg:w-[420px] lg:h-[440px] md:w-[320px] md:h-[338px] z-10 overflow-hidden'>
+                        <p className='flex items-center justify-end font-medium mb-1 text-xl'>
                             <FaMapMarkerAlt className='text-green-700 mr-1 text-xl' />
                             {listing.address}
                         </p>
@@ -260,7 +266,7 @@ export default function Listing() {
                             />
                             <Marker position={[listing.geolocation.lat, listing.geolocation.lng]}>
                                 <Popup>
-                                    Locația se află aici<br />
+                                    {listing.address}<br />
                                 </Popup>
                             </Marker>
                         </MapContainer>
@@ -276,18 +282,6 @@ export default function Listing() {
                         <Contact userRef={listing.userRef} listing={listing} />
                     )}
                 </div>
-                <FaShareSquare className='absolute right-1 bottom-1 text-3xl text-gray-600' onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    setShareLinkCopied(true);
-                    setTimeout(() => {
-                        setShareLinkCopied(false);
-                    }, 2000);
-                }} />
-                {shareLinkCopied && (
-                    <p className="absolute right-10 bottom-1 font-semibold border-2 border-gray-400 rounded-md bg-white z-10 p-2 text-gray-600 text-lg">
-                        Link copiat
-                    </p>
-                )}
             </div>
         </main>
     )

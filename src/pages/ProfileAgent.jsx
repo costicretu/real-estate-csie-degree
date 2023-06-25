@@ -204,10 +204,10 @@ export default function ProfileAgent() {
     }
     return (
         <>
-            <section>
+            <section className='h-screen'>
                 <div className='mx-2 px-3 my-2 '>
                     <div className='flex flex-col md:flex-row'>
-                        <div className=" w-auto max-w-md mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full">
+                        <div className="w-auto max-w-md mb-4 mr-3 md:mb-0 bg-slate-500 rounded-lg px-2 py-2 h-full">
                             <form>
                                 <div id='pentruCod'>
                                     <p id={`agentCode-${agentCode}`} className='text-sm font-medium text-gray-200 text-right'>
@@ -361,7 +361,7 @@ export default function ProfileAgent() {
                             <div className="flex items-center ml-2.5 my-4 before:border-t-4  before:flex-1 before:border-gray-300 after:border-t-4 after:flex-1 after:border-gray-300 " />
                             {!loading && listings.length > 0 && (
                                 <>
-                                    <ul className="sm:grid sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
+                                    <ul className="sm:grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5">
                                         {listings.map((listing) => (
                                             <ListingItem
                                                 key={listing.id}

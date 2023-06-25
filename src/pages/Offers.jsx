@@ -131,7 +131,7 @@ export default function Offers() {
     fetchListings();
   }
   return (
-    <div>
+    <div className='h-screen'>
       <div className='mx-2 px-3 py-6'>
         <div className="flex flex-col md:flex-row">
         <div className="w-auto mt-9 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">
@@ -142,7 +142,7 @@ export default function Offers() {
               <label className='mr-3 text-4xl'>
                 <BsFillBuildingFill className='bg-red-500 rounded px-1' />
               </label>
-              <label className="mr-3 text-md font-medium text-gray-100 ">
+              <label className="mr-3 text-md font-normal text-gray-100 ">
                 <input
                   type="radio"
                   name="type"
@@ -153,7 +153,7 @@ export default function Offers() {
                 />
                 Închiriere
               </label>
-              <label className='text-md font-medium text-gray-100 '>
+              <label className='text-md font-normal text-gray-100 '>
                 <input
                   type="radio"
                   name="type"

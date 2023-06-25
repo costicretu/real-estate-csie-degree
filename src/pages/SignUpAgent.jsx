@@ -22,7 +22,7 @@ export default function SignUpAgent() {
         answer1: "",
         answer2: "",
         answer3: "",
-        question1: "Ce nume are câinele tău ?",
+        question1: "Care este mâncarea ta favorită ?",
         question2: "Unde locuiești ?",
         question3: "Care este destinația ta de vacanță preferată ?",
         phone: 0,
@@ -109,7 +109,7 @@ export default function SignUpAgent() {
         }
     }
     return (
-        <section>
+        <section className='h-screen'>
             <div className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg my-5'>
                 <div className='mx-auto px-3'>
                     <form onSubmit={onSubmit}>
@@ -147,7 +147,7 @@ export default function SignUpAgent() {
                                     </div>
                                     <div className='px-2 py-1'>
                                         <select value={question1} onChange={onChange} name="question1" id="question1" className='w-full rounded-md text-xl text-gray-700 bg-gray-100 border-gray-300  transition duration-150 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500'>
-                                            <option value="Ce nume are câinele tău ?">Ce nume are câinele tău?</option>
+                                            <option value="Care este mâncarea ta favorită ?">Care este mâncarea ta favorită ?</option>
                                             <option value="Ce nume are pisica ta ?">Ce nume are pisica ta ?</option>
                                             <option value="Care este cel mai bun prieten al tău ?">Care este cel mai bun prieten al tău ?</option>
                                         </select>

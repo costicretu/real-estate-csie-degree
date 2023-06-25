@@ -20,9 +20,9 @@ export default function ForgotPassword() {
     }
   }
   return (
-    <section>
+    <section className='h-screen'>
       <h1 className='text-3xl text-center  ml-5 mr-5 py-1 text-gray-100 mt-6 font-semibold mb-6 bg-slate-500 rounded-lg shadow-lg'>Resetează parola</h1>
-      <div className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg'>
+      <div id='plm' className='justify-center items-center max-w-xl bg-slate-500 rounded-md mx-auto px-10 py-5 shadow-lg'>
         <div className='mx-auto px-3'>
           <form onSubmit={onSubmit}>
             <div className='relative mb-6'>

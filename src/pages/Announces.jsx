@@ -130,7 +130,7 @@ export default function Announces() {
   }
   return (
     <div>
-        <div className='mx-2 px-3 py-6'>
+        <div className='h-screen mx-2 px-3 py-6'>
           <div className="flex flex-col md:flex-row">
           <div className="w-auto mt-9 mr-3 md:mb-0 bg-slate-500 rounded px-2 py-2 shadow-lg h-full" id="pentruMine">
               <div className=' bg-red-500 text-gray-100 rounded-lg flex items-center px-1 mt-1  my-4  after:border-t after:flex-1 after:border-gray-100'>
@@ -140,7 +140,7 @@ export default function Announces() {
                 <label className='mr-3 text-4xl'>
                   <BsFillBuildingFill className='bg-red-500 rounded px-1' />
                 </label>
-                <label className="mr-3 text-md font-medium text-gray-100 ">
+                <label className="mr-3 text-md font-normal text-gray-100 ">
                   <input
                     type="radio"
                     name="type"
@@ -151,7 +151,7 @@ export default function Announces() {
                   />
                   Închiriere
                 </label>
-                <label className='text-md font-medium text-gray-100 '>
+                <label className='text-md font-normal text-gray-100 '>
                   <input
                     type="radio"
                     name="type"

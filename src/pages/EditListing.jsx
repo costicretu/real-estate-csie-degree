@@ -24,6 +24,7 @@ export default function EditListing() {
   const [listing, setListing] = useState(null);
   const [propertyType, setPropertyType] = useState('');
   const [roomsNumber, setRoomsNumber] = useState(1);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [formData, setFormData] = useState({
     property: 'apartment',
     landtype: 'construction',
@@ -91,6 +92,11 @@ export default function EditListing() {
         ...prevState,
         images: e.target.files,
       }));
+    }
+    if (e.target.files && e.target.files.length > 0) {
+      setImageLoaded(true);
+    } else {
+      setImageLoaded(false);
     }
     if (!e.target.files) {
       setFormData((prevState) => ({
@@ -572,7 +578,8 @@ export default function EditListing() {
       </section>
       <form onSubmit={onSubmit}>
         <div className="text-center">
-          <button type="submit" className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[150px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Editează</button>
+          <button type="submit" disabled={!imageLoaded}
+          className='mb-3 mt-5 px-7 py-3 bg-red-500 text-gray-100 font-medium text-sm uppercase rounded-lg w-[150px] shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-700 focus:shadow-lg active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out'>Editează</button>
         </div>
       </form>
     </>

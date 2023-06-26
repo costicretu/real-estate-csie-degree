@@ -34,9 +34,9 @@ export default function Home() {
   return (
     <div className='h-screen'>
       <Slider />
-      <div className='relative z-20 max-w-7xl mx-auto pt-4 '>
+      <div className='max-w-7xl mx-auto  pt-4 '>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
-          <div className='mx-auto max-w-6xl'>
+          <div className='mx-auto max-w-6xl '>
             <div className='flex bg-slate-500 rounded-lg'>
               <div className='flex-1 flex'>
                 <h2 className='py-2 px-3 text-2xl font-semibold text-gray-100 rounded-full shadow-2xl'>

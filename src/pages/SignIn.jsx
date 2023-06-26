@@ -143,7 +143,7 @@ export default function SignIn() {
       }
     } else {
       toast.error('Parola sau email greșit')
-    } 
+    }
   }
   return (
     <section className="h-screen">

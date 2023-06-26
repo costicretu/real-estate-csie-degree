@@ -15,7 +15,7 @@ export default function Announces() {
     async function fetchListings() {
       try {
         const listingRef = collection(db, 'listings')
-        const q = query(listingRef, where('offer', '==', false), orderBy('timestamp', 'desc'), limit(8))
+        const q = query(listingRef, where('offer', '==', false), orderBy('timestamp', 'desc'))
         const querySnap = await getDocs(q)
         const lastVisible = querySnap.docs[querySnap.docs.length - 1]
         setLastFetchListing(lastVisible)
@@ -168,7 +168,6 @@ export default function Announces() {
                 <option value="house" className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md  focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Casă</option>
                 <option value="land" className="bg-gray-100 text-md transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500">Teren</option>
               </select>
-              <input type="text" name="address" placeholder="Introdu o adresă..." value={address} onChange={handleAddressChange} className="bg-gray-100 text-lg transition ease-in-out block w-full mt-6 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-red-500 focus:border-red-500" />
               <div className="flex justify-center mt-4">
                 <button className="text-gray-100 bg-red-500 px-3 py-3 rounded-lg hover:bg-red-600 transition ease-in-out font-medium " onClick={handleSearchClick}>
                   Caută acum
@@ -196,13 +195,6 @@ export default function Announces() {
             </div>
           </div>
         </div>
-        {lastFetchListing && (
-          <div className="flex justify-center items-center">
-            <button className=" text-gray-100 bg-red-500 px-2 py-2 rounded-md hover:bg-red-600 transition ease-in-out font-medium" onClick={() => onFetchMoreListings(type, property, address)}>
-              Afișează mai multe
-            </button>
-          </div>
-        )}
       </div>
       )
 }

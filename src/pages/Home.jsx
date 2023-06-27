@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className='h-screen'>
       <Slider />
-      <div className='max-w-7xl mx-auto  pt-4 '>
+      <div className='max-w-7xl mx-auto  pt-4'>
         {loading ? (<Spinner />) : offerListing && offerListing.length > 0 && (
           <div className='mx-auto max-w-6xl '>
             <div className='flex bg-slate-500 rounded-lg'>

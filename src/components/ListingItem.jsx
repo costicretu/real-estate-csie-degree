@@ -66,8 +66,8 @@ export default function ListingItem({ listing, id, onEdit, onDelete, setListingI
             <span className='absolute top-32 right-2 bg-red-500 px-2 py-1 rounded-md text-gray-100 font-semibold  text-sm shadow-lg'>
                         {listing.offer
                             ? listing.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                            : listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                        {listing.type === 'rent' && " / lună"} €
+                            : listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}€
+                        {listing.type === 'rent' && " / lună"}
                     </span>
             <div className='w-full p-[10px]'>
                 <div className='flex items-center justify-between'>

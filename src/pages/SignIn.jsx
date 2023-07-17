@@ -19,6 +19,7 @@ export default function SignIn() {
     email: "",
     password: "",
   });
+  var a = 0
   const { email, password } = formData;
   const [formDataAgent, setFormDataAgent] = useState({
     emailAgent: "",
@@ -117,12 +118,16 @@ export default function SignIn() {
           setIsFormSubmitted(false);
           return;
         } else if (codeInputValue === agentCode) {
+          if(answer1InputValue !== '' || answer2InputValue !== '' || answer3InputValue !== '') {
+            a = 1
+          }
           setShowQuestions(true)
           setQuestion1("Care este mâncarea ta favorită ?")
           setQuestion2("Unde locuiești ?")
           setQuestion3("Care este destinația ta de vacanță preferată ?")
           if (answer1InputValue === agentAnswer1 && answer2InputValue === agentAnswer2 && answer3InputValue === agentAnswer3
             && question1Type === agentQuestion1 && question2Type === agentQuestion2 && question3Type === agentQuestion3) {
+            setIsFormSubmitted(true)
             try {
               const auth = getAuth();
               const userCredential = await signInWithEmailAndPassword(
@@ -136,6 +141,10 @@ export default function SignIn() {
             } catch (error) {
               toast.error('Acreditări de utilizator agent neutilizabile');
             }
+          } else if(a === 1) {
+            toast.error('Nu functioneaza')
+            setIsFormSubmitted(false)
+            return;
           }
         }
       } else {
